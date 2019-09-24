@@ -1,0 +1,10 @@
+{
+  "aliasFork.alias": {
+    "root": "",
+    "app": "app",
+    "vendor": "vendor",
+    "layout": "app/layout",
+    "static": "app/static",
+    "page": "app/page"
+  }
+}

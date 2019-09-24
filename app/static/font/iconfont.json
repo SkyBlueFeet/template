@@ -1,0 +1,23 @@
+{
+  "id": "1431499",
+  "name": "auth",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1272079",
+      "name": "操作-下拉",
+      "font_class": "caozuo-xiala",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "1272080",
+      "name": "操作-上拉",
+      "font_class": "caozuo-shangla",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    }
+  ]
+}

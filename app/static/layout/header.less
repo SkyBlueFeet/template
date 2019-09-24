@@ -1,0 +1,43 @@
+@navHeight: 4.5rem;
+
+@navBgColor: rgb(84, 92, 100);
+
+@navContentWidth: 1710px;
+
+.Initial {
+    width: auto;
+}
+
+.navbasic {
+    height: @navHeight;
+    line-height: @navHeight;
+    background-color: @navBgColor;
+}
+
+.nav {
+    width: 100%;
+}
+
+.nav__content {
+    width: @navContentWidth;
+    margin: 0 auto;
+    box-shadow: none;
+
+    .nav__item {
+        .Initial;
+        display: inline-block;
+        padding: 0 1.5rem;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.5);
+
+        &:hover {
+            background-color: rgb(67, 74, 80);
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .is-active {
+            color: rgba(255, 255, 255, 1);
+        }
+    }
+}

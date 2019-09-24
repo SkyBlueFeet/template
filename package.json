@@ -1,0 +1,57 @@
+{
+  "version": "1.0.0-standard",
+  "description": "实现BEM规范并实时编译的项目模板",
+  "scripts": {
+    "start": "concurrently \"npm run gulp\" \"npm run app\" --killOthers",
+    "build": "webpack --config ./config/webpack.prod",
+    "dev": "webpack --config ./config/webpack.dev",
+    "app": "webpack-dev-server --config ./config/webpack.dev",
+    "gulp": "gulp build && gulp watch"
+  },
+  "author": "skyblue",
+  "repository": {
+    "url": "https://github.com/SkyBlueFeet/webpack-tpl.git"
+  },
+  "dependencies": {
+    "bootstrap": "^3.4.1",
+    "jquery": "^3.4.1",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@mozheng-neal/postcss-bem": "^1.0.2",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "css-loader": "^3.2.0",
+    "cssnano": "^4.1.10",
+    "ejs-loader": "^0.3.3",
+    "file-loader": "^4.2.0",
+    "glob": "^7.1.4",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "style-loader": "^1.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1",
+    "gulp": "^3.9.1",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-postcss": "^6.1.1",
+    "postcss-salad": "^1.0.8",
+    "concurrently": "^4.1.2"
+  },
+  "browserslist": [
+    "Android 4.1",
+    "iOS 7.1",
+    "Chrome > 31",
+    "ff > 31",
+    "ie >= 9",
+    ">0.5%"
+  ]
+}
