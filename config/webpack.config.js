@@ -1,8 +1,7 @@
 const Global = require('./global.js');
 const path = require('path');
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const utils = require('./utils');
@@ -50,6 +49,7 @@ module.exports = {
     },
     plugins: [
         new webpack.ProgressPlugin(),
+        new CleanWebpackPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',

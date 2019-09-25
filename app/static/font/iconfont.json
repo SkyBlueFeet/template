@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "897807",
+      "name": "箭头",
+      "font_class": "jiantou1",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
       "icon_id": "1272079",
       "name": "操作-下拉",
       "font_class": "caozuo-xiala",
@@ -18,6 +25,20 @@
       "font_class": "caozuo-shangla",
       "unicode": "e60e",
       "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "1766267",
+      "name": "指向-bottom",
+      "font_class": "bottom",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "1766272",
+      "name": "指向-right",
+      "font_class": "right",
+      "unicode": "e677",
+      "unicode_decimal": 58999
     }
   ]
 }

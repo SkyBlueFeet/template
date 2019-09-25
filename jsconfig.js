@@ -3,6 +3,13 @@ module.exports = {
     'exclude': ['node_modules', '.vscode', '.git'],
     'compilerOptions': {
         'baseUrl': './',
-        'paths': alias
-    }
+        'paths': alias,
+        'checkJs': true
+    },
+    'typeAcquisition': {
+        'include': [
+            'sequelize'
+        ],
+    },
+
 };

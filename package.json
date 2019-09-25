@@ -13,6 +13,7 @@
     "url": "https://github.com/SkyBlueFeet/webpack-tpl.git"
   },
   "dependencies": {
+    "animate.css": "^3.7.2",
     "bootstrap": "^3.4.1",
     "jquery": "^3.4.1",
     "lodash": "^4.17.15"
@@ -21,13 +22,19 @@
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
     "@mozheng-neal/postcss-bem": "^1.0.2",
+    "@types/sequelize": "^4.28.4",
     "babel-loader": "^8.0.6",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "concurrently": "^4.1.2",
     "css-loader": "^3.2.0",
     "cssnano": "^4.1.10",
     "ejs-loader": "^0.3.3",
     "file-loader": "^4.2.0",
     "glob": "^7.1.4",
+    "gulp": "^3.9.1",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-postcss": "^6.1.1",
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
@@ -35,16 +42,12 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
+    "postcss-salad": "^1.0.8",
     "style-loader": "^1.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.1",
-    "gulp": "^3.9.1",
-    "gulp-cssmin": "^0.1.7",
-    "gulp-postcss": "^6.1.1",
-    "postcss-salad": "^1.0.8",
-    "concurrently": "^4.1.2"
+    "webpack-dev-server": "^3.8.1"
   },
   "browserslist": [
     "Android 4.1",

@@ -1,7 +1,7 @@
 :root {
-  --navHeight: 4.5rem;
+  --navHeight: 4rem;
   --navBgColor: rgb(84, 92, 100);
-  --navContentWidth: 1710px;
+  --navContentWidth: 1190px;
 }
 
 .Initial {
@@ -16,6 +16,15 @@
 
 @b nav {
   width: 100%;
+  user-select: none !important;
+
+  .pointicon {
+    width: 1em;
+    height: 1em;
+    fill: rgba(255, 255, 255, 0.5);
+    display: inline-block;
+    vertical-align: -0.125em;
+  }
 
   @e content {
     width: var(--navContentWidth);
@@ -26,62 +35,99 @@
 
   @e item {
     @extend .Initial;
-    height: 4.5rem;
-    box-sizing: border-box;
     display: inline-block;
-    padding: 0 1.5rem;
-    margin: 0 0;
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.5);
-    transition: border .3s ease, background .3s ease;
-    user-select: none !important;
-
-    .drop-down-icon::before {
-      display: inline-block;
-      transition: all 0.5s ease;
-    }
+    position: relative;
 
     &:hover {
-      background-color: rgb(67, 74, 80);
-      border-bottom-width: 50%;
-      cursor: pointer;
-
-      .drop-down-icon::before {
+      .drop-down-icon {
         transform: rotate(180deg);
+      }
+
+      .nav__item--menutitle {
+        background-color: rgb(67, 74, 80);
+        border-bottom-width: 50%;
+        cursor: pointer;
       }
     }
 
-    @when active {
-      color: rgb(255, 208, 75);
-      border-bottom: rgb(255, 208, 75) solid 0.15rem;
+    @m menutitle {
+      height: var(--navHeight);
+      box-sizing: border-box;
+      padding: 0 1rem;
+      margin: 0 0;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.5);
+      transition: border .3s ease, background .3s ease;
+
+      .drop-down-icon {
+        transition: all 0.5s ease;
+      }
+
+      @when active {
+        color: rgb(255, 208, 75);
+        border-bottom: rgb(255, 208, 75) solid 0.15rem;
+      }
+    }
+
+    &:hover .nav__item--submenu {
+      animation-name: fadeInUp;
+      animation-duration: 0.3s;
+      animation-fill-mode: both;
+      animation-iteration-count: inherit;
+      visibility: visible;
+    }
+
+    @m submenu {
+      position: absolute;
+      top: var(--navHeight);
+      left: 0px;
+      z-index: 100;
+      min-width: 100%;
+      background-color: var(--navBgColor);
+      padding-inline-start: 0;
+      visibility: hidden;
+    }
+
+    @m submenu-title {
+      height: calc(var(--navHeight) - 1rem);
+      color: aliceblue;
+      text-align: left;
+      font-size: 1rem;
+      line-height: calc(var(--navHeight) - 1rem);
+      padding: 0 1.5rem;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: rgb(67, 74, 80);
+        cursor: pointer;
+      }
     }
   }
 }
 
-.top-nav a:after {
-  content: ' ';
-  position: absolute;
-  z-index: 2;
-  bottom: 0;
-  left: 50%;
-  display: block;
-  width: 165px;
-  height: 1px;
-  transform: translate(-50%);
-}
-
-.top-nav a:hover:after {
-  height: 2px;
-  animation: ad_width .5s linear forwards;
-  background: #ff8a00;
-}
-
-@keyframes ad_width {
-  from {
-    width: 0;
+@keyframes fadeInUp {
+  0% {
+    transform: translate3d(0, 20%, 0);
   }
 
-  to {
-    width: 165px;
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+}
+
+.animated {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.animated.infinite {
+  animation-iteration-count: infinite;
 }

@@ -16,7 +16,7 @@ module.exports = {
         vendor: path.resolve(RootDir, 'vendor'),
         layout: path.resolve(RootDir, 'app/layout'),
         static: path.resolve(RootDir, 'app/static'),
-        page: path.resolve(RootDir, 'app/page'),
-        source: path.resolve(RootDir, 'app/static/source')
+        pages: path.resolve(RootDir, 'app/pages'),
+        components: path.resolve(RootDir, 'app/components'),
     }
 };

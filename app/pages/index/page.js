@@ -1,4 +1,3 @@
-import layout from '../../layout/layout.js';
-import header from './header.ejs';
-
-export default layout.initblock('我的世界', header());
+import layout from 'layout/layout.js';
+import content from './content.ejs';
+export default layout.initWithHeader('我的世界', content);

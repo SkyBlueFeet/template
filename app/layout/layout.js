@@ -1,12 +1,25 @@
-import _black from './blank.ejs';
-
-const layout = {
-  initblock: (title, body) => {
+import _black from './tpl/blank.ejs';
+import _withHeader from './tpl/withHeader.ejs';
+import header from 'app/components/header.ejs';
+/**
+ *
+ * @param  {} title
+ * @param  {} body
+ */
+const initblock = (title, body) => {
     return _black({
-      title: title,
-      body: body
+        title: title,
+        body: body
     });
-  }
 };
 
-export default layout;
+const initWithHeader = (title, content) => {
+    return _withHeader({
+        title: title,
+        header: header(),
+        content: content()
+    });
+};
+
+
+export default { initblock, initWithHeader };

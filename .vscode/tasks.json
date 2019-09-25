@@ -12,6 +12,16 @@
       "type": "yarn",
       "task": "build",
       "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "start",
+      "problemMatcher": []
+    },
+    {
+      "type": "yarn",
+      "task": "start",
+      "problemMatcher": []
     }
   ]
 }

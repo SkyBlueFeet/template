@@ -1,5 +1,17 @@
 import 'static/layout/normalize.css';
-import 'static/layout/basic.less';
+import 'static/layout/layout.css';
 import 'static/layout/header.css';
-import 'static/font/iconfont.css';
-// import 'static/layout/test.css';
+import 'static/font/iconfont.js';
+import { Object } from 'core-js';
+// import 'static/layout/iconfont.css';
+// import 'animate.css';
+const [us, uus, ts] = [452,
+    93,
+    866
+];
+const Obj = { us, uus, ts };
+$(
+    () => {
+        console.log(Obj);
+    }
+);
