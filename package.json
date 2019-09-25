@@ -44,6 +44,8 @@
     "postcss-preset-env": "^6.7.0",
     "postcss-salad": "^1.0.8",
     "style-loader": "^1.0.0",
+    "ts-loader": "^6.1.2",
+    "typescript": "^3.6.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9",

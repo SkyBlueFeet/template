@@ -13,7 +13,7 @@ const initblock = (title, body) => {
     });
 };
 
-const initWithHeader = (title, content) => {
+const initWithHeader = (title = '我的世界', content = '') => {
     return _withHeader({
         title: title,
         header: header(),

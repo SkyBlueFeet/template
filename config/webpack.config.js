@@ -70,47 +70,51 @@ module.exports = {
     ],
 
     module: {
-        rules: [
-        {
-            test: /\.js$/,
-            loader: 'babel-loader',
+        rules: [{
+                test: /\.js$/,
+                loader: 'babel-loader',
 
-            options: {
-                plugins: ['syntax-dynamic-import'],
+                options: {
+                    plugins: ['syntax-dynamic-import'],
 
-                presets: [
-                    [
-                        '@babel/preset-env',
-                        {
-                            modules: false
-                        }
+                    presets: [
+                        [
+                            '@babel/preset-env',
+                            {
+                                modules: false
+                            }
+                        ]
                     ]
+                }
+            },
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader'
+            },
+            {
+                test: /\.(c|le|pc)ss$/,
+                use: [
+                    IS_PRODUCTION ? MiniCssExtractPlugin.loader : 'style-loader',
+                    'css-loader',
+                    'postcss-loader',
+                    'less-loader',
                 ]
+            },
+            {
+                test: /\.ejs$/,
+                loader: 'ejs-loader'
+            },
+            {
+                // 专供iconfont方案使用的，后面会带一串时间戳，需要特别匹配到
+                test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
+                // exclude: /glyphicons/,
+                // loader: 'file-loader?name=static/fonts/[name].[ext]',
+                loader: 'file-loader',
+                options: {
+                    name: 'fonts/[name].[hash].[ext]'
+                }
             }
-        },
-        {
-            test: /\.(c|le|pc)ss$/,
-            use: [
-                IS_PRODUCTION ? MiniCssExtractPlugin.loader : 'style-loader',
-                'css-loader',
-                'postcss-loader',
-                'less-loader',
-            ]
-        },
-        {
-            test: /\.ejs$/,
-            loader: 'ejs-loader'
-        },
-        {
-            // 专供iconfont方案使用的，后面会带一串时间戳，需要特别匹配到
-            test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
-            // exclude: /glyphicons/,
-            // loader: 'file-loader?name=static/fonts/[name].[ext]',
-            loader: 'file-loader',
-            options: {
-                name: 'fonts/[name].[hash].[ext]'
-            }
-        }]
+        ]
     },
 
     optimization: {

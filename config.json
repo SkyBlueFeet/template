@@ -2,6 +2,7 @@
     "exclude": ["node_modules", ".vscode", ".git"],
     "compilerOptions": {
         "baseUrl": "./",
+        "outDir": "./dist/",
         "paths": {
             "root/**": ["./**"],
             "app/**": ["./app/**"],
