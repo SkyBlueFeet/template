@@ -16,6 +16,10 @@
           user-select: none !important;
 }
 
+.nav a, .nav a:link, .nav a:hover, .nav a:active, .nav a:visited {
+  text-decoration: none;
+}
+
 .nav .pointicon {
   width: 1em;
   height: 1em;

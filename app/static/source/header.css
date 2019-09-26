@@ -17,7 +17,9 @@
 @b nav {
   width: 100%;
   user-select: none !important;
-
+  a,a:link,a:hover,a:active, a:visited{
+    text-decoration: none;
+  }
   .pointicon {
     width: 1em;
     height: 1em;

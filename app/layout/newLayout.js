@@ -1,7 +1,7 @@
 import _black from './tpl/blank.ejs';
 import _withHeader from './tpl/withHeader.ejs';
 import header from 'app/components/newHeader.ejs';
-import headerData from 'root/Auth/auth.json';
+import headerData from 'root/auth/auth.json';
 /**
  *
  * @param  {} title
