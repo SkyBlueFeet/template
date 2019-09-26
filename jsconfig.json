@@ -1,7 +1,7 @@
 {
     "exclude": ["node_modules", ".vscode", ".git"],
     "compilerOptions": {
-        "baseUrl": "./",
+        "baseUrl": ".",
         "outDir": "./dist/",
         "paths": {
             "root/**": ["./**"],
@@ -17,7 +17,7 @@
     },
     "typeAcquisition": {
         "include": [
-            "sequelize"
+            "sequelize", "jQuery", "loadsh", "webpack", "node", "es6"
         ]
     }
 }
