@@ -21,8 +21,6 @@
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
-    "@mozheng-neal/postcss-bem": "^1.0.2",
-    "@types/sequelize": "^4.28.4",
     "babel-loader": "^8.0.6",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "clean-webpack-plugin": "^3.0.0",

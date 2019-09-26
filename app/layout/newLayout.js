@@ -1,6 +1,6 @@
 import _black from './tpl/blank.ejs';
 import _withHeader from './tpl/withHeader.ejs';
-import header from 'app/components/header.ejs';
+import header from 'app/components/newHeader.ejs';
 import headerData from 'root/Auth/auth.json';
 /**
  *
@@ -18,7 +18,7 @@ const initblock = (title, body) => {
 const initWithHeader = (title, content) => {
     return _withHeader({
         title: title,
-        header: header(headerData),
+        header: header({ headerData: headerData }),
         content: content()
     });
 };
