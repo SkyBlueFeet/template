@@ -8,6 +8,6 @@ module.exports = {
         }),
         cssNextPreset({
             stage: 3
-        }),
+        })
     ]
 };

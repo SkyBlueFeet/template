@@ -1,7 +1,6 @@
-import 'static/layout/normalize.css';
-import 'static/layout/layout.css';
-import 'static/layout/header.css';
-import 'static/font/iconfont.js';
+import '../../static/normalize.css';
+import '../../static/header.scss';
+import '../../static/iconfont.js';
 
 // import 'static/layout/iconfont.css';
 // import 'animate.css';

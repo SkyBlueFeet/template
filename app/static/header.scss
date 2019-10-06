@@ -1,0 +1,132 @@
+$navHeight: 4rem;
+$navBgColor: rgb(84, 92, 100);
+$navContentWidth: 1190px;
+
+$hoverColor:rgb(67, 74, 80);
+
+.Initial {
+    width: auto;
+}
+
+.navbasic {
+    height: $navHeight;
+    line-height: $navHeight;
+    background-color: $navBgColor;
+}
+
+.nav {
+    width: 100%;
+    user-select: none !important;
+
+    .pointicon {
+        width: 1em;
+        height: 1em;
+        fill: rgba(255, 255, 255, 0.5);
+        display: inline-block;
+        vertical-align: -0.125em;
+    }
+
+    &__content {
+        width: $navContentWidth;
+        margin: 0 auto;
+        box-shadow: none;
+        font-size: 0px;
+    }
+
+    &__item {
+        display: inline-block;
+        position: relative;
+
+        &:hover {
+            .drop-down-icon {
+                transform: rotate(180deg);
+            }
+
+            &--menutitle {
+                background-color: $hoverColor;
+                border-bottom-width: 50%;
+                cursor: pointer;
+            }
+        }
+
+        &--menutitle {
+            height: $navHeight;
+            box-sizing: border-box;
+            padding: 0 1rem;
+            margin: 0 0;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            transition: border .3s ease, background .3s ease;
+
+            .drop-down-icon {
+                transition: all 0.5s ease;
+            }
+
+            .is-active {
+                color: rgb(255, 208, 75);
+                border-bottom: rgb(255, 208, 75) solid 0.15rem;
+            }
+        }
+
+        &:hover &--submenu {
+            animation-name: fadeInUp;
+            animation-duration: 0.3s;
+            animation-fill-mode: both;
+            animation-iteration-count: inherit;
+            visibility: visible;
+        }
+
+        &--submenu {
+            position: absolute;
+            top: $navHeight;
+            left: 0px;
+            z-index: 100;
+            min-width: 100%;
+            background-color: $navBgColor;
+            padding-inline-start: 0;
+            visibility: hidden;
+
+            &-title {
+                height: 3rem;
+                color: aliceblue;
+                text-align: left;
+                font-size: 1rem;
+                line-height: 3rem;
+                padding: 0 1.5rem;
+                white-space: nowrap;
+
+                &:hover {
+                    background-color: $hoverColor;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        transform: translate3d(0, 20%, 0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.fadeInUp {
+    animation-name: fadeInUp;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+}
+
+.animated {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+.animated.infinite {
+    animation-iteration-count: infinite;
+}

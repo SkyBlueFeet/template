@@ -1,8 +1,7 @@
-import 'static/layout/normalize.css';
-import 'static/layout/layout.css';
-import 'static/layout/header.css';
-import 'static/font/iconfont.js';
-import { Object } from 'core-js';
+import 'app/static/normalize.css';
+// import '../../static/header.css';
+import 'app/static/header.scss';
+import 'app/static/iconfont.js';
 // import 'static/layout/iconfont.css';
 // import 'animate.css';
 const [us, uus, ts] = [452,
