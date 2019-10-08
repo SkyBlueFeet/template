@@ -17,7 +17,7 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
     devtool: config.build.devtool,
     devServer: {
         port: 8089,
-        open: true
+        open: false
     },
     plugins: [
         new webpack.HashedModuleIdsPlugin({

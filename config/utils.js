@@ -5,8 +5,7 @@ const MarkdownItContainer = require('markdown-it-container');
 const container = require('markdown-it-container');
 const path = require('path');
 
-
-const func = require('../utils/func.js');
+const func = require('../utils/func');
 /**
  * Utils.js主要存放webpack配置需要使用的实现方法，
  * 这些方法都是一次性且只在webpack配置文件中使用
@@ -25,12 +24,12 @@ exports.compress = [
         uglifyOptions: {
             cache: true, //Boolean/String,字符串即是缓存文件存放的路径
             parallel: true, // 启用多线程并行运行提高编译速度
-            comments: true,
+            comments: config.build.removeComments,
             warnings: false,
             sourceMap: true,
             compress: {
                 // 移除 console
-                drop_console: true,
+                drop_console: config.build.removeConsole,
                 drop_debugger: true
             }
         }

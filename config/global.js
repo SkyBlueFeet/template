@@ -19,5 +19,6 @@ module.exports = {
         components: path.resolve(RootDir, 'app/components'),
         pages: path.resolve(RootDir, 'app/pages'),
         static: path.resolve(RootDir, 'app/static'),
+        utils: path.resolve(RootDir, 'utils'),
     }
 };

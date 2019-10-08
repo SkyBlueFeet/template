@@ -12,7 +12,7 @@ const toc = require('markdown-it-table-of-contents');
 const container = require('markdown-it-container');
 
 const utils = require('./utils');
-const func = require('../utils/func');
+const func = require('../test/func');
 
 // 自定义块
 

@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const global = require('./global');
 const is_production = global.IS_PRODUCTION;
-const func = require('../utils/func.js');
+const func = require('../utils/func');
 const config = require('../config');
 const utils = require('./utils');
 
