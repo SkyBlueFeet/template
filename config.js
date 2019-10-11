@@ -29,12 +29,12 @@ module.exports = {
         port: 8080,
         autoOpen: false,
         proxyTable: {
-            '/api': {
-                target: 'http://localhost:59255/auth/',
-                pathRewrite: { '^/api': '' },
-                changeOrigin: true, // 如果接口跨域，需要进行这个参数配置为true，
-                secure: false, // 如果是https接口，需要配置这个参数为true
-            },
+            // '/api': {
+            //     target: 'http://localhost:59255/auth/',
+            //     pathRewrite: { '^/api': '' },
+            //     changeOrigin: true, // 如果接口跨域，需要进行这个参数配置为true，
+            //     secure: false, // 如果是https接口，需要配置这个参数为true
+            // },
             // '/api': {
             //     target: 'http://localhost:53531/',
             //     changeOrigin: true, // 如果接口跨域，需要进行这个参数配置为true，
@@ -65,7 +65,7 @@ module.exports = {
         outputDir: path.resolve(__dirname, 'dist'),
         devtool: 'hidden-source-map',
         assetsPublicPath: './',
-        buildAnalyzerReport: true,
+        buildAnalyzerReport: false,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
 
@@ -78,5 +78,28 @@ module.exports = {
          * 打包时是否去除console
          */
         removeConsole: false,
+    },
+    axios: {
+        method: 'post',
+        // 基础url前缀
+        baseURL: 'http://localhost:59255/auth/',
+        // 请求头信息
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+            // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        /**
+         * Json解析返回数据
+         */
+        JSONParse: true,
+        methodParse: ['post', 'put', 'delete'],
+        // 参数
+        data: {},
+        // 设置超时时间
+        timeout: 10000,
+        // 携带凭证
+        withCredentials: false,
+        // 返回数据类型
+        responseType: 'json'
     }
 };

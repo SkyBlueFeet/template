@@ -13,7 +13,7 @@ const RootDir = path.resolve(__dirname, '..');
 module.exports = {
     IS_PRODUCTION: false,
     alias: {
-        root: RootDir,
+        tpl: RootDir,
         app: path.resolve(RootDir, 'app'),
         layout: path.resolve(RootDir, 'app/layout'),
         components: path.resolve(RootDir, 'app/components'),

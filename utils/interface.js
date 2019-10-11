@@ -1,11 +1,10 @@
 import axios from './axios';
 
-/* 将所有接口统一起来便于维护
+/*
+ * 将所有接口统一起来便于维护
  * 如果项目很大可以将 url 独立成文件，接口分成不同的模块
- * 此处的数据依然来自 Easy Mock
  */
 
-// 单独倒出
 
 const User = {
     queryUser: data => {
@@ -40,10 +39,6 @@ const User = {
         });
     }
 };
-
-
-
-
 
 const Auth = {
 

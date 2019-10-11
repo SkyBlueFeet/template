@@ -26,7 +26,7 @@ exports.loader = [
 },
 {
     test: /\.ejs$/,
-    loader: 'ejs-loader'
+    loader: 'ejs-loader?variable=data'
 },
 {
     // 供iconfont方案使用，后面会带一串时间戳，需要特别匹配到
@@ -40,13 +40,15 @@ exports.loader = [
 },
 {
     test: /\.(gif|png|jpe?g|svg)$/i,
-    use: [{
+    use: [
+    {
         loader: 'url-loader',
         options: {
             limit: 10000,
             name: 'img/[name].[hash:6].[ext]'
         }
-    }, {
+    },
+    {
         loader: 'image-webpack-loader',
         options: {
             mozjpeg: {
@@ -55,20 +57,20 @@ exports.loader = [
             },
             // optipng.enabled: false will disable optipng
             optipng: {
-                enabled: true,
+                enabled: true
             },
             pngquant: {
-                quality: [0.65, 0.90],
+                quality: [0.65, 0.9],
                 speed: 4
             },
             gifsicle: {
-                interlaced: false,
+                interlaced: false
             },
             // the webp option will enable WEBP
             webp: {
                 quality: 75
             }
-        },
+        }
     }]
 },
 {
@@ -108,34 +110,9 @@ exports.loader = [
 exports.happyPackPlugin = [
     new HappyPack({
         id: 'babel',
-        loaders: [{
-            loader: 'babel-loader',
-            options: {
-                plugins: ['syntax-dynamic-import'],
-                presets: [
-                    ['@babel/env', {
-                        'modules': false,
-                        'targets': {
-                            'browsers': browserslist
-                        },
-                        'corejs': '3', // 声明corejs版本
-                        'useBuiltIns': 'usage'
-                    }]
-                ],
-            },
+        loaders: [
+        {
+            loader: 'babel-loader'
         }]
-    }),
-
-    // new HappyPack({
-    //     id: 'style',
-    //     loaders: [{
-    //         loader: IS_PRODUCTION ? MiniCssExtractPlugin.loader : 'style-loader',
-    //     }, {
-    //         loader: 'css-loader',
-    //     }, {
-    //         loader: 'postcss-loader'
-    //     }, {
-    //         loader: 'less - loader'
-    //     }]
-    // })
+    })
 ];

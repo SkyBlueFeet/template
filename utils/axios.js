@@ -1,13 +1,17 @@
-import axios from 'axios'; // 注意先安装哦
-import config from './axiosConfig'; // 倒入默认配置
+import axios from 'axios'; // 注意先安装哦
 import qs from 'qs'; // 序列化请求数据，视服务端的要求
 
+const axiosConfig = require('../config').axios; // .倒入默认配置
 
+/**
+ * axios封装
+ * 源地址: https://juejin.im/post/5ae432aaf265da0b9c1063c8
+ */
 
 export default function $axios(options) {
     return new Promise((resolve, reject) => {
         const instance = axios.create({
-            baseURL: config.baseURL,
+            baseURL: axiosConfig.baseURL,
             headers: {},
             transformResponse: [function(data) {}]
         });
@@ -16,7 +20,8 @@ export default function $axios(options) {
         instance.interceptors.request.use(
             config => {
                 // Tip: 1
-                // 请求开始的时候可以结合 vuex 开启全屏的 loading 动画
+                // 请求开始的时候可以开启 loading 动画
+                // isShowLoading(true);
 
                 // Tip: 2
                 // 带上 token , 可以结合 vuex 或者重 localStorage
@@ -27,11 +32,9 @@ export default function $axios(options) {
                 // }
 
                 // Tip: 3
-                // 根据请求方法，序列化传来的参数，根据后端需求是否序列化
-                if (config.method.toLocaleLowerCase() === 'post' ||
-                    config.method.toLocaleLowerCase() === 'put' ||
-                    config.method.toLocaleLowerCase() === 'delete') {
-
+                // 序列化请求参数,qs用来防止跨域导致的options请求
+                let method = config.method.toLocaleLowerCase();
+                if (axiosConfig.methodParse.includes(method)) {
                     config.data = qs.stringify(config.data);
                 }
                 return config;
@@ -40,6 +43,7 @@ export default function $axios(options) {
                 // 请求错误时做些事(接口错误、超时等)
                 // Tip: 4
                 // 关闭loadding
+                // isShowLoading(false);
                 console.log('request:', error);
 
                 //  1.判断请求超时
@@ -145,6 +149,7 @@ export default function $axios(options) {
         //请求处理
         instance(options)
             .then(res => {
+                // 数据Json解析
                 resolve(JSON.parse(res));
                 return false;
             })

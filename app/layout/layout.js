@@ -3,8 +3,12 @@ import _withHeader from './tpl/withHeader.ejs';
 import header from 'components/header.ejs';
 import footer from 'components/footer.ejs';
 import _mdWithHeader from './tpl/mdWithHeader.ejs';
-import headerData from 'root/Auth/auth.json';
-import ico from 'root/favicon.png';
+import headerData from 'tpl/Auth/auth.json';
+import ico from 'tpl/favicon.png';
+import dbfeild from 'tpl/Auth/dbfeild';
+
+
+
 
 /**
  *
@@ -23,7 +27,8 @@ const initWithHeader = (Object) => {
     return _withHeader({
         ico: Object['ico'] || ico,
         title: Object['title'],
-        header: header({ headerData: headerData }),
+        header: '',
+        //header({ headerData: headerData })
         content: Object['content'],
         footer: footer()
     });

@@ -25,6 +25,11 @@
       "script": "dev-compiler",
       "group": "build",
       "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "analyzer",
+      "problemMatcher": []
     }
   ]
 }

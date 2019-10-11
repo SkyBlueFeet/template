@@ -1,0 +1,21 @@
+<header class="navbasic nav">
+    <% if(data.length>0) { %>
+    <ul class="navbasic nav__content">
+        <% for(var i=0;i<data.length;i++) { %>
+        <li class="navbasic nav__item">
+            <div class="navbasic nav__item--menutitle">
+                <span><%= data[i].title %> </span>
+                <svg class="pointicon drop-down-icon">
+                    <use xlink:href="#icon-bottom"></use>
+                </svg>
+            </div>
+            <ul class="nav__item--submenu">
+                <% for(var j=0;j<data[i].submenu.length;j++) { %>
+                <li class="nav__item--submenu-title"><%= data[i].submenu[j].title %></li>
+                <% } %>
+            </ul>
+        </li>
+        <% } %>
+    </ul>
+    <% } %>
+</header>

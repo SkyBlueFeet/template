@@ -1,10 +1,12 @@
 {
   "aliasFork.alias": {
-    "root": "",
+    "tpl": "",
     "app": "app",
-    "layout": "app/layout",
-    "components": "app/components",
-    "pages": "app/pages",
-    "static": "app/static"
-  }
+    "layout": "app\\layout",
+    "components": "app\\components",
+    "pages": "app\\pages",
+    "static": "app\\static",
+    "utils": "utils"
+  },
+  "aliasFork.webpeckConfigPath": "./config/webpack.config.js"
 }

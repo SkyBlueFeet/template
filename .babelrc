@@ -1,0 +1,23 @@
+{
+  "plugins": ["syntax-dynamic-import"],
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": [
+            "Android 4.1",
+            "iOS 7.1",
+            "Chrome > 31",
+            "ff > 31",
+            "ie >= 9",
+            ">0.5%"
+          ]
+        },
+        "corejs": "3", // 声明corejs版本
+        "useBuiltIns": "usage"
+      }
+    ]
+  ]
+}
