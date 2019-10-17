@@ -1,0 +1,58 @@
+{
+  "id": "1431499",
+  "name": "auth",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "736605",
+      "name": "check-box-outline",
+      "font_class": "checkboxoutline",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "1272079",
+      "name": "操作-下拉",
+      "font_class": "caozuo-xiala",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "1272080",
+      "name": "操作-上拉",
+      "font_class": "caozuo-shangla",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "1410254",
+      "name": "check-box-outline-blank",
+      "font_class": "check-box-outline-blank",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "1766267",
+      "name": "指向-bottom",
+      "font_class": "bottom",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "1766272",
+      "name": "指向-right",
+      "font_class": "right",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
+      "icon_id": "6076864",
+      "name": "斜体",
+      "font_class": "Italic",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    }
+  ]
+}

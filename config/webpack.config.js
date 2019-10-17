@@ -41,7 +41,10 @@ module.exports = {
         new VueLoaderPlugin(),
         // new webpack.ProgressPlugin(),
         ...PagesConf.pages,
-        ...rules.happyPackPlugin
+        ...rules.happyPackPlugin,
+        new webpack.DefinePlugin({
+            app: JSON.stringify({})
+        }),
     ],
     module: {
         rules: rules.loader

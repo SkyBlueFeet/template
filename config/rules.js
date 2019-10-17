@@ -33,9 +33,9 @@ exports.loader = [
     test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
     // exclude: /glyphicons/,
     // loader: 'file-loader?name=vendor/fonts/[name].[ext]',
-    loader: 'file-loader',
+    loader: 'url-loader',
     options: {
-        name: 'fonts/[name].[hash].[ext]'
+        name: 'fonts/[name].[hash:6].[ext]'
     }
 },
 {

@@ -1,3 +1,4 @@
-import 'static/layout.scss';
-import 'app/static/iconfont.js';
-import 'static/auth/init.js';
+import 'static/css/layout.scss';
+import { initHeader } from 'static/utils/init';
+
+initHeader();

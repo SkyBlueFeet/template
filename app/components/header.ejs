@@ -5,13 +5,11 @@
         <li class="navbasic nav__item">
             <div class="navbasic nav__item--menutitle">
                 <span><%= data[i].title %> </span>
-                <svg class="pointicon drop-down-icon">
-                    <use xlink:href="#icon-bottom"></use>
-                </svg>
+                <i class="s-icon__dropdown"></i>
             </div>
             <ul class="nav__item--submenu">
                 <% for(var j=0;j<data[i].submenu.length;j++) { %>
-                <li class="nav__item--submenu-title"><%= data[i].submenu[j].title %></li>
+                <li class="nav__item--submenu-title <%= window.location.pathname===data[i].submenu[j].link? 'active':'' %>"><a href="<%= data[i].submenu[j].link %>"><%= data[i].submenu[j].title %></a></li>
                 <% } %>
             </ul>
         </li>

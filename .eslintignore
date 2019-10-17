@@ -1,3 +1,4 @@
 /dist/
 /**/*.ejs
 /node_modules/**
+/*/**/iconfont.js

@@ -1,0 +1,43 @@
+@import 'var';
+
+@import 'normalize.css';
+
+@import 'icon';
+
+@import '../plugin/button/button.scss';
+
+html {
+  font-size: $root-font-size;
+  font-family: 'Microsoft YaHei', 'Trebuchet MS', 'Ubuntu', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  width: 100%;
+  height: 100%;
+}
+
+.bread {
+  position: absolute;
+  top: $nav-header;
+  height: $nav-header;
+  width: 100%;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  width: 100%;
+  height: $nav-header;
+}
+
+.content {
+  position: absolute;
+  top: $nav-header * 2;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 8rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@import './header.scss';
+@import './bread.scss';

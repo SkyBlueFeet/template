@@ -1,0 +1,30 @@
+@import 'var';
+
+.bread {
+    .bread__crumbs {
+        height: $nav-header;
+        width: 80rem;
+        font-size: 0.9rem;
+        margin: 0 auto;
+        border-bottom: 0.1rem solid #ccc;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+
+        .crumbs {
+            display: inline-block;
+            width: auto;
+        }
+
+        span {
+            font-size: 1rem;
+            display: inline-block;
+            margin: 0 0;
+        }
+
+        .s-icon__Italic:before {
+            content: "\e626";
+            font-size: 1.1rem;
+        }
+    }
+}

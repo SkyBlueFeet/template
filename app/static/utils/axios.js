@@ -1,7 +1,9 @@
 import axios from 'axios'; // 注意先安装哦
 import qs from 'qs'; // 序列化请求数据，视服务端的要求
 
-const axiosConfig = require('../config').axios; // .倒入默认配置
+import application from 'static/web/web.config';
+
+const axiosConfig = application.axios;
 
 /**
  * axios封装

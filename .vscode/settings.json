@@ -1,12 +1,21 @@
 {
   "aliasFork.alias": {
-    "tpl": "",
+    "tpl": "./",
     "app": "app",
-    "layout": "app\\layout",
+    "layout": "app/layout",
     "components": "app\\components",
     "pages": "app\\pages",
     "static": "app\\static",
     "utils": "utils"
   },
-  "aliasFork.webpeckConfigPath": "./config/webpack.config.js"
+  "aliasFork.webpeckConfigPath": "./config/webpack.config.js",
+  "jumpToAliasFile.alias": {
+    "tpl": "e:/Sky/desktop/webpack-tpl",
+    "app": "e:/Sky/desktop/webpack-tpl/app",
+    "layout": "e:/Sky/desktop/webpack-tpl/app/layout",
+    "components": "e:/Sky/desktop/webpack-tpl/app/components",
+    "pages": "e:/Sky/desktop/webpack-tpl/app/pages",
+    "static": "e:/Sky/desktop/webpack-tpl/app/static",
+    "utils": "e:/Sky/desktop/webpack-tpl/utils"
+  }
 }

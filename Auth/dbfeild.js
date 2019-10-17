@@ -1,4 +1,4 @@
-import face from 'tpl/utils/interface';
+import face from 'static/utils/interface';
 import qs from 'qs';
 
 class users {
@@ -126,46 +126,6 @@ class roles {
     }
 }
 
-class module {
-
-    /**
-     * 数据库module表字段
-     * @date 2019-10-08
-     * @param { String } id
-     * @param { String } title
-     * @param { String } parentModuleId
-     * @param { String } key
-     * @param { String } remark
-     * @returns { Promise Object }
-     */
-    constructor(id, title, parentModuleId, link, key, remark) {
-        this.id = id;
-        this.title = title;
-        this.parentModuleId = parentModuleId;
-        this.link = link;
-        this.key = key;
-        this.remark = remark;
-    }
-    get property() {
-        return this;
-    }
-
-    list() {
-        return face.Module.queryModule(this);
-    }
-
-    create() {
-        return face.Module.createModule(this);
-    }
-
-    edit() {
-        return face.Module.editModule(this);
-    }
-
-    delete() {
-        return face.Module.deleteModule(this);
-    }
-}
 
 class element {
 
