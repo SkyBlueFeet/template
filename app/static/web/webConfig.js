@@ -1,7 +1,14 @@
 import module from 'static/db/module';
-import { setStorage, getStorage, packageModuleData } from 'static/utils/utils.js';
+// import local from '../utils/cryptStorage';
+let jsencrypt = {};
+try {
+    jsencrypt = require('jsencrypt');
+} catch (error) {
+    console.log(error);
+}
+// console.log(navigator);
 
-class application {
+export default class application {
     /**
      * [instance  当前实例]
      * @type {this}
@@ -23,14 +30,14 @@ class application {
 
 
     /**
-     * 挂载远程数据
-     * @type {Object}
+     * 记载本地数据状态
+     * @type { string }
      */
     static resource = {
-        module: [],
-        element: [],
-        auth: [],
-        rule: []
+        module: '',
+        element: '',
+        auth: '',
+        rule: ''
     };
 
     /**
@@ -50,7 +57,6 @@ class application {
      * @type {boolean}
      */
     static dataStorage = false;
-
 
     /**
      * [getInstance 获取单例]
@@ -101,6 +107,20 @@ class application {
 
     }
 
-}
+    static init() {
+        import('static/utils/cryptStorage').then(local => {
+            local.default.init();
+        });
+    }
 
-export default application;
+    static checkEnv() {
+        console.log(123);
+    }
+
+    static updata(object) {
+        Object.keys(object).forEach(key => {
+            this.resource[key] = object[key];
+        });
+    }
+
+}

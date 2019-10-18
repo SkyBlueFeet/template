@@ -87,3 +87,8 @@ npm run dev
 │   ├── promise.js
 │   └── script.js
 └── yarn.lock
+
+使用本地存储方案
+使用公钥通过hash函数生成本地存储键值
+
+使用AES对称加密得到本地存储值

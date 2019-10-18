@@ -1,7 +1,7 @@
 import axios from 'axios'; // 注意先安装哦
 import qs from 'qs'; // 序列化请求数据，视服务端的要求
 
-import application from 'static/web/web.config';
+import application from 'app/static/web/webConfig';
 
 const axiosConfig = application.axios;
 

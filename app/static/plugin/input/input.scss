@@ -1,9 +1,11 @@
+@import '../public/function';
+
 $inputHeight:2rem;
 
 @mixin inputBasic {
     line-height: 1.5;
     outline-style: none;
-    border: 1px solid #ccc;
+    border: convertRem(1px) solid #ccc;
     appearance: none;
     padding: .375rem .75rem;
     font-size: 1rem;
@@ -12,7 +14,7 @@ $inputHeight:2rem;
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
+    border: convertRem(1px) solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
@@ -40,8 +42,8 @@ $inputHeight:2rem;
     .s-input__text:focus {
         border-color: #007bff;
         outline: 0;
-        -webkit-box-shadow: inset 0 1px 1px rgba(#007bff, .075), 0 0 8px rgba(#007bff, .6);
-        box-shadow: inset 0 1px 1px rgba(#007bff, .075), 0 0 8px rgba(#007bff, .6)
+        -webkit-box-shadow: inset 0 convertRem(1px) convertRem(1px) rgba(#007bff, .075), 0 0 convertRem(8px) rgba(#7b72e9, .6);
+        box-shadow: inset 0 convertRem(1px) convertRem(1px) rgba(#007bff, .075), 0 0 convertRem(8px) rgba(#7b72e9, .6)
     }
 
     .s-input__text:hover {}

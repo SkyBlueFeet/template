@@ -2,3 +2,4 @@
 /**/*.ejs
 /node_modules/**
 /*/**/iconfont.js
+/**/tsconfig.json

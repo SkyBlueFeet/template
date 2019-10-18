@@ -1,9 +1,11 @@
 import mde from 'static/db/module';
 import nav from 'tpl/Auth/auth';
 
-import { packageModuleData, getStorage, setStorage, removeStorage } from 'static/utils/utils';
+import { packageModuleData, getStorage, setStorage, removeStorage, getHashCode } from 'static/utils/utils';
 import header from 'components/header.ejs';
+import Storage from './cryptStorage';
 const localModuleData = window.localStorage.getItem('moduleData');
+
 
 export const initModuleDb = () => {
     nav.forEach(navModule => {
@@ -105,12 +107,14 @@ export const initHeader = (data) => {
             if (res['statusKey'] === 666) {
                 let data = res['data'];
                 $('.header').html(header(packageModuleData(data)));
+
             }
         });
     } else {
         $('.header').html(header(packageModuleData(data)));
     }
 };
+
 /**
  * module页面初始化数据
  * @param { Object } data
@@ -121,7 +125,7 @@ export async function initModule(data) {
             let md = new mde();
             let res = await md.list();
             initHeader(res['data']);
-            res = await initTable(res['data']);
+            initTable(res['data']);
             return res;
         } else {
             initHeader(data);
