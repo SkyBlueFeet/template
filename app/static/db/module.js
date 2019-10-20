@@ -12,7 +12,7 @@ class module {
      * @param { Number } order
      * @param { String } key
      * @param { String } remark
-     * @returns { Promise Object }
+     * @returns { Promise }
      */
     constructor(id, title, parentModuleId, link, order, key, remark) {
         if (typeof id === 'object' && typeof id.length !== 'number') {

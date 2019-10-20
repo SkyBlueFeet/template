@@ -5,33 +5,51 @@ import 'static/plugin/input/input.scss';
 import 'static/css/module.scss';
 import mde from 'static/db/module';
 
-import { initModule } from 'static/utils/init';
 
-import storage from 'static/utils/cryptStorage';
-import application from 'app/static/web/webConfig';
-try {
-    application.init();
-} catch (error) {
-    console.error(error);
-}
 
-initModule().then(res => {
-    let data = res['data'];
-    storage.staticHandle(data, function(params) {
-        // console.log(params);
-    }).then((e, t) => {
+import application from 'app/static/application';
+import { moduleUpdata } from 'static/utils/dom';
 
-        // console.log(e);
-    });
-    $(() => {
 
-        let selectOption = '<option value="">root</option>';
-        data.forEach(item => {
-            selectOption += `<option value="${item['id']}">${item['title']}</option>`;
-        });
-        $('#parent').html(selectOption);
-    });
+// const rs = application.init();
+const gh = application;
+const fd = application;
+const fs = application.getInstance();
+
+console.log(fs);
+console.log(fd === fs);
+console.log(gh === fs);
+console.log(gh);
+application.init().then(resource => {
+    console.log(resource);
 });
+
+// try {
+//     application.init();
+//     $(() => {
+//         if (application.resource['module'].length > 0) {
+//             moduleUpdata(application.resource['module']).then(() => {
+//                 console.log('init');
+//             });
+//         } else {
+//             moduleUpdata().then(res => {
+//                 let data = res['data'];
+//                 application.updata({ module: data });
+//                 $(() => {
+//                     let selectOption = '<option value="">root</option>';
+//                     data.forEach(item => {
+//                         selectOption += `<option value="${item['id']}">${item['title']}</option>`;
+//                     });
+//                     $('#parent').html(selectOption);
+//                 });
+//             });
+//         }
+//     });
+// } catch (error) {
+//     console.error(error);
+// }
+
+
 
 
 
@@ -73,13 +91,13 @@ $(() => {
         n.id = $('#id').val().trim();
         n.title = $('#title').val().trim();
         n.key = $('#key').val().trim();
-        n.parentModuleId = $('#parent').val().trim();
+        n.parentModuleId = $('#parent').val();
         n.link = $('#link').val().trim();
         n.remark = $('#remark').val().trim();
         n.order = $('#order').val().trim();
         n.edit().then(res => {
             if (res['statusKey'] === 666) {
-                initModule(res['data']);
+                application.updateView({ module: res['data'] });
                 $('#editModule').prop('disabled', true);
                 $('.s-modal').slideUp();
             } else {
@@ -93,7 +111,7 @@ $(() => {
             const n = new mde($('tbody input[type="checkbox"]:checked').eq(i).parents('tr').children().eq(1).prop('id'));
             n.delete().then(res => {
                 if (res['statusKey'] === 666) {
-                    initModule(res['data']);
+                    application.updateView({ module: res['data'] });
                 }
             });
         }

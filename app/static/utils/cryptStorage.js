@@ -3,20 +3,25 @@ import CryptoJS from 'crypto-js';
 import { keyArr, keyword, code as str, rsaKey } from './variable';
 import cookie from 'js-cookie';
 import _ from 'lodash';
+import { getHashCode, randomString } from './utils';
 
+const storageSign = ((name, data) => {
+    if (name === 'undefined') return;
 
-class storageSign {
-    constructor(data) {
-        this.data = data;
-    }
-    setSign = function() {
-        window.sessionStorage.setItem(keyword['sign'], CryptoJS.MD5(this.data));
+    name = CryptoJS.SHA1(name).toString();
+    data = JSON.stringify(data);
+    const setSign = function() {
+        window.sessionStorage.setItem(name, CryptoJS.MD5(data));
     };
 
-    checkSign = function() {
-        return CryptoJS.MD5(this.data).toString() === window.sessionStorage.getItem(keyword['sign']);
+    const checkSign = function() {
+        return CryptoJS.MD5(data).toString() === window.sessionStorage.getItem(name);
     };
-}
+    return {
+        setSign,
+        checkSign
+    };
+});
 
 
 export default class local {
@@ -61,16 +66,21 @@ export default class local {
      * @param { String } code
      */
     static asymmetricDecrypt(code) {
-        let body = JSON.parse(cookie.get(keyword['body']));
-        let bytes = CryptoJS.AES.decrypt(cookie.get(keyword['head']), body[0].toString());
-        let parseStr = bytes.toString(CryptoJS.enc.Utf8);
-        let arr = _.cloneDeep(keyArr);
+        let body = cookie.getJSON(keyword['body']),
+            crypt = new JSEncrypt(),
+            bytes = CryptoJS.AES.decrypt(cookie.get(keyword['head']), body[0].toString()),
+            parseStr = bytes.toString(CryptoJS.enc.Utf8),
+            arr = _.cloneDeep(keyArr);
+
         [arr[arr.length - 2], arr[arr.length - 1]] = [arr[arr.length - 1], arr[arr.length - 2]];
-        let complete = _.join(arr, '/');
-        let privatekeys = CryptoJS.AES.decrypt(parseStr + complete, body[1].toString());
-        let crypt = new JSEncrypt();
+
+        let complete = _.join(arr, '/'),
+            privatekeys = CryptoJS.AES.decrypt(parseStr + complete, body[1].toString());
+
         crypt.setPrivateKey(privatekeys.toString(CryptoJS.enc.Utf8));
+
         let uncrypted = crypt.decrypt(code);
+
         if (!uncrypted) throw new Error('解密失败');
         console.log(uncrypted);
         return uncrypted;
@@ -87,20 +97,14 @@ export default class local {
         return dec;
     }
 
-
-
-
-    static thirdStep() {
-        return this.getItem('pKey');
-    }
-
     /**
-     * 本地存储
+     * 本地存储,key值不需要在加密
      * @param  { String } key  存储键
      * @param  { String } value   存储值
      */
     static setItem(key, value, msg) {
-        if (!msg) {
+        value = JSON.stringify(value);
+        if (null === msg) {
             window.sessionStorage.setItem(CryptoJS.MD5(key), this.asymmetricEncrypt(value));
         } else {
             window.sessionStorage.setItem(CryptoJS.MD5(key), this.symmetricEncrypt(value, msg));
@@ -112,63 +116,67 @@ export default class local {
      * @param { String } key
      */
     static getItem(key, msg) {
-        key = CryptoJS.MD5(key);
+        key = CryptoJS.MD5(key).toString();
         const encodeValue = window.sessionStorage.getItem(key);
         let value = '';
         if (encodeValue !== null) {
-            if (!msg) {
+            if (null === msg) {
                 value = this.asymmetricDecrypt(window.sessionStorage.getItem(key));
             } else {
                 value = this.symmetricDecrypt(window.sessionStorage.getItem(key), msg);
-                console.log(value);
             }
-            return value;
+            return JSON.parse(value);
         }
         else {
             throw new Error('没有该键值!');
         }
     }
 
+    /**
+     * 设置和获取序列
+     * @returns { Object }
+     */
+    static staticOrder = (() => {
+        let orderKey = keyword['order'];
+        const getOrder = () => {
+            let value = cookie.get(orderKey);
+            return value === null ? false : value;
+        };
+        const setOrder = order => {
+            cookie.set(orderKey, this.asymmetricEncrypt(order));
+        };
+        return {
+            getOrder,
+            setOrder
+        };
+    })
 
     /**
-     * @param  { any } res
+     * 返回加密秘钥
+     * @param  { any } name
+     * @param  { any } data
+     * @returns { String } privateKey
      */
-    static staticHandle(res, callback) {
-        let order = keyword['order'];
-        const sgin = new storageSign(res);
-        try {
-            if (!cookie.get(order)) {
-                sgin.setSign();
-                this.setItem('res', JSON.stringify(res), keyArr[0]);
-                cookie.set(order, this.asymmetricEncrypt('0'));
-            }
-            if (sgin.checkSign()) {
-                let key = parseInt(this.asymmetricDecrypt(cookie.get(order)), 10);
-                if (key >= keyArr.length - 1) {
-                    key = -1;
-                }
-                this.setItem('res', JSON.stringify(res), keyArr[key + 1]);
-                cookie.set(order, this.asymmetricEncrypt((key + 1).toString()));
-                console.log(key);
-            } else {
-                throw new Error('签名错误!');
-            }
-        } catch (error) {
-            console.log('flag');
-            sgin.setSign();
-            this.setItem('res', JSON.stringify(res), keyArr[0]);
-            cookie.set(order, this.asymmetricEncrypt('0'));
-            throw new Error(error);
-        }
-        if (callback) {
-            return new Promise((resolve, reject) => {
-                resolve(this);
-            });
-        }
+    static setStatic(name, data) {
+
+        storageSign(name, data).setSign();
+
+        let privateKey = randomString();
+
+        this.setItem(name, data, privateKey);
+
+        return privateKey;
+
     }
 
-    static init() {
-        cookie.set(keyword['head'], str);
-        cookie.set(keyword['body'], JSON.stringify(rsaKey));
+    static getStatic(name, privateKey) {
+        try {
+            const value = this.getItem(name, privateKey);
+            return value;
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+
     }
 }

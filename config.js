@@ -65,8 +65,8 @@ module.exports = {
         outputDir: path.resolve(__dirname, 'dist'),
         devtool: 'hidden-source-map',
         assetsPublicPath: './',
-        buildAnalyzerReport: false,
-        productionGzip: false,
+        buildAnalyzerReport: true,
+        productionGzip: true,
         productionGzipExtensions: ['js', 'css'],
 
         /**

@@ -43,34 +43,6 @@ export const removeStorage = key => {
     }
 };
 
-export const packageModuleData = data => {
-    const nAuth = [],
-        stageArr = [];
-    data.forEach((nav, index, data) => {
-        if (nav['parentModuleId'] === null) {
-            let a = {};
-            Object.keys(nav).forEach(key => {
-                a[key] = nav[key];
-            });
-            a['submenu'] = [];
-            nAuth.push(a);
-        } else {
-            let a = {};
-            Object.keys(nav).forEach(key => {
-                a[key] = nav[key];
-            });
-            stageArr.push(a);
-        }
-    });
-    stageArr.forEach(sub => {
-        nAuth.forEach(nav => {
-            if (sub['parentModuleId'] === nav['id']) {
-                nav['submenu'].push(sub);
-            }
-        });
-    });
-    return nAuth;
-};
 
 /**
  * 获取字符串的哈希值
@@ -80,7 +52,6 @@ export const packageModuleData = data => {
  */
 export const getHashCode = (str, caseSensitive = false) => {
     if (!caseSensitive) str = str.toLowerCase();
-    // 1315423911=b'1001110011001111100011010100111'
     let hash = 1315423911,
         i,
         ch;
@@ -91,3 +62,20 @@ export const getHashCode = (str, caseSensitive = false) => {
 
     return hash & 0x7fffffff;
 };
+
+/**
+ * 随机字符串
+ * @param { number } len
+ */
+export const randomString = (len = 32) => {
+    let $chars =
+        'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+    let maxPos = $chars.length;
+    let randomStr = '';
+    for (let i = 0; i < len; i++) {
+        randomStr += $chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return randomStr;
+};
+
+export default { setStorage, getStorage, removeStorage, getHashCode, randomString };

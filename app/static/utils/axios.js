@@ -1,14 +1,40 @@
 import axios from 'axios'; // 注意先安装哦
 import qs from 'qs'; // 序列化请求数据，视服务端的要求
 
-import application from 'app/static/web/webConfig';
+// import application from 'app/static/web/web.config';
 
-const axiosConfig = application.axios;
+// const axiosConfig = application.axios;
 
 /**
  * axios封装
  * 源地址: https://juejin.im/post/5ae432aaf265da0b9c1063c8
  */
+
+const axiosConfig = {
+    method: 'post',
+    // 基础url前缀
+    baseURL: 'http://localhost:59255/auth/',
+    // 请求头信息
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+        // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    /**
+     * Json解析返回数据
+     */
+    JSONParse: true,
+    methodParse: ['post', 'put', 'delete'],
+    // 参数
+    data: {},
+    // 设置超时时间
+    timeout: 10000,
+    // 携带凭证
+    withCredentials: false,
+    // 返回数据类型
+    responseType: 'json'
+};
+
+
 
 export default function $axios(options) {
     return new Promise((resolve, reject) => {
