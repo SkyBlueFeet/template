@@ -1,0 +1,61 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <% if(data) { %>
+                    <%= data.title %>
+                    <% } %>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <% if(data) { %>
+                <% var form=data.form; %>
+                <input type="hidden" id="id" value="<%= form.id %>" />
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">元素名</label>
+                    <div class="col-sm-10">
+                        <input id="elementName" type="text" value="<%= form.elementName %>" class="form-control" id="staticEmail">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="moduleId" class="col-sm-2 col-form-label">模块</label>
+                    <div class="col-sm-10">
+                        <select id="moduleId" class="form-control">
+                            <%= data.option %>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">标识</span>
+                    </div>
+                    <input type="text" id="key" value="<%= form.key %>" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">元素ID</span>
+                    </div>
+                    <input type="text" id="elementId" value="<%= form.elementId %>" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">备注</span>
+                    </div>
+                    <input type="text" id="remark" value="<%= form.remark %>" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <% } %>
+                <div class="alert alert-success show fade" role="alert">
+                    修改成功
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="modal-save" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,5 @@
-import mde from 'static/db/module';
-import nav from 'tpl/Auth/auth';
-
-import { getStorage, setStorage, removeStorage, getHashCode } from 'static/utils/utils';
-import header from 'components/header.ejs';
-import Storage from './cryptStorage';
-const localModuleData = window.localStorage.getItem('moduleData');
+import { module as mde } from 'static/db';
+import nav from 'tpl/abandon/Auth/auth';
 
 
 export const initModuleDb = () => {

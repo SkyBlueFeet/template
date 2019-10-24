@@ -1,0 +1,25 @@
+<table class="table table-striped">
+    <thead>
+        <% if(data.config){ %>
+        <tr>
+            <% for(var i=0;i<data.config.length;i++){ %>
+            <td><%= data.config[i].value %></td>
+            <% } %>
+        </tr>
+        <% } %>
+    </thead>
+    <% if(data.rewrite){ %>
+        <tbody></tbody>
+    <% } else if(data.data) { %>
+    <tbody>
+        <% for (var index = 0; index < data.data.length; index++) { %>
+        <% var ele = data.data[index]; %>
+        <tr>
+            <% for(var i=0;i<ele.length;i++){ %>
+            <td><%= ele[i] || '' %></td>
+            <% } %>
+        </tr>
+        <% } %>
+    </tbody>
+    <% } %>
+</table>

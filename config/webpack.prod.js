@@ -45,7 +45,7 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
                     // name： ‘common/common’ //  即先生成common文件夹
                     chunks: 'all', // initial表示提取入口文件的公共css及js部分
                     // chunks: 'all' // 提取所有文件的公共部分
-                    test: /[\\/]app[\\/]/, // 只提取公共css ，命名可改styles
+                    test: /[\\/]app[\\/]/,
                     minChunks: 2, // 表示提取公共部分最少的文件数
                     minSize: 10, // 表示提取公共部分最小的大小
                     // 如果发现页面中未引用公共文件，加上enforce: true

@@ -1,13 +1,28 @@
-import module from 'static/db/module';
+import { module, element, auth, role, user } from 'static/db';
 import cookie from 'js-cookie';
 import { keyword, code as str, rsaKey } from 'static/utils/variable';
-import CryptoJS from 'crypto-js';
 import local from './utils/cryptStorage';
+import { moduleUpdata, elementUpdate, roleUpdate, authUpdate, userUpdate } from './utils/dom';
 
-
-import { packageModuleData, getStorage, setStorage, removeStorage, getHashCode } from 'static/utils/utils';
-import header from 'components/header.ejs';
-import { moduleToTable, moduleUpdata } from './utils/dom';
+/**
+ *
+ * @param { String } key
+ */
+async function getData(key) {
+    let data = [];
+    if (key === 'module') {
+        data = await (new module()).list();
+    } else if (key === 'element') {
+        data = await (new element()).list();
+    } else if (key === 'auth') {
+        data = await (new auth).list();
+    } else if (key === 'role') {
+        data = await (new role).list();
+    } else if (key === 'user') {
+        data = await (new user).list();
+    }
+    return data;
+}
 
 
 export default class application {
@@ -42,13 +57,7 @@ export default class application {
      * 是否开启App缓存
      * @type {boolean}
      */
-    static appStorage = false;
-
-    /**
-     * 是否开启数据缓存
-     * @type {boolean}
-     */
-    static dataStorage = false;
+    static appStorage = true;
 
     /**
      * [getInstance 获取单例]
@@ -56,11 +65,6 @@ export default class application {
      * @return {[type]}    [description]
      */
     static getInstance() {
-        // if (false === this.instance instanceof this) {
-        //     this.instance = new this;
-        // }
-        // return this.instance;
-
         if (!(this.instance instanceof this)) {
             this.instance = new this;
         }
@@ -73,17 +77,13 @@ export default class application {
      * @return {object}       userInfo
      */
     constructor() {
-        this.uId = 123;
-    }
-
-    get property() {
-        console.log('get');
-        return this;
+        this.resourceStatus = this.resourceStatus.bind(this);
+        this.resource = this.resource.bind(this);
     }
 
 
 
-    extend = () => {
+    static extend = () => {
         console.log('extend');
     }
 
@@ -96,13 +96,15 @@ export default class application {
         let module = [],
             element = [],
             auth = [],
-            rule = [];
+            role = [],
+            user = [];
         const that = this;
         return {
             module,
             element,
             auth,
-            rule,
+            role,
+            user,
             that
         };
     })(), {
@@ -117,9 +119,10 @@ export default class application {
          * @param { Array } value
          * @param { ProxyConstructor } receiver
          */
-        set: function(target, key, value, receiver) {
+        set: (target, key, value, receiver) => {
             let that = target.that;
             that.domInit(key, value);
+            // console.log(key, value);
             if (value.length > 0) that.resourceStatus[key] = local.setStatic(key, value);
             return Reflect.set(target, key, value, receiver);
         }
@@ -133,12 +136,21 @@ export default class application {
         let module = '',
             element = '',
             auth = '',
-            rule = '';
+            role = '',
+            user = '';
         if (sessionStorage.getItem('resourceStatus') !== null) {
             const localStatus = JSON.parse(sessionStorage.getItem('resourceStatus'));
             Object.keys(localStatus).forEach(key => {
-                if (localStatus[key].length > 0) {
+                if (localStatus[key].length > 0 && key == 'module') {
                     module = localStatus[key];
+                } else if (localStatus[key].length > 0 && key == 'element') {
+                    element = localStatus[key];
+                } else if (localStatus[key].length > 0 && key == 'role') {
+                    role = localStatus[key];
+                } else if (localStatus[key].length > 0 && key == 'auth') {
+                    auth = localStatus[key];
+                } else if (localStatus[key].length > 0 && key == 'user') {
+                    user = localStatus[key];
                 }
             });
         }
@@ -146,7 +158,8 @@ export default class application {
             module,
             element,
             auth,
-            rule
+            role,
+            user
         };
     })(), {
         get: function(target, key, receiver) {
@@ -174,34 +187,47 @@ export default class application {
             cookie.set(keyword['body'], JSON.stringify(rsaKey));
         }
         Object.keys(this.resourceStatus).forEach(key => {
-            if (this.resourceStatus[key].length > 0 && key !== 'that') {
+            if (this.resourceStatus[key].length > 0 && key !== 'that' && this.appStorage) {
+                console.log(key, '初始化完毕');
                 const value = local.getStatic(key, this.resourceStatus[key]);
-                this.resource[key] = value;
-            } else {
-                if (key === 'module') {
-                    (new module()).list().then(res => {
-                        const msg = Object.assign({}, this.resource);
-                        msg[key] = res['data'];
-                        this.updateView(msg);
-                    });
+                if (value) {
+                    this.resource[key] = value;
+                } else {
+                    console.error(key, '读取错误');
                 }
+            } else {
+                getData(key).then(res => {
+                    this.resource[key] = res.data;
+                });
+
             }
         });
-        return new Promise((resolve, reject) => {
-            resolve(this.resource);
-        });
-    }
-
-    static updateView(object) {
-        Object.keys(object).forEach(key => {
-            this.resource[key] = object[key];
-        });
+        // return new Promise((resolve, reject) => {
+        //     resolve(this.resource);
+        // });
     }
 
     static getRes(...arg) {
         let o = new Object();
         arg.forEach(key => {
-            if (this.resource[key] !== undefined) o[key] = this.resource[key];
+            if (this.resource[key] === undefined) {
+                console.error(`不存在${key}资源!`);
+                return;
+            } else {
+                o[key] = this.resource[key];
+            }
+        });
+        return o;
+    }
+
+    static setRes(o) {
+        Object.keys(o).forEach(name => {
+            if (this.resource[name] === undefined) {
+                console.error(`不存在${name}资源!`);
+                return;
+            } else {
+                this.resource[name] = o[name];
+            }
         });
         return o;
     }
@@ -211,7 +237,18 @@ export default class application {
             case 'module':
                 moduleUpdata(data);
                 break;
-
+            case 'element':
+                elementUpdate(data);
+                break;
+            case 'role':
+                roleUpdate(data);
+                break;
+            case 'auth':
+                authUpdate(data);
+                break;
+            case 'user':
+                userUpdate(data);
+                break;
             default:
                 break;
         }

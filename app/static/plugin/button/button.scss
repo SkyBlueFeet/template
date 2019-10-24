@@ -6,6 +6,8 @@ $primary:#007bff;
 $success:#28a745;
 $danger:#dc3545;
 $royal: #7b72e9;
+$purple:#6807f9;
+$purple2:#9852f9;
 
 @function convertRem($px:14px, $root:14px) {
     @return $px/$root*1rem;

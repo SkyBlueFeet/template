@@ -2,8 +2,8 @@ import JSEncrypt from 'jsencrypt';
 import CryptoJS from 'crypto-js';
 import { keyArr, keyword, code as str, rsaKey } from './variable';
 import cookie from 'js-cookie';
-import _ from 'lodash';
-import { getHashCode, randomString } from './utils';
+// import _ from 'lodash';
+import { randomString } from './utils';
 
 const storageSign = ((name, data) => {
     if (name === 'undefined') return;
@@ -70,11 +70,13 @@ export default class local {
             crypt = new JSEncrypt(),
             bytes = CryptoJS.AES.decrypt(cookie.get(keyword['head']), body[0].toString()),
             parseStr = bytes.toString(CryptoJS.enc.Utf8),
-            arr = _.cloneDeep(keyArr);
+            // arr = _.cloneDeep(keyArr);
+            arr = [...keyArr];
 
         [arr[arr.length - 2], arr[arr.length - 1]] = [arr[arr.length - 1], arr[arr.length - 2]];
 
-        let complete = _.join(arr, '/'),
+        // let complete = _.join(arr, '/'),
+        let complete = arr.join('/'),
             privatekeys = CryptoJS.AES.decrypt(parseStr + complete, body[1].toString());
 
         crypt.setPrivateKey(privatekeys.toString(CryptoJS.enc.Utf8));
@@ -177,6 +179,5 @@ export default class local {
             console.error(error);
             return false;
         }
-
     }
 }

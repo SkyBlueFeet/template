@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const resolve = dir => path.resolve(__dirname, '..', dir);
 const Global = require('./global');
 const browserslist = require('../package.json').browserslist;
+let styleVariables = require('../app/static/style');
 
 const IS_PRODUCTION = Global.IS_PRODUCTION;
 exports.loader = [
@@ -19,14 +20,22 @@ exports.loader = [
     test: /\.(c|le|pc|sa|sc)ss$/,
     use: [
         IS_PRODUCTION ? MiniCssExtractPlugin.loader : 'style-loader',
-        'css-loader',
-        'postcss-loader',
-        'sass-loader'
+        {
+            loader: 'css-loader',
+            options: {
+                sourceMap: true
+            }
+        }, {
+            loader: 'sass-loader',
+            options: {
+                sourceMap: true
+            }
+        }
     ]
 },
 {
     test: /\.ejs$/,
-    loader: 'ejs-loader?variable=data'
+    use: ['ejs-loader?variable=data']
 },
 {
     // 供iconfont方案使用，后面会带一串时间戳，需要特别匹配到

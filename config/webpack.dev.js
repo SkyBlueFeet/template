@@ -32,7 +32,7 @@ const DevWebpackConf = merge(require('./webpack.config'),
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
-        new webpack.NoEmitOnErrorsPlugin(),
+        // new webpack.NoEmitOnErrorsPlugin(),
 
         new webpack.HotModuleReplacementPlugin(),
         new FriendlyErrorsWebpackPlugin(),

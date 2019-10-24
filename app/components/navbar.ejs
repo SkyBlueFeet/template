@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <% if(data.length>0){ %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <% } %>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <% if(data.length>0){ %>
+            <% for(var i=0;i<data.length;i++) { %>
+            <% if(data[i].submenu.length===0){ %>
+            <li class="nav-item">
+                <a class="nav-link" href="<%= data[i].link %>"><span><%= data[i].title %> </span></a>
+            </li>
+            <% } %>
+            <% if(data[i].submenu.length>0){ %>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="<%= data[i].link || "javascript:void(0)" %>" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%= data[i].title %>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <% for(var j=0;j<data[i].submenu.length;j++) { %>
+                    <a class="dropdown-item" href="<%= data[i].submenu[j].link %>"> <%= data[i].submenu[j].title %> </a>
+                    <% } %>
+                </div>
+            </li>
+            <% } %>
+            <% } %>
+            <% } %>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>

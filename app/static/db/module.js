@@ -1,4 +1,4 @@
-import face from 'static/utils/interface';
+import api from 'static/apis';
 
 class module {
 
@@ -14,7 +14,7 @@ class module {
      * @param { String } remark
      * @returns { Promise }
      */
-    constructor(id, title, parentModuleId, link, order, key, remark) {
+    constructor(id, title, parentModuleId, parentModuleTitle, link, order, key, remark) {
         if (typeof id === 'object' && typeof id.length !== 'number') {
             let obj = id;
             Object.keys(obj).forEach(key => {
@@ -24,6 +24,7 @@ class module {
             this.id = id;
             this.title = title;
             this.parentModuleId = parentModuleId;
+            this.parentModuleTitle = parentModuleTitle;
             this.link = link;
             this.order = order;
             this.key = key;
@@ -47,19 +48,19 @@ class module {
     }
 
     list() {
-        return face.Module.queryModule(this);
+        return api.Module.queryModule(this);
     }
 
     create() {
-        return face.Module.createModule(this);
+        return api.Module.createModule(this);
     }
 
     edit() {
-        return face.Module.editModule(this);
+        return api.Module.editModule(this);
     }
 
     delete() {
-        return face.Module.deleteModule(this);
+        return api.Module.deleteModule(this);
     }
 }
 export default module;

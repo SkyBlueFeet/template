@@ -36,7 +36,8 @@ module.exports = {
             jQuery: 'jquery',
             'window.jQuery': 'jquery',
             'window.$': 'jquery',
-            vue$: 'vue/dist/vue.esm.js'
+            vue$: 'vue/dist/vue.esm.js',
+            // _: 'lodash'
         }),
         new VueLoaderPlugin(),
         // new webpack.ProgressPlugin(),

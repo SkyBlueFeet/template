@@ -1,0 +1,23 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "color";
+
+$theme-colors: ("primary": $color-theme-bright,
+    "secondary":#909399,
+    "danger": $color-danger,
+    "royal":#9852f9);
+$enable-rounded:false;
+
+$enable-caret: true;
+$enable-shadows: true;
+$enable-gradients: false;
+$enable-transitions: true;
+$enable-prefers-reduced-motion-media-query: true;
+$enable-grid-classes: true;
+$enable-pointer-cursor-for-buttons: true;
+$enable-print-styles: true;
+$enable-responsive-font-sizes: false;
+$enable-validation-icons: true;
+$enable-deprecation-messages: true;
+@import '~bootstrap/scss/bootstrap.scss';

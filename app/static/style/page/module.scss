@@ -1,0 +1,54 @@
+@charset 'UTF-8';
+
+@import '../common/public';
+
+
+.table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+// :checked图标变化
+label.checkblock {
+    position: relative;
+}
+
+.s-icon__checkbox {
+    font-size: 1.5rem;
+    color: #666666;
+}
+
+label.checkblock input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+label {
+    margin: 0;
+}
+
+label.checkblock .s-icon__checkbox::after {
+    content: '\e63e';
+}
+
+label.checkblock:hover .s-icon__checkbox::after {
+    color: #007bff;
+}
+
+label.checkblock input:checked+.s-icon__checkbox::after {
+    content: '\e63c';
+    color: #007bff;
+}
+
+.operator {
+    padding-bottom: 1rem;
+}
+
+.alert {
+    display: none;
+}

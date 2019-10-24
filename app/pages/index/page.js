@@ -1,3 +1,7 @@
-import layout from 'layout/layout.js';
 import content from './content.ejs';
-export default layout.initWithHeader({ title: "中科建业", content: content() });
+import layout from 'app/layout';
+import header from 'components/navbar.ejs';
+import auth from 'tpl/abandon/Auth/auth.json';
+
+
+export default layout.initblock('bootstrap', content());
