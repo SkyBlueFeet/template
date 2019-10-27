@@ -1,25 +1,27 @@
-<table class="table table-striped">
-    <thead>
-        <% if(data.config){ %>
-        <tr>
-            <% for(var i=0;i<data.config.length;i++){ %>
-            <td><%= data.config[i].value %></td>
+<div class="table-responsive">
+    <table class="table table-hover table-sm">
+        <thead>
+            <% if(data.config){ %>
+            <tr>
+                <% for(var i=0;i<data.config.length;i++){ %>
+                <td><%= data.config[i].value %></td>
+                <% } %>
+            </tr>
             <% } %>
-        </tr>
-        <% } %>
-    </thead>
-    <% if(data.rewrite){ %>
-        <tbody></tbody>
-    <% } else if(data.data) { %>
-    <tbody>
-        <% for (var index = 0; index < data.data.length; index++) { %>
-        <% var ele = data.data[index]; %>
-        <tr>
-            <% for(var i=0;i<ele.length;i++){ %>
-            <td><%= ele[i] || '' %></td>
+        </thead>
+        <% if(data.rewrite){ %>
+            <tbody></tbody>
+        <% } else if(data.data) { %>
+        <tbody>
+            <% for (var index = 0; index < data.data.length; index++) { %>
+            <% var ele = data.data[index]; %>
+            <tr>
+                <% for(var i=0;i<ele.length;i++){ %>
+                <td><%= ele[i] || '' %></td>
+                <% } %>
+            </tr>
             <% } %>
-        </tr>
+        </tbody>
         <% } %>
-    </tbody>
-    <% } %>
-</table>
+    </table>
+</div>

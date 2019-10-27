@@ -1,4 +1,4 @@
-import api from 'static/apis';
+import { moduleApi } from 'static/apis';
 
 class module {
 
@@ -48,19 +48,19 @@ class module {
     }
 
     list() {
-        return api.Module.queryModule(this);
+        return moduleApi.queryModule(this);
     }
 
     create() {
-        return api.Module.createModule(this);
+        return moduleApi.createModule(this);
     }
 
     edit() {
-        return api.Module.editModule(this);
+        return moduleApi.editModule(this);
     }
 
     delete() {
-        return api.Module.deleteModule(this);
+        return moduleApi.deleteModule(this);
     }
 }
 export default module;

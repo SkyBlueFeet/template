@@ -1,14 +1,20 @@
 import 'static/style/common/custom.scss';
 
 import 'static/style/common/layout.scss';
-import 'static/style/page/module.scss';
+import 'static/style/page/sidebarpage.scss';
 import 'bootstrap';
 import application from 'app/static/application';
-import modalEjs from './modal.ejs';
+import tModal from 'app/pages/tpl/modal.ejs';
 import { element } from 'app/static/db';
+import { elementFormConfig } from 'app/config';
+
+
+export const page = {
+    local: ''
+};
+
 
 function initSelectOption(data, activeId) {
-
     let selectOption = '';
     data.forEach(item => {
         if (item.id === activeId) {
@@ -19,6 +25,7 @@ function initSelectOption(data, activeId) {
     });
     return selectOption;
 }
+
 
 application.init();
 
@@ -42,13 +49,16 @@ $(() => {
 
     $('#getmodule-edit').click(() => {
         let tableQuery = {};
-        const moduleData = application.resource.element;
+        const moduleData = application.getRes('element').element;
         moduleData.forEach(ele => {
             tableQuery[ele.id] = ele;
         });
         let id = $('tbody input[type="checkbox"]:checked').prop('id');
-        let optionStr = initSelectOption(application.resource.module, tableQuery[id]['id']);
-        $('#modal').html(modalEjs({ title: '编辑', form: tableQuery[id], option: optionStr }));
+        const options = {
+            moduleId: initSelectOption(application.resource.module, tableQuery[id]['id'])
+        };
+
+        $('#modal').html(tModal({ title: '编辑', config: elementFormConfig(tableQuery[id], options) }));
     });
 
     $('#getmodule-add').click(() => {
@@ -58,8 +68,10 @@ $(() => {
             tableQuery[ele.id] = ele;
         });
         let id = $('tbody input[type="checkbox"]:checked').prop('id');
-        let optionStr = initSelectOption(application.resource.module);
-        $('#modal').html(modalEjs({ title: '新增', form: {}, option: optionStr }));
+        const options = {
+            moduleId: initSelectOption(application.resource.module, tableQuery[id]['id'])
+        };
+        $('#modal').html(tModal({ title: '新增', config: elementFormConfig({}, options) }));
     });
 
 
@@ -68,7 +80,7 @@ $(() => {
         newEle[$('#modal select').eq(0).prop('id')] = $('#modal select').eq(0).val();
         newEle['moduleTitle'] = $('#modal option:selected').eq(0).text();
         for (let index = 0; index < $('#modal input').length; index++) {
-            newEle[$('#modal input').eq(index).prop('id')] = $('#modal input').eq(index).val();
+            newEle[$('#modal input').eq(index).prop('id')] = $('#modal input').eq(index).val() || ' ';
         }
         console.log(newEle);
         if ($('#modal h5').text().trim() == '编辑') {

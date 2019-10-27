@@ -1,4 +1,4 @@
-import api from '../apis';
+import { elementApi } from '../apis';
 
 export default class element {
 
@@ -9,16 +9,19 @@ export default class element {
      * @param { String } elementName
      * @param { String } moduleId
      * @param { String } moduleTitle
+     * @param { String } containerId
+     * @param { String } order
      * @param { String } key
      * @param { String } remark
-     * @returns { Promise Object }
      */
-    constructor(id, elementName, moduleId, moduleTitle, elementId, key, remark) {
+    constructor(id, elementName, moduleId, moduleTitle, elementId, containerId, order, key, remark) {
         this.id = id;
         this.elementName = elementName;
         this.moduleId = moduleId;
         this.moduleTitle = moduleTitle;
         this.elementId = elementId;
+        this.containerId = containerId;
+        this.order = order;
         this.key = key;
         this.remark = remark;
     }
@@ -27,18 +30,18 @@ export default class element {
     }
 
     list() {
-        return api.Element.queryElement(this);
+        return elementApi.queryElement(this);
     }
 
     create() {
-        return api.Element.createElement(this);
+        return elementApi.createElement(this);
     }
 
     edit() {
-        return api.Element.editElement(this);
+        return elementApi.editElement(this);
     }
 
     delete() {
-        return api.Element.deleteElement(this);
+        return elementApi.deleteElement(this);
     }
 }

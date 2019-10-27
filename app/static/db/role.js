@@ -1,4 +1,4 @@
-import api from '../apis';
+import { roleApi } from '../apis';
 
 export default class roles {
 
@@ -9,31 +9,32 @@ export default class roles {
      * @param { String } roleName
      * @param { String } createDate
      * @param { String } createUserId
-     * @returns { Promise }
+     * @param { String } createUserName
      */
-    constructor(id, roleName, createDate, createUserId) {
+    constructor(id, roleName, createDate, createUserId, createUserName) {
         this.id = id;
         this.roleName = roleName;
         this.createDate = createDate;
         this.createUserId = createUserId;
+        this.createUserName = createUserName;
     }
     get property() {
         return this;
     }
 
     list() {
-        return api.Role.queryRole(this);
+        return roleApi.queryRole(this);
     }
 
     create() {
-        return api.Role.createRole(this);
+        return roleApi.createRole(this);
     }
 
     edit() {
-        return api.Role.editRole(this);
+        return roleApi.editRole(this);
     }
 
     delete() {
-        return api.Role.deleteRole(this);
+        return roleApi.deleteRole(this);
     }
 }

@@ -45,8 +45,6 @@ export default class application {
     static dev = true;
 
 
-
-
     /**
      * 是否初始化
      * @type {boolean}
@@ -180,10 +178,9 @@ export default class application {
         }
     })
 
-    static init() {
-        const isPreEnv = typeof cookie.get(keyword['head']) === 'string' && typeof cookie.get(keyword['body']) === 'string';
+    static init(page) {
+        const isPreEnv = typeof cookie.get(keyword['body']) === 'string';
         if (!isPreEnv) {
-            cookie.set(keyword['head'], str);
             cookie.set(keyword['body'], JSON.stringify(rsaKey));
         }
         Object.keys(this.resourceStatus).forEach(key => {
@@ -199,7 +196,6 @@ export default class application {
                 getData(key).then(res => {
                     this.resource[key] = res.data;
                 });
-
             }
         });
         // return new Promise((resolve, reject) => {

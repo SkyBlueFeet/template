@@ -9,7 +9,7 @@ import qs from 'qs'; // 序列化请求数据，视服务端的要求
 const axiosConfig = {
     method: 'post',
     // 基础url前缀
-    baseURL: 'http://localhost:59255/auth/',
+    baseURL: 'http://localhost:59255/',
     // 请求头信息
     headers: {
         'Content-Type': 'application/json;charset=UTF-8'

@@ -47,6 +47,12 @@ export const elementTableConfig = [
 }, {
     key: 'elementId',
     value: '元素ID'
+}, {
+    key: 'containerId',
+    value: '容器ID'
+}, {
+    key: 'order',
+    value: '序列'
 }];
 
 export const roleTableConfig = [
@@ -60,8 +66,8 @@ export const roleTableConfig = [
     key: 'createDate',
     value: '创建日期'
 }, {
-    key: 'createUserId',
-    value: '创建用户'
+    key: 'createUserName',
+    value: '创建者'
 }];
 export const authTableConfig = [
 {
@@ -103,8 +109,12 @@ export const userTableconfig = [
     value: '账号'
 },
 {
+    key: 'createUserName',
+    value: '创建者'
+},
+{
     key: 'createUserId',
-    value: '创建用户'
+    value: '创建者ID'
 },
 {
     key: 'createDate',

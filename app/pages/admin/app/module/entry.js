@@ -1,24 +1,22 @@
 import 'static/style/common/custom.scss';
 
 import 'static/style/common/layout.scss';
-import 'static/style/page/module.scss';
+import 'static/style/page/sidebarpage.scss';
 import 'bootstrap';
 import application from 'app/static/application';
-import modalEjs from './modal.ejs';
+
 import { module } from 'app/static/db';
+import tModal from 'app/pages/tpl/modal.ejs';
 
-function initSelectOption(data, activeId) {
+import { moduleFormConfig } from 'app/config';
 
-    let selectOption = '<option value="">root</option>';
+
+function initSelectOption(data) {
+
+    let selectOption = '<option value="root">root</option>';
     data.forEach(item => {
-        if (item.id === activeId) {
-            if (item.parentModuleId === null) {
-                selectOption += '<option selected value="">root</option>';
-            } else {
-                selectOption += `<option selected value="${item['parentModuleId']}">${item['parentModuleTitle']}</option>`;
-            }
-        } else {
-            selectOption += `<option value="${item['id']}">${item['title']}</option>`;
+        if (item.parentModuleId == 'root') {
+            selectOption += `<option value="${item.id}">${item.title}</option>`;
         }
     });
     return selectOption;
@@ -57,8 +55,11 @@ $(() => {
             tableQuery[ele.id] = ele;
         });
         let id = $('tbody input[type="checkbox"]:checked').prop('id');
-        let optionStr = initSelectOption(moduleData, tableQuery[id]['id']);
-        $('#modal').html(modalEjs({ title: '编辑', form: tableQuery[id], option: optionStr }));
+        const options = {
+            parentModuleId: initSelectOption(application.resource.module)
+        };
+        $('#modal').html(tModal({ title: '编辑', config: moduleFormConfig(tableQuery[id], options) }));
+        $('#parentModuleId').val(tableQuery[id]['parentModuleId']);
     });
 
     $('#getmodule-add').click(() => {
@@ -67,21 +68,19 @@ $(() => {
         moduleData.forEach(ele => {
             tableQuery[ele.id] = ele;
         });
-        let id = $('tbody input[type="checkbox"]:checked').prop('id');
-        let optionStr = initSelectOption(moduleData);
-        $('#modal').html(modalEjs({ title: '新增', form: {}, option: optionStr }));
+        const options = {
+            parentModuleId: initSelectOption(moduleData)
+        };
+        $('#modal').html(tModal({ title: '新增', config: moduleFormConfig({}, options) }));
     });
 
 
     $('#modal').on('click', '#modal-save', function() {
         const mde = new module();
-        mde[$('#modal select').eq(0).prop('id')] = $('#modal select').eq(0).val();
-        mde['parentModuleTitle'] = $('#modal option:selected').eq(0).text();
-        if (mde['parentModuleTitle'] == 'root') {
-            mde['parentModuleTitle'] = '';
-        }
+        mde[$('#modal select').eq(0).prop('id')] = $('#modal select').eq(0).val() || ' ';
+        mde['parentModuleTitle'] = $('#modal option:selected').eq(0).text() || ' ';
         for (let index = 0; index < $('#modal input').length; index++) {
-            mde[$('#modal input').eq(index).prop('id')] = $('#modal input').eq(index).val();
+            mde[$('#modal input').eq(index).prop('id')] = $('#modal input').eq(index).val() || ' ';
         }
 
         if ($('#modal h5').text().trim() == '编辑') {

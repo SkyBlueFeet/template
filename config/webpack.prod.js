@@ -4,6 +4,8 @@ const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const sizePlugin = require('size-plugin');
+const copyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
 
 const utils = require('./utils');
 const config = require('../config');
@@ -20,6 +22,10 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
         open: false
     },
     plugins: [
+        new copyWebpackPlugin([{
+            from: path.resolve(__dirname, '..', './assets'), //打包的静态资源目录地址
+            to: './assets' //打包到dist
+        }]),
         new webpack.HashedModuleIdsPlugin({
             hashFunction: 'sha256',
             hashDigest: 'hex',

@@ -4,6 +4,8 @@ const path = require('path');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
+
+
 const PagesConf = require('./pages.config');
 const Global = require('./global');
 const Conf = require('../config');
@@ -20,6 +22,7 @@ module.exports = {
     context: resolve('.'),
     entry: PagesConf.entries,
     output: {
+        // publicPath: '/', // 打包后资源文件的引用会基于此路径
         path: Conf.build.outputDir,
         filename: IS_PRODUCTION ? 'js/[name].[chunkhash].js' : 'js/[name].[hash].js'
         // publicPath: Global.IS_PRODUCTION
@@ -37,7 +40,7 @@ module.exports = {
             'window.jQuery': 'jquery',
             'window.$': 'jquery',
             vue$: 'vue/dist/vue.esm.js',
-            // _: 'lodash'
+            _: 'lodash'
         }),
         new VueLoaderPlugin(),
         // new webpack.ProgressPlugin(),

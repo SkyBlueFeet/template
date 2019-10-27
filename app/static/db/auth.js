@@ -1,4 +1,4 @@
-import api from '../apis';
+import { authApi } from '../apis';
 
 export default class auths {
 
@@ -30,18 +30,18 @@ export default class auths {
     }
 
     list() {
-        return api.Auth.queryAuth(this);
+        return authApi.queryAuth(this);
     }
 
     create() {
-        return api.Auth.createAuth(this);
+        return authApi.createAuth(this);
     }
 
     edit() {
-        return api.Auth.editAuth(this);
+        return authApi.editAuth(this);
     }
 
     delete() {
-        return api.Auth.deleteAuth(this);
+        return authApi.deleteAuth(this);
     }
 }

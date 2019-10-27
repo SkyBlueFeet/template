@@ -1,15 +1,14 @@
 import 'static/style/common/custom.scss';
 
 import 'static/style/common/layout.scss';
-import 'static/style/page/module.scss';
+import 'static/style/page/sidebarpage.scss';
 import 'bootstrap';
 import application from 'app/static/application';
-import modalEjs from './modal.ejs';
 import { auth } from 'app/static/db';
+import tModal from 'app/pages/tpl/modal.ejs';
+import { authFormConfig } from 'app/config';
 
 application.init();
-
-
 
 $(() => {
 
@@ -37,17 +36,18 @@ $(() => {
             tableQuery[ele.id] = ele;
         });
         let id = $('tbody input[type="checkbox"]:checked').prop('id');
-        $('#modal').html(modalEjs({ title: '编辑', form: tableQuery[id] }));
+        $('#modal').html(tModal({ title: '编辑', config: authFormConfig(tableQuery[id]) }));
     });
 
     $('#getmodule-add').click(() => {
         let tableQuery = {};
-        const moduleData = application.getRes('auth');
+        const moduleData = application.getRes('auth').auth;
+        console.log(moduleData);
         moduleData.forEach(ele => {
             tableQuery[ele.id] = ele;
         });
         let id = $('tbody input[type="checkbox"]:checked').prop('id');
-        $('#modal').html(modalEjs({ title: '新增', form: {} }));
+        $('#modal').html(tModal({ title: '新增', config: authFormConfig() }));
     });
 
 

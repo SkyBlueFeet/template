@@ -1,4 +1,4 @@
-import api from '../apis';
+import { userApi } from '../apis';
 
 export default class users {
     /**
@@ -10,33 +10,42 @@ export default class users {
      * @param { String } password
      * @param { String } createUserId
      * @param { String } createDate
-     * @returns { Promise Object }
+     * @param { String } createUserName
      */
-    constructor(id, userName, account, password, createUserId, createDate) {
+    constructor(id, userName, account, password, createUserId, createDate, createUserName) {
         this.id = id;
         this.userName = userName;
         this.account = account;
         this.password = password;
         this.createUserId = createUserId;
         this.createDate = createDate;
+        this.createUserName = createUserName;
     }
     get property() {
         return this;
     }
 
     list() {
-        return api.User.queryUser(this);
+        return userApi.queryUser(this);
     }
 
     create() {
-        return api.User.createUser(this);
+        return userApi.createUser(this);
     }
 
     edit() {
-        return api.User.editUser(this);
+        return userApi.editUser(this);
     }
 
     delete() {
-        return api.User.deleteUser(this);
+        return userApi.deleteUser(this);
+    }
+
+    login() {
+        return userApi.login(this);
+    }
+
+    token() {
+        return userApi.token(this);
     }
 }

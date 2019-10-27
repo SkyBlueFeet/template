@@ -1,6 +1,6 @@
-import JSEncrypt from 'jsencrypt';
+// import JSEncrypt from 'jsencrypt';
 import CryptoJS from 'crypto-js';
-import { keyArr, keyword, code as str, rsaKey } from './variable';
+import { keyArr, keyword, code as str, rsaKey, TemporaryKey } from './variable';
 import cookie from 'js-cookie';
 // import _ from 'lodash';
 import { randomString } from './utils';
@@ -42,15 +42,15 @@ export default class local {
 
 
     /**
-     * 非对称加密
+     * 非对称加密[已废弃]
      * @param { String } value
      */
-    static asymmetricEncrypt(value) {
-        let crypt = new JSEncrypt();
-        crypt.setPublicKey(this.publicKey);
-        let encrypted = crypt.encrypt(value);
-        return encrypted;
-    }
+    // static asymmetricEncrypt(value) {
+    //     let crypt = new JSEncrypt();
+    //     crypt.setPublicKey(this.publicKey);
+    //     let encrypted = crypt.encrypt(value);
+    //     return encrypted;
+    // }
 
     /**
      * 对称加密
@@ -62,31 +62,30 @@ export default class local {
     }
 
     /**
-     * 非对称解密
+     * 非对称解密[已废弃]
      * @param { String } code
      */
-    static asymmetricDecrypt(code) {
-        let body = cookie.getJSON(keyword['body']),
-            crypt = new JSEncrypt(),
-            bytes = CryptoJS.AES.decrypt(cookie.get(keyword['head']), body[0].toString()),
-            parseStr = bytes.toString(CryptoJS.enc.Utf8),
-            // arr = _.cloneDeep(keyArr);
-            arr = [...keyArr];
+    // static asymmetricDecrypt(code) {
+    //     let body = cookie.getJSON(keyword['body']),
+    //         crypt = new JSEncrypt(),
+    //         bytes = CryptoJS.AES.decrypt(cookie.get(keyword['head']), body[0].toString()),
+    //         parseStr = bytes.toString(CryptoJS.enc.Utf8),
 
-        [arr[arr.length - 2], arr[arr.length - 1]] = [arr[arr.length - 1], arr[arr.length - 2]];
+    //         arr = [...keyArr];
 
-        // let complete = _.join(arr, '/'),
-        let complete = arr.join('/'),
-            privatekeys = CryptoJS.AES.decrypt(parseStr + complete, body[1].toString());
+    //     [arr[arr.length - 2], arr[arr.length - 1]] = [arr[arr.length - 1], arr[arr.length - 2]];
 
-        crypt.setPrivateKey(privatekeys.toString(CryptoJS.enc.Utf8));
+    //     // let complete = _.join(arr, '/'),
+    //     let complete = arr.join('/'),
+    //         privatekeys = CryptoJS.AES.decrypt(parseStr + complete, body[1].toString());
 
-        let uncrypted = crypt.decrypt(code);
+    //     crypt.setPrivateKey(privatekeys.toString(CryptoJS.enc.Utf8));
 
-        if (!uncrypted) throw new Error('解密失败');
-        console.log(uncrypted);
-        return uncrypted;
-    }
+    //     let uncrypted = crypt.decrypt(code);
+
+    //     if (!uncrypted) throw new Error('解密失败');
+    //     return uncrypted;
+    // }
 
     /**
      * 对称解密
@@ -107,7 +106,8 @@ export default class local {
     static setItem(key, value, msg) {
         value = JSON.stringify(value);
         if (null === msg) {
-            window.sessionStorage.setItem(CryptoJS.MD5(key), this.asymmetricEncrypt(value));
+            // window.sessionStorage.setItem(CryptoJS.MD5(key), this.asymmetricEncrypt(value));
+            window.sessionStorage.setItem(CryptoJS.MD5(key), this.symmetricEncrypt(value, TemporaryKey));
         } else {
             window.sessionStorage.setItem(CryptoJS.MD5(key), this.symmetricEncrypt(value, msg));
         }
@@ -123,7 +123,8 @@ export default class local {
         let value = '';
         if (encodeValue !== null) {
             if (null === msg) {
-                value = this.asymmetricDecrypt(window.sessionStorage.getItem(key));
+                // value = this.asymmetricDecrypt(window.sessionStorage.getItem(key));
+                value = this.symmetricDecrypt(window.sessionStorage.getItem(key), TemporaryKey);
             } else {
                 value = this.symmetricDecrypt(window.sessionStorage.getItem(key), msg);
             }
@@ -133,25 +134,6 @@ export default class local {
             throw new Error('没有该键值!');
         }
     }
-
-    /**
-     * 设置和获取序列
-     * @returns { Object }
-     */
-    static staticOrder = (() => {
-        let orderKey = keyword['order'];
-        const getOrder = () => {
-            let value = cookie.get(orderKey);
-            return value === null ? false : value;
-        };
-        const setOrder = order => {
-            cookie.set(orderKey, this.asymmetricEncrypt(order));
-        };
-        return {
-            getOrder,
-            setOrder
-        };
-    })
 
     /**
      * 返回加密秘钥

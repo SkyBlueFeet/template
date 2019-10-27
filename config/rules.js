@@ -35,7 +35,9 @@ exports.loader = [
 },
 {
     test: /\.ejs$/,
-    use: ['ejs-loader?variable=data']
+    use: [{
+        loader: 'ejs-loader?variable=data'
+    }]
 },
 {
     // 供iconfont方案使用，后面会带一串时间戳，需要特别匹配到
@@ -51,10 +53,35 @@ exports.loader = [
     test: /\.(gif|png|jpe?g|svg)$/i,
     use: [
     {
+        loader: 'image-webpack-loader',
+        options: {
+            mozjpeg: {
+                progressive: true,
+                quality: 65
+            },
+            // optipng.enabled: false will disable optipng
+            optipng: {
+                enabled: true
+            },
+            pngquant: {
+                quality: [0.65, 0.9],
+                speed: 4
+            },
+            gifsicle: {
+                interlaced: false
+            },
+            // the webp option will enable WEBP
+            webp: {
+                quality: 75
+            }
+        }
+    }, {
         loader: 'url-loader',
         options: {
-            limit: 10000,
-            name: 'img/[name].[hash:6].[ext]'
+            limit: 8000, // size <= 15KB, 改成15257(<14.9KB)试试?
+            name: 'images/[name].[ext]', // 设置文件名(>limit的情况)
+            publicPath: '/assets/', // 设置资源文件的引用根路径
+            outputPath: '/assets/' // publicPath/outputPath/[name].[ext]
         }
     },
     {
@@ -81,6 +108,38 @@ exports.loader = [
             }
         }
     }]
+    // use: [
+    // {
+    //     loader: 'url-loader',
+    //     options: {
+    //         limit: 10000,
+    //         name: 'img/[name].[hash:6].[ext]'
+    //     }
+    // },
+    // {
+    //     loader: 'image-webpack-loader',
+    //     options: {
+    //         mozjpeg: {
+    //             progressive: true,
+    //             quality: 65
+    //         },
+    //         // optipng.enabled: false will disable optipng
+    //         optipng: {
+    //             enabled: true
+    //         },
+    //         pngquant: {
+    //             quality: [0.65, 0.9],
+    //             speed: 4
+    //         },
+    //         gifsicle: {
+    //             interlaced: false
+    //         },
+    //         // the webp option will enable WEBP
+    //         webp: {
+    //             quality: 75
+    //         }
+    //     }
+    // }]
 },
 {
     test: /\.md$/,

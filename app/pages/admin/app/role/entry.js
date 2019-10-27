@@ -1,24 +1,14 @@
 import 'static/style/common/custom.scss';
 
 import 'static/style/common/layout.scss';
-import 'static/style/page/module.scss';
+import 'static/style/page/sidebarpage.scss';
 import 'bootstrap';
 import application from 'app/static/application';
-import modalEjs from './modal.ejs';
+
 import { role } from 'app/static/db';
+import tModal from 'app/pages/tpl/modal.ejs';
+import { roleFormConfig } from 'app/config';
 
-function initSelectOption(data, activeId) {
-
-    let selectOption = '';
-    data.forEach(item => {
-        if (item.id === activeId) {
-            selectOption += `<option selected value="${item['id']}">${item['title']}</option>`;
-        } else {
-            selectOption += `<option value="${item['id']}">${item['title']}</option>`;
-        }
-    });
-    return selectOption;
-}
 
 application.init();
 
@@ -47,7 +37,8 @@ $(() => {
             tableQuery[ele.id] = ele;
         });
         let id = $('tbody input[type="checkbox"]:checked').prop('id');
-        $('#modal').html(modalEjs({ title: '编辑', form: tableQuery[id] }));
+        // $('#modal').html(modalEjs({ title: '编辑', form: tableQuery[id] }));
+        $('#modal').html(tModal({ title: '编辑', config: roleFormConfig(tableQuery[id]) }));
     });
 
     $('#getmodule-add').click(() => {
@@ -56,7 +47,7 @@ $(() => {
         moduleData.forEach(ele => {
             tableQuery[ele.id] = ele;
         });
-        $('#modal').html(modalEjs({ title: '新增', form: {} }));
+        $('#modal').html(tModal({ title: '新增', config: roleFormConfig() }));
     });
 
 

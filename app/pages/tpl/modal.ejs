@@ -1,0 +1,53 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <% if(data) { %>
+                    <%= data.title %>
+                    <% } %>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <% if(data && data.config) { %>
+                <% if(data.config.input.length>0){ %>
+                <% _.forEach(data.config.input,function(input){ %>
+                <% if(input.type=='hidden'){ %>
+                <input type="<%= input.type %>" id="<%= input.id %>" <%= input.readonly? 'readonly':'' %> value="<%= input.value %>" class="form-control" aria-label="Default" aria-describedby="<%= "label"+input.id %>">
+                <% }else{ %>
+                <div class="form-group row">
+                    <label for="<%= input.id %>" class="col-sm-3 col-form-label"><%= input.label  %></label>
+                    <div class="col-sm-9">
+                        <input id="<%= input.id %>" <%= input.readonly? 'readonly':'' %> type="<%= input.type %>" value="<%= input.value %>" class="<%= input.readonly? 'form-control-plaintext':'form-control' %>">
+                    </div>
+                </div>
+                <% } %>
+                <% }) %>
+                <% } %>
+                <% if(data.config.select.length>0){ %>
+                <% _.forEach(data.config.select,function(select){ %>
+                <div class="form-group row">
+                    <label for="<%= select.id  %>" class="col-sm-3 col-form-label"><%= select.label  %></label>
+                    <div class="col-sm-9">
+                        <select id="<%= select.id  %>" class="form-control">
+                            <%= select.option %>
+                        </select>
+                    </div>
+                </div>
+                <% }) %>
+                <% } %>
+                <% } %>
+                <div class="alert alert-success show fade" role="alert">
+                    修改成功
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="modal-save" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

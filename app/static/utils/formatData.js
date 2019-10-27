@@ -10,7 +10,7 @@ export const packageModuleData = data => {
         return data;
     }
     data.forEach((nav, index, data) => {
-        if (nav['parentModuleId'] === null) {
+        if (nav['parentModuleId'] == 'root') {
             let a = {};
             Object.keys(nav).forEach(key => {
                 a[key] = nav[key];

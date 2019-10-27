@@ -4,6 +4,7 @@ import module from '../db/module';
 import tableEjs from 'components/table.ejs';
 import { table } from 'app/config';
 import { formatRes, packageModuleData } from './formatData';
+import sideBar from 'components/sidebar.ejs';
 
 
 const handleModuleData = (config, ele) => {
@@ -49,7 +50,8 @@ export function moduleUpdata(data) {
 
 
     $(() => {
-        $('.header').html(header(packageModuleData(data)));
+        if ($('.header').length > 0) $('.header').html(header(packageModuleData(data)));
+        if ($('#sidebar').length > 0) $('#sidebar').html(sideBar(packageModuleData(data)));
         if ($('#table-feild').attr('data-private') == 'modulePage') initTable(data, table.moduleTableConfig);
     });
 

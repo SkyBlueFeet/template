@@ -3,6 +3,10 @@ import footer from 'components/footer.ejs';
 import ico from 'tpl/favicon.png';
 import _withHeader from './tpl/withHeader.ejs';
 import breadcrumb from 'components/breadcrumb.ejs';
+import _withsideBar from './tpl/whithSideBar.ejs';
+import nav from 'components/nav.ejs';
+import auth from 'tpl/abandon/Auth/auth.json';
+import sideBar from 'components/sidebar.ejs';
 
 
 
@@ -22,18 +26,40 @@ const initblock = (title, content) => {
 
 /**
  *
- * @param { Object } Object
+ * @param { Object } option
  */
-const initWithHeader = (Object) => {
-    return _withHeader({
-        ico: Object['ico'] || ico,
-        title: Object['title'],
-        // header: Object['header'],
+const initWithHeader = (option) => {
+    const defaultOption = {
+        ico: ico,
+        title: '中科建业',
         bread: breadcrumb(),
-        content: Object['content'],
-        footer: footer()
+        footer: footer(),
+        content: '请填充内容区!',
+    };
+    return _withHeader({
+        ...defaultOption,
+        ...option
+    });
+};
+
+/**
+ *
+ * @param { Object } option
+ */
+const initWithSideBar = (option) => {
+    const defaultOption = {
+        ico: ico,
+        title: '中科建业',
+        bread: breadcrumb(),
+        footer: footer(),
+        content: '请填充内容区!',
+
+    };
+    return _withsideBar({
+        ...defaultOption,
+        ...option
     });
 };
 
 
-export default { initblock, initWithHeader };
+export default { initblock, initWithHeader, initWithSideBar };

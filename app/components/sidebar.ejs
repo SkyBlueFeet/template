@@ -1,0 +1,27 @@
+<div class="list-group">
+    <% if(data) { %>
+    <% _.forEach(data,function(menu){ %>
+    <% if(menu.submenu.length===0){ %>
+    <a class="list-group-item list-group-item-action nav-default-bg" data-toggle="collapse" href="#<%= "_title"+menu.id %>" role="button" aria-expanded="false" aria-controls="collapseFunc">
+        <%= menu.title %>
+    </a>
+    <% } else { %>
+    <a class="list-group-item list-group-item-action nav-default-bg" data-toggle="collapse" href="#<%= "_title"+menu.id %>" role="button" aria-expanded="false" aria-controls="collapseFunc">
+        <%= menu.title %>
+    </a>
+    <div class="collapse" id="<%= "_title"+menu.id %>">
+        <ul class="nav flex-column mb-2">
+            <% _.forEach(menu.submenu,function(sub){ %>
+            <li class="nav-item">
+                <a class="nav-link" href="<%= sub.link || 'javascript:void(0)' %>">
+                    <span data-feather="file-text"></span>
+                    <%= sub.title %>
+                </a>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+    <% } %>
+    <% }) %>
+    <% } %>
+</div>

@@ -20,4 +20,6 @@ export const keyword = (() => {
     return o;
 })();
 
+export const TemporaryKey = 'T4YuHJfKEAx';
+
 export const rsaKey = [760123, 618599487];

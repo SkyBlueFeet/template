@@ -7,7 +7,8 @@ $theme-colors: ("primary": $color-theme-bright,
     "secondary":#909399,
     "danger": $color-danger,
     "royal":#9852f9);
-$enable-rounded:false;
+
+$enable-rounded:false; //是否开启圆角
 
 $enable-caret: true;
 $enable-shadows: true;
@@ -20,4 +21,24 @@ $enable-print-styles: true;
 $enable-responsive-font-sizes: false;
 $enable-validation-icons: true;
 $enable-deprecation-messages: true;
+
+
+//Table
+$table-hover-bg:rgba(245, 247, 250, 1);
+
+
+
+//列表组 list-group
+//normal
+// $list-group-bg: rgb(84, 92, 100);
+// $list-group-color: #fff;
+
+//hover
+// $list-group-hover-bg:rgba(#999, 0.5);
+// $list-group-action-hover-color:#fff;
+
+//active
+// $list-group-action-active-color:#fff;
+// $list-group-action-active-bg:rgb(100, 92, 100);
+
 @import '~bootstrap/scss/bootstrap.scss';
