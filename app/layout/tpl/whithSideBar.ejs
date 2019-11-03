@@ -10,32 +10,44 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title><%= data.title %></title>
-    <link rel="shortcut icon" type="image/x-icon" href="<%= data.ico %>" />
+    <link rel="shortcut icon" type="image/x-icon" href="<%= require('tpl/assets/favicon.png') %>" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="">
 </head>
 
 <body>
-    <div id="modal">
-
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <%= data.modal %>
+                    <div class="alert alert-success show fade" role="alert">
+                        修改成功
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="modal-save" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div id="nav">
         <%= data.nav %>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div id="sidebar" class="sidebar-sticky">
-                    <% if(data && data.sidebar){ %>
-                    <%= data.sidebar %>
-                    <% } %>
-                </div>
-            </nav>
+    <div class="container-fluid ">
+        <div class="row ">
+            <div id="sidebar"><%= data.sidebar %></div>
 
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <%= data.content %>
-            </main>
+            <div id="main"><%= data.content %></div>
         </div>
     </div>
 </body>

@@ -104,6 +104,9 @@ const option = dir => {
     };
 };
 
+//bootstrap入口
+// entries['bootstrap'] = resolve('app/static/script/entry/bootstrap.js');
+
 /**
  * 根据pages目录下的page.js自动生成HTML，每个page.js目录必须有entry.js，否则会编译失败
  */
@@ -132,7 +135,7 @@ const option = dir => {
             CreatePage({
                 filename: entryName === config.index ? 'index.html' : `${entryName}/index.html`,
                 template: resolve(template, '../app/pages'),
-                chunks: [entryName, 'commons', 'vendor']
+                chunks: [entryName, 'commons', 'vendor', 'bootstrap']
             })
         );
         entries[entryName] = entryPath;
@@ -148,6 +151,7 @@ const option = dir => {
         });
     });
 })();
+
 
 
 func.WriteFile(

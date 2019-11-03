@@ -2,15 +2,14 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const copyWebpackPlugin = require('copy-webpack-plugin');
 
-
-
-const PagesConf = require('./pages.config');
-const Global = require('./global');
-const Conf = require('../config');
-const utils = require('./utils');
-const rules = require('./rules');
+const PagesConf = require('./pages.config'),
+    Global = require('./global'),
+    Conf = require('../config'),
+    utils = require('./utils'),
+    rules = require('./rules');
 
 const resolve = dir => path.resolve(__dirname, '..', dir);
 
@@ -19,10 +18,10 @@ const IS_PRODUCTION = Global.IS_PRODUCTION;
 // console.log(`当前环境${IS_PRODUCTION ? 'production' : 'development'}`);
 
 module.exports = {
-    context: resolve('.'),
+    context: resolve('dist'),
     entry: PagesConf.entries,
     output: {
-        // publicPath: '/', // 打包后资源文件的引用会基于此路径
+        publicPath: '/', // 打包后资源文件的引用会基于此路径
         path: Conf.build.outputDir,
         filename: IS_PRODUCTION ? 'js/[name].[chunkhash].js' : 'js/[name].[hash].js'
         // publicPath: Global.IS_PRODUCTION
@@ -30,8 +29,9 @@ module.exports = {
         //   : Conf.dev.assetsPublicPath
     },
     resolve: {
-        extensions: ['.js', '.vue', '.json'],
-        alias: Global.alias
+        extensions: ['.js', '.json'],
+        alias: Global.alias,
+        mainFields: ['jsnext:main', 'browser', 'main']
     },
     plugins: [
         new webpack.ProvidePlugin({
@@ -39,15 +39,20 @@ module.exports = {
             jQuery: 'jquery',
             'window.jQuery': 'jquery',
             'window.$': 'jquery',
-            vue$: 'vue/dist/vue.esm.js',
-            _: 'lodash'
+            _: 'lodash/core.min.js',
+            ejs: 'ejs'
+            // 'window._': 'lodash'
         }),
-        new VueLoaderPlugin(),
         // new webpack.ProgressPlugin(),
         ...PagesConf.pages,
         ...rules.happyPackPlugin,
+        new CleanWebpackPlugin(),
+        new copyWebpackPlugin([{
+            from: path.resolve(__dirname, '..', './assets'), //打包的静态资源目录地址
+            to: './assets' //打包到dist
+        }]),
         new webpack.DefinePlugin({
-            app: JSON.stringify({})
+            // prefixPath: JSON.stringify(router.prefixPath)
         }),
     ],
     module: {

@@ -1,0 +1,20 @@
+<% data.forEach(menu=>{ %>
+<li class="nav-item">
+    <a class="nav-link" data-toggle="collapse" href="#<%= "title"+menu.id %>" role="button" aria-expanded="<%= menu.active %>" aria-controls="<%= "title"+menu.id %>">
+        <%= menu.title %>
+    </a>
+
+    <div class="collapse <%= !menu.active? '': 'show' %>" id="<%= "title"+menu.id %>">
+        <ul>
+            <% menu.submenu.forEach(sub=> { %>
+            <li class="nav-item" style="list-style: none;">
+                <a class="nav-link <%= !sub.active? '': 'active' %>" href="<%= require('app/config/router').prefixPath+sub.link %>" role="button" aria-expanded="false">
+                    <span><%= sub.title %></span>
+                </a>
+            </li>
+            <% }) %>
+        </ul>
+
+    </div>
+</li>
+<% }) %>

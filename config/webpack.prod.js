@@ -2,10 +2,11 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const sizePlugin = require('size-plugin');
-const copyWebpackPlugin = require('copy-webpack-plugin');
+
+
+const PurifyCSSPlugin = require('@wafflepie/purify-css-webpack');
 const path = require('path');
+const glob = require('glob');
 
 const utils = require('./utils');
 const config = require('../config');
@@ -13,6 +14,18 @@ const env = require('./global');
 
 env.IS_PRODUCTION = true;
 
+const pageDir = path.resolve(__dirname, '..', 'app');
+
+const ejsPath = () => {
+    const paths = glob.sync('**/*.ejs', {
+        cwd: pageDir, // 搜寻目录
+        sync: true // 同步操作
+    });
+    paths.forEach((key, index, arr) => {
+        arr[index] = path.resolve(__dirname, '../app/' + key);
+    });
+    return paths;
+};
 
 const ProdWebpackConf = merge(require('./webpack.config'), {
     mode: 'production',
@@ -22,10 +35,6 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
         open: false
     },
     plugins: [
-        new copyWebpackPlugin([{
-            from: path.resolve(__dirname, '..', './assets'), //打包的静态资源目录地址
-            to: './assets' //打包到dist
-        }]),
         new webpack.HashedModuleIdsPlugin({
             hashFunction: 'sha256',
             hashDigest: 'hex',
@@ -34,14 +43,19 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
         new webpack.DefinePlugin({
             IS_PRODUCTION: JSON.stringify(true)
         }),
-        new sizePlugin(),
-        new CleanWebpackPlugin(),
+
+
         new MiniCssExtractPlugin({
-            filename: 'css/[name].[hash].css',
-            chunkFilename: 'css/[name].[hash].css',
+            filename: 'css/[name].css',
+            chunkFilename: 'css/[name].css',
             ignoreOrder: false // Enable to remove warnings about conflicting order
-        })
+        }),
+        new PurifyCSSPlugin({
+            paths: ejsPath()
+        }),
+        new webpack.optimize.ModuleConcatenationPlugin()
     ],
+
     optimization: {
         splitChunks: {
             chunks: 'all', //同时分割同步和异步代码,推荐。
@@ -61,7 +75,7 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
                     name: 'vendor',
                     test: /[\\/]node_modules[\\/]/, //匹配node模块中匹配的的模块
                     priority: 10, //设置匹配优先级，数字越大，优先级越高
-                    chunks: 'initial'
+                    chunks: 'all'
                 }
             },
             minChunks: 2,
@@ -87,6 +101,9 @@ if (config.build.productionGzip) {
         })
     );
 }
+// glob.sync(path.join(__dirname, 'app/*.html')),
+
+
 
 if (config.build.buildAnalyzerReport) {
     const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')

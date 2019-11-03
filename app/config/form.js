@@ -79,6 +79,12 @@ export function elementFormConfig(params = {}, selectOptions = {}) {
             type: 'text',
             readonly: false
         }, {
+            id: 'template',
+            label: '模板',
+            value: params.template,
+            type: 'text',
+            readonly: false
+        }, {
             id: 'order',
             label: '序列',
             value: params.order,
@@ -169,7 +175,7 @@ export function roleFormConfig(params = {}, selectOptions = {}) {
         }, {
             id: 'createDate',
             label: '创建日期',
-            value: params.createDate,
+            value: params.createDate || '当前时间',
             type: 'text',
             readonly: true
         }, {
@@ -177,6 +183,11 @@ export function roleFormConfig(params = {}, selectOptions = {}) {
             label: '创建者',
             value: params.createUserName,
             type: 'text',
+            readonly: false
+        }, {
+            id: 'createUserId',
+            value: params.createUserId,
+            type: 'hidden',
             readonly: false
         }],
         select: []
@@ -211,9 +222,9 @@ export function userFormConfig(params = {}, selectOptions = {}) {
         }, {
             id: 'createUserId',
             label: '创建者ID',
-            value: params.createUserId || '当前时间',
+            value: params.createUserId,
             type: 'text',
-            readonly: true
+            readonly: false
         }, {
             id: 'createDate',
             label: '创建日期',

@@ -1,0 +1,25 @@
+@media (min-width:768px) {
+    .navbar.navbar-vertical.fixed-left.navbar-expand-md.navbar-light.bg-white {
+        overflow-y: hidden;
+    }
+
+    .navbar.navbar-vertical.fixed-left.navbar-expand-md.navbar-light.bg-white:hover {
+        overflow-y: auto;
+    }
+
+    .admin--sidebar__container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .admin--sidebar__entirety {
+        position: absolute;
+        top: 0rem;
+        z-index: -100;
+        max-width: calc(250px - 3rem);
+    }
+
+    .admin--sidebar__entirety>.admin--sidebar__logo {
+        margin-top: 1rem;
+    }
+}

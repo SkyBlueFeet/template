@@ -1,12 +1,10 @@
-import _black from './tpl/blank.ejs';
-import footer from 'components/footer.ejs';
-import ico from 'tpl/favicon.png';
-import _withHeader from './tpl/withHeader.ejs';
-import breadcrumb from 'components/breadcrumb.ejs';
-import _withsideBar from './tpl/whithSideBar.ejs';
-import nav from 'components/nav.ejs';
-import auth from 'tpl/abandon/Auth/auth.json';
-import sideBar from 'components/sidebar.ejs';
+import _black from 'layout/tpl/blank.ejs';
+import footer from 'layout/components/_footer.ejs';
+import _withHeader from 'layout/tpl/withHeader.ejs';
+import _withsideBar from 'layout/tpl/whithSideBar.ejs';
+import _argon from 'layout/tpl/argon.ejs';
+import nav from 'layout/components/_nav.ejs';
+import _modal from 'layout/components/_modal.ejs';
 
 
 
@@ -20,7 +18,6 @@ const initblock = (title, content) => {
     return _black({
         title: title,
         content: content,
-        ico: ico
     });
 };
 
@@ -28,38 +25,19 @@ const initblock = (title, content) => {
  *
  * @param { Object } option
  */
-const initWithHeader = (option) => {
+const initArgon = option => {
     const defaultOption = {
-        ico: ico,
         title: '中科建业',
-        bread: breadcrumb(),
-        footer: footer(),
         content: '请填充内容区!',
+        table: '',
+        nav: nav()
     };
-    return _withHeader({
+    return _argon({
         ...defaultOption,
-        ...option
-    });
-};
-
-/**
- *
- * @param { Object } option
- */
-const initWithSideBar = (option) => {
-    const defaultOption = {
-        ico: ico,
-        title: '中科建业',
-        bread: breadcrumb(),
-        footer: footer(),
-        content: '请填充内容区!',
-
-    };
-    return _withsideBar({
-        ...defaultOption,
-        ...option
+        ...option,
+        modal: _modal(option.modal),
     });
 };
 
 
-export default { initblock, initWithHeader, initWithSideBar };
+export default { initblock, initArgon };

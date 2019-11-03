@@ -1,0 +1,30 @@
+<% if(data && data.config) { %>
+<% if(data.config.input.length>0){ %>
+<% for (var index = 0; index < data.config.input.length; index++) { %>
+<% var input = data.config.input[index]; %>
+<% if(input.type=='hidden'){ %>
+<input type="<%= input.type %>" id="<%= input.id %>" <%= input.readonly? 'readonly':'' %> value="<%= input.value %>" class="form-control" aria-label="Default" aria-describedby="<%= "label"+input.id %>">
+<% }else{ %>
+<div class="form-group row">
+    <label for="<%= input.id %>" class="col-sm-3 col-form-label"><%= input.label  %></label>
+    <div class="col-sm-9">
+        <input id="<%= input.id %>" <%= input.readonly? 'readonly':'' %> type="<%= input.type %>" value="<%= input.value %>" class="<%= input.readonly? 'form-control-plaintext':'form-control' %>">
+    </div>
+</div>
+<% } %>
+<% } %>
+<% } %>
+<% if(data.config.select.length>0){ %>
+<% for (var index = 0; index < data.config.select.length; index++) { %>
+<% var select = data.config.select[index]; %>
+<div class="form-group row">
+    <label for="<%= select.id  %>" class="col-sm-3 col-form-label"><%= select.label  %></label>
+    <div class="col-sm-9">
+        <select id="<%= select.id  %>" class="form-control">
+            <%= select.option %>
+        </select>
+    </div>
+</div>
+<% } %>
+<% } %>
+<% } %>

@@ -13,8 +13,9 @@ export default class element {
      * @param { String } order
      * @param { String } key
      * @param { String } remark
+     * @param { String } template
      */
-    constructor(id, elementName, moduleId, moduleTitle, elementId, containerId, order, key, remark) {
+    constructor(id, elementName, moduleId, moduleTitle, elementId, containerId, order, key, remark, template) {
         this.id = id;
         this.elementName = elementName;
         this.moduleId = moduleId;
@@ -24,6 +25,7 @@ export default class element {
         this.order = order;
         this.key = key;
         this.remark = remark;
+        this.template = template;
     }
     get property() {
         return this;

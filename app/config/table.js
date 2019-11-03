@@ -44,7 +44,9 @@ export const elementTableConfig = [
 }, {
     key: 'remark',
     value: '备注'
-}, {
+}];
+/**
+ * , {
     key: 'elementId',
     value: '元素ID'
 }, {
@@ -53,7 +55,9 @@ export const elementTableConfig = [
 }, {
     key: 'order',
     value: '序列'
-}];
+}
+ */
+
 
 export const roleTableConfig = [
 {

@@ -48,6 +48,20 @@
       "unicode_decimal": 58999
     },
     {
+      "icon_id": "4572509",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "4770758",
+      "name": "左箭头",
+      "font_class": "zuojiantou",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
       "icon_id": "6076864",
       "name": "斜体",
       "font_class": "Italic",

@@ -1,0 +1,37 @@
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 30%, 0);
+        visibility: hidden;
+    }
+
+    50% {
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+    }
+}
+
+@media (min-width: 768px) {
+    .animated {
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        visibility: hidden;
+
+    }
+}
+
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+
+
+.fadeInUp {
+    animation-name: fadeInUp;
+}
