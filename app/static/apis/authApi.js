@@ -33,5 +33,13 @@ export default {
             method: 'post',
             data
         });
+    },
+
+    assignAuth: data => {
+        return axios({
+            url: '/auth/assignAuth',
+            method: 'post',
+            data
+        });
     }
 };

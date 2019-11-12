@@ -1,4 +1,4 @@
-$(function(event) {
+export const CheckControl = (function(params) {
     $('#checkall').click(() => {
         if ($('#checkall').prop('checked')) {
             $('tbody input[type="checkbox"]').prop('checked', true);
@@ -11,9 +11,35 @@ $(function(event) {
         const check = $('tbody input[type="checkbox"]:checked');
         console.log(check.length);
         if (check.length === 1) {
-            $('#getmodule-edit').prop('disabled', false);
+            $('#getmodal-Edit').prop('disabled', false);
+            $('#getmodal-Assign-Resource').prop('disabled', false);
         } else {
-            $('#getmodule-edit').prop('disabled', true);
+            $('#getmodal-Edit').prop('disabled', true);
+            $('#getmodal-Assign-Resource').prop('disabled', true);
         }
     });
-});
+})();
+
+export const FormControl = (function() {
+
+    // Variables
+
+    var $input = $('.form-control');
+
+
+    // Methods
+
+    function init($this) {
+        $this.on('focus blur', function(e) {
+            $(this).parents('.form-group').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
+        }).trigger('blur');
+    }
+
+
+    // Events
+
+    if ($input.length) {
+        init($input);
+    }
+
+})();

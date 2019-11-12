@@ -1,16 +1,19 @@
 import tableEjs from 'layout/snippets/_table.ejs';
-import { table, adminModalSwitch, defaultBtn } from 'app/config';
+import { moduleTableConfig, elementTableConfig, roleTableConfig, authTableConfig, userTableconfig, template } from 'app/config';
 import { formatRes, packageModuleData } from './formatData';
 
 import _navigation from 'layout/snippets/_navigation.ejs';
 import application from '.';
 import crumbs from 'layout/snippets/_crumbs.ejs';
 
+export const assignRes = {};
+export let authRes = {};
+
 const handleModuleData = (config, ele) => {
     let item1 = [];
     config.forEach(value => {
         if (value.key == 'id') {
-            item1.push(`<label class="checkblock"><input id="${ele['id']}" type="checkbox"/><i class="s-icon__checkbox"></i></label>`);
+            item1.push(`<div class="custom-control custom-control-alternative custom-checkbox"><input id="${ele.id}" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="${ele.id}"><span class="text-muted">&nbsp;</span></label></div>`);
         }
         else {
             item1.push(ele[value.key]);
@@ -41,14 +44,13 @@ const initTable = (data, config) => {
  */
 export function moduleUpdata(data, app) {
 
-    if (data === null) {
-        console.error('moduleUpdata util It is no data to be param');
-        return;
-    }
-
     $(() => {
         if ($('#admin-mount-navigation').length > 0) $('#admin-mount-navigation').html(_navigation(packageModuleData(data)));
-        if (app.page.name == 'module') initTable(data, table.moduleTableConfig);
+        if (app.page.name == 'module') initTable(data, moduleTableConfig);
+    });
+
+    data.forEach(item => {
+        assignRes[`${item['title']}#${item['id']}`] = {};
     });
 
     return;
@@ -59,25 +61,13 @@ export function moduleUpdata(data, app) {
  * @param { FunctionConstructor } app
  */
 export function elementUpdate(data, app) {
-    if (data === null) {
-        console.error('elementUpdate util It is no data to be param');
-        return;
-    }
     let page = app.page;
     $(() => {
-        if (page.name == 'element') initTable(data, table.elementTableConfig);
+        if (page.name == 'element') initTable(data, elementTableConfig);
         let eleCollection = {};
 
-        /**
-         * 分组:第一步
-         * 将所有数据按页面分成若干个若干个键值对
-         * key=>Array
-         */
-
-        console.log(data);
         data.forEach(item => {
             for (let [key, value] of Object.entries(item)) {
-
 
                 /**
                  * 元素模板类型
@@ -85,39 +75,47 @@ export function elementUpdate(data, app) {
                  */
                 let type = item.template;
                 if (key == 'moduleId') {
+
                     /**
                      * 第一步按页面分成若干个键值对
                      * moduleId => Object(containerId => htmlString)
                      */
-                    if (eleCollection[value] && eleCollection[value][item.containerId]) {
-                        if (adminModalSwitch[type]) {
-                            eleCollection[value][item.containerId] += adminModalSwitch[type](item);
+
+                    if (eleCollection[value] && eleCollection[value][item.containerId] && assignRes[`${item['moduleTitle']}#${value}`][item.containerId]) {
+                        if (template[type]) {
+                            eleCollection[value][item.containerId] += template[type](item);
                         } else {
-                            eleCollection[value][item.containerId] += defaultBtn(item);
+                            eleCollection[value][item.containerId] += template['defaultBtn'](item);
                         }
-                    } else if (eleCollection[value]) {
-                        if (adminModalSwitch[type]) {
-                            eleCollection[value][item.containerId] = adminModalSwitch[type](item);
+                        assignRes[`${item['moduleTitle']}#${value}`][item.containerId].push(item);
+                    } else if (eleCollection[value] && assignRes[`${item['moduleTitle']}#${value}`]) {
+                        if (template[type]) {
+                            eleCollection[value][item.containerId] = template[type](item);
                         } else {
-                            eleCollection[value][item.containerId] = defaultBtn(item);
+                            eleCollection[value][item.containerId] = template['defaultBtn'](item);
                         }
+                        assignRes[`${item['moduleTitle']}#${value}`][item.containerId] = [item];
                     } else {
                         /**
                          * @type { Object } string => string
                          */
-                        let t = {};
+                        let t = {},
+                            s = {};
 
-                        if (adminModalSwitch[type]) {
-                            t[item.containerId] = adminModalSwitch[type](item);
+
+                        if (template[type]) {
+                            t[item.containerId] = template[type](item);
                         } else {
-                            t[item.containerId] = defaultBtn(item);
+                            t[item.containerId] = template['defaultBtn'](item);
                         }
+                        s[item.containerId] = [item];
+                        assignRes[`${item['moduleTitle']}#${value}`] = s;
                         eleCollection[value] = t;
                     }
                 }
             }
         });
-        console.log(eleCollection);
+
         for (let [moduleId, object] of Object.entries(eleCollection)) {
 
             /**
@@ -136,34 +134,35 @@ export function elementUpdate(data, app) {
 }
 
 export function roleUpdate(data, app) {
-    if (data === null) {
-        console.error('roleUpdate util It is no data to be param');
-        return;
-    }
     $(() => {
-        if (app.page.name == 'role') initTable(data, table.roleTableConfig);
+        if (app.page.name == 'role') initTable(data, roleTableConfig);
     });
     return;
 }
 
 export function authUpdate(data, app) {
-    if (data === null) {
-        console.error('roleUpdate util It is no data to be param');
-        return;
-    }
     $(() => {
-        if (app.page.name == 'auth') initTable(data, table.authTableConfig);
+        let pageName = app.page.name;
+        if (pageName == 'auth') {
+            initTable(data, authTableConfig);
+        } else if (pageName == 'role') {
+            authRes = {};
+            data.forEach(item => {
+                if (item.key == 'module' || item.key == 'element') {
+                    authRes[item.ownerId] ? authRes[item.ownerId].push(item) : authRes[item.ownerId] = [item];
+                }
+            });
+
+        }
     });
+
+
     return;
 }
 
 export function userUpdate(data, app) {
-    if (data === null) {
-        console.error('roleUpdate util It is no data to be param');
-        return;
-    }
     $(() => {
-        if (app.page.name == 'user') initTable(data, table.userTableconfig);
+        if (app.page.name == 'user') initTable(data, userTableconfig);
     });
     return;
 }
@@ -179,4 +178,6 @@ export function otherComponents(app) {
     });
 }
 
-export default { moduleUpdata, elementUpdate, roleUpdate, authUpdate, userUpdate, otherComponents };
+
+
+// export default { moduleUpdata, elementUpdate, roleUpdate, authUpdate, userUpdate, otherComponents };

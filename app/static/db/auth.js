@@ -44,4 +44,8 @@ export default class auths {
     delete() {
         return authApi.deleteAuth(this);
     }
+
+    assign() {
+        return authApi.assignAuth(this);
+    }
 }

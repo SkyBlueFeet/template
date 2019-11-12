@@ -3,6 +3,8 @@ import cookie from 'js-cookie';
 import { keyword, code as str, rsaKey } from './variable';
 import local from './cryptStorage';
 import { moduleUpdata, elementUpdate, roleUpdate, authUpdate, userUpdate, otherComponents } from './dom';
+
+export { assignRes } from './dom';
 // import { * as dest } from 'app/config/router';
 /**
  *
@@ -23,8 +25,6 @@ async function getData(key) {
     }
     return data;
 }
-
-
 
 export default class application {
     /**

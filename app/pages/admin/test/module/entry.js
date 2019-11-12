@@ -147,7 +147,7 @@ application.run(title, function(that) {
                         }
                     });
                 }
-            } else {
+            } else if ($('tbody input[type="checkbox"]:checked').length === 0) {
                 alert('请选中一个');
             }
         });

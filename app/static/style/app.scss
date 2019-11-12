@@ -81,10 +81,16 @@
 // Expand
 
 @import "expand/animate";
-@import "correction/navbar-vertical";
 @import "expand/icon";
+@import "expand/button";
 @import "expand/components";
+@import "expand/hack.Minix";
+
+// Correction
+
+@import "correction/navbar-vertical";
 
 // page
 
 @import "./page/login.scss";
+@import "./page/role.scss";

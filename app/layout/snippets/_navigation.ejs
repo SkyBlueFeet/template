@@ -1,4 +1,5 @@
 <% data.forEach(menu=>{ %>
+<% if(menu.submenu.length>0){ %>
 <li class="nav-item">
     <a class="nav-link" data-toggle="collapse" href="#<%= "title"+menu.id %>" role="button" aria-expanded="<%= menu.active %>" aria-controls="<%= "title"+menu.id %>">
         <%= menu.title %>
@@ -17,4 +18,5 @@
 
     </div>
 </li>
+<% } %>
 <% }) %>

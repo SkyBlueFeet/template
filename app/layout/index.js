@@ -35,7 +35,7 @@ const initArgon = option => {
     return _argon({
         ...defaultOption,
         ...option,
-        modal: _modal(option.modal),
+        modal: option.modal,
     });
 };
 

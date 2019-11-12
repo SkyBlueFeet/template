@@ -14,8 +14,8 @@
 
     .admin--sidebar__entirety {
         position: absolute;
-        top: 0rem;
-        z-index: -100;
+        // top: 0rem;
+        z-index: 10;
         max-width: calc(250px - 3rem);
     }
 

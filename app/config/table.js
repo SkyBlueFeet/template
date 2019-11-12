@@ -1,7 +1,7 @@
 export const moduleTableConfig = [
 {
     key: 'id',
-    value: '<label class="checkblock"><input id="checkall" type="checkbox" /><i class="s-icon__checkbox"></i></label>'
+    value: '<div class="custom-control custom-control-alternative custom-checkbox"><input id="checkall" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="checkall"><span class="text-muted">&nbsp;</span></label></div>'
 },
 {
     key: 'title',
@@ -31,7 +31,7 @@ export const moduleTableConfig = [
 export const elementTableConfig = [
 {
     key: 'id',
-    value: '<label class="checkblock"><input id="checkall" type="checkbox" /><i class="s-icon__checkbox"></i></label>'
+    value: '<div class="custom-control custom-control-alternative custom-checkbox"><input id="checkall" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="checkall"><span class="text-muted">&nbsp;</span></label></div>'
 }, {
     key: 'elementName',
     value: '元素名'
@@ -62,7 +62,7 @@ export const elementTableConfig = [
 export const roleTableConfig = [
 {
     key: 'id',
-    value: '<label class="checkblock"><input id="checkall" type="checkbox" /><i class="s-icon__checkbox"></i></label>'
+    value: '<div class="custom-control custom-control-alternative custom-checkbox"><input id="checkall" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="checkall"><span class="text-muted">&nbsp;</span></label></div>'
 }, {
     key: 'roleName',
     value: '角色名'
@@ -76,7 +76,7 @@ export const roleTableConfig = [
 export const authTableConfig = [
 {
     key: 'id',
-    value: '<label class="checkblock"><input id="checkall" type="checkbox" /><i class="s-icon__checkbox"></i></label>'
+    value: '<div class="custom-control custom-control-alternative custom-checkbox"><input id="checkall" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="checkall"><span class="text-muted">&nbsp;</span></label></div>'
 }, {
     key: 'roleName',
     value: '角色名'
@@ -103,7 +103,7 @@ export const authTableConfig = [
 export const userTableconfig = [
 {
     key: 'id',
-    value: '<label class="checkblock"><input id="checkall" type="checkbox" /><i class="s-icon__checkbox"></i></label>'
+    value: '<div class="custom-control custom-control-alternative custom-checkbox"><input id="checkall" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="checkall"><span class="text-muted">&nbsp;</span></label></div>'
 }, {
     key: 'userName',
     value: '用户名'

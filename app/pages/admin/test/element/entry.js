@@ -64,21 +64,12 @@ function initSelectOption(data, activeId) {
 
 application.run(page, function(that) {
     $(() => {
-        $('#checkall').click(() => {
-            if ($('#checkall').prop('checked')) {
-                $('tbody input[type="checkbox"]').prop('checked', true);
-            } else {
-                $('tbody input[type="checkbox"]').prop('checked', false);
-            }
-        });
-
-        $('#admin-mount-table').on('click', 'input[type="checkbox"]', () => {
-            if ($('tbody input[type="checkbox"]:checked').length !== 1) {
-                $('#getmodule-edit').prop('disabled', true);
-            } else {
-                $('#getmodule-edit').prop('disabled', false);
-            }
-        });
+        import(
+            /* webpackPrefetch:true */
+            /* webpackPreload: true */
+            /*webpackChunkName: 'state'*/
+            'static/script/page/state.js'
+        );
 
         $(document).on('show.bs.modal', '#adminModal', function(event) {
             const button = $(event.relatedTarget);
@@ -110,14 +101,13 @@ application.run(page, function(that) {
 
         $('#adminModal').on('hidden.bs.modal', function() {
             $('.modal-backdrop').remove();
-
         });
 
         $('#adminModal').on('shown.bs.modal', function(event) {
             $(this).modal('handleUpdate');
         });
 
-        $('#modal-save').click(() => {
+        $('#adminModal').on('click', '#modal-save', function() {
             const newEle = new element();
             newEle[$('#adminModal select').eq(0).prop('id')] = $('#adminModal select').eq(0).val().trim();
             newEle.moduleTitle = $('#adminModal option:selected').eq(0).text();
@@ -130,7 +120,6 @@ application.run(page, function(that) {
                 newEle.edit().then(res => {
                     if (res.statusKey === 666) {
                         that.setRes('element', res.data);
-                        $('.alert').slideDown();
                     }
                 }).catch(err => {
                     console.error(err);
@@ -139,15 +128,16 @@ application.run(page, function(that) {
                 newEle.create().then(res => {
                     if (res.statusKey === 666) {
                         that.setRes('element', res.data);
-                        $('.alert').slideDown();
                     }
                 });
             }
+            // alert($(document, '#delete'));
+
             $('#getmodule-edit').prop('disabled', true);
             $('#adminModal').modal('hide');
         });
 
-        $('#delete').click(() => {
+        $('#main').on('click', '#delete', function(event) {
             if ($('tbody input[type="checkbox"]:checked').length > 0 && confirm('是否确认删除?')) {
                 for (let index = 0; index < $('tbody input[type="checkbox"]:checked').length; index++) {
                     let deleteMod = new element();
@@ -159,7 +149,7 @@ application.run(page, function(that) {
                     });
                 }
             } else if ($('tbody input[type="checkbox"]:checked').length === 0) {
-                alert('请选中一个');
+                alert('请选中一个!');
             }
         });
     });

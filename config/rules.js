@@ -8,7 +8,6 @@ const resolve = dir => path.resolve(__dirname, '..', dir);
 const Global = require('./global');
 const router = require('../app/config/router');
 const browserslist = require('../package.json').browserslist;
-let styleVariables = require('../app/static/style');
 
 const IS_PRODUCTION = Global.IS_PRODUCTION;
 exports.loader = [

@@ -1,4 +1,3 @@
-
 // :checked图标变化
 label.checkblock {
     position: relative;
@@ -27,10 +26,17 @@ label.checkblock .s-icon__checkbox::after {
 }
 
 label.checkblock:hover .s-icon__checkbox::after {
-    color: #007bff;
+    color: theme-color('primary');
 }
 
 label.checkblock input:checked+.s-icon__checkbox::after {
     content: '\e63c';
-    color: #007bff;
+    color: theme-color('primary');
+}
+
+label.checkblock>span {
+    display: inline-block;
+    font-size: 1rem;
+    /* margin-top: 1rem; */
+    vertical-align: 0.15em;
 }

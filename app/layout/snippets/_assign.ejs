@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <% if(data){ %>
+    <div id="accordion">
+        <% for(let [modules,pageObject] of Object.entries(data)){ %>
+        <% let a=modules.split('#') %>
+        <% let moduleId=a[1] %>
+        <% let name=a[0] %>
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0 d-flex flex-row justify-content-between align-items-center">
+                    <label class="checkblock">
+                        <input id="module<%= moduleId %>" type="checkbox" value="module#<%= moduleId %>" /><i class="s-icon__checkbox"></i>
+                        <span><%= name %></span>
+                    </label>
+                    <% if(Object.keys(pageObject).length>0) {%>
+                    <span data-toggle="collapse" data-target="#_<%= moduleId %>" aria-expanded="false" aria-controls="#_<%= moduleId %>" class="role-assign-expand"> <i class="icon-zhankai"></i></span>
+                    <% } %>
+                </h5>
+            </div>
+
+            <div id="_<%= moduleId %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div id="_atim<%= moduleId %>" data-children=".assign_item">
+                    <% for(let [id,ele] of Object.entries(pageObject)){ %>
+                    <div class="role-assign-container">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 d-flex flex-column justify-content-center">
+                                <span class="badge badge-info">#<%= id %></span>
+                            </div>
+                            <div class="col-sm-12 col-md-8">
+                                <% if(Array.isArray(ele)){ %>
+                                <% ele.forEach(item=>{ %>
+                                <button class="btn btn-outline-info">
+                                    <div class="custom-control custom-control-alternative custom-checkbox">
+                                        <input id="element<%= item.id %>" value="element#<%= item.id %>" class="custom-control-input" type="checkbox" />
+                                        <label class="custom-control-label" for="element<%= item.id %>">
+                                            <span><%= item.elementName %></span>
+                                        </label>
+                                    </div>
+                                </button>
+                                <% }) %>
+                                <% }  %>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    <% } %>
+</div>

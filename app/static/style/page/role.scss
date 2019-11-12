@@ -1,0 +1,31 @@
+#assignModal .card-header {
+    padding: 0.5rem 0.5rem;
+}
+
+#assignModal .role-assign-container {
+    padding: 1rem .5rem;
+}
+
+.role-assign-expand:hover {
+    color: theme-color('info');
+    cursor: pointer;
+}
+
+.role-assign-expand[aria-expanded="false"]::before {
+    content: "展开";
+}
+
+.role-assign-expand[aria-expanded="true"]::before {
+    content: "收起";
+}
+
+.role-assign-expand .icon-zhankai {
+    font-size: 0.8rem;
+}
+
+#assignModal label.checkblock>span {
+    display: inline-block;
+    font-size: 1rem;
+    /* margin-top: 1rem; */
+    vertical-align: 0.2em;
+}

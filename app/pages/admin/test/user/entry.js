@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-
+import 'static/style/app.scss';
 import application from 'static/application';
 
 import { user } from 'app/static/db';
@@ -49,7 +49,7 @@ application.run(page, function(that) {
             /* webpackPrefetch:true */
             /* webpackPreload: true */
             /*webpackChunkName: 'state'*/
-            'static/script/page/state.js'
+            'static/script'
         );
         $(document).on('show.bs.modal', '#adminModal', function(event) {
             const button = $(event.relatedTarget);
@@ -126,7 +126,7 @@ application.run(page, function(that) {
                         }
                     });
                 }
-            } else {
+            } else if ($('tbody input[type="checkbox"]:checked').length === 0) {
                 alert('请选中一个');
             }
         });

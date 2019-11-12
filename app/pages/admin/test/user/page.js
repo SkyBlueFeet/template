@@ -3,7 +3,7 @@ import layout from 'app/layout';
 
 import _table from 'layout/snippets/_table.ejs';
 import _nav from 'layout/components/_nav.ejs';
-import _modal from 'layout/snippets/_modal.ejs';
+import _modal from 'layout/components/_modal.ejs';
 import { roleFormConfig, roleTableConfig } from 'app/config';
 
 let tableHtml = _table({ config: roleTableConfig });

@@ -16,22 +16,39 @@
     }
 }
 
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+        overflow: hidden;
+    }
+
+    50% {
+        opacity: 1;
+        overflow: hidden;
+    }
+
+    100% {
+        overflow: auto;
+    }
+}
+
+
 @media (min-width: 768px) {
     .animated {
         animation-duration: 1s;
         animation-fill-mode: both;
-        visibility: hidden;
 
+        &.duration-0_3 {
+            animation-duration: 0.3s;
+        }
+
+        &.fadeInUp {
+            animation-name: fadeInUp;
+        }
+
+        &.zoomIn {
+            animation-name: zoomIn;
+        }
     }
-}
-
-.animated {
-    animation-duration: 1s;
-    animation-fill-mode: both;
-}
-
-
-
-.fadeInUp {
-    animation-name: fadeInUp;
 }
