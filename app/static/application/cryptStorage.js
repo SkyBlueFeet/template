@@ -5,18 +5,6 @@ import AES from 'crypto-js/aes';
 import utf8 from 'crypto-js/enc-utf8';
 import { keyArr, keyword, code as str, rsaKey, TemporaryKey } from './variable';
 import { randomString } from 'app/static/utils';
-// import _aes from 'static/utils/aes';
-
-// var r = _aes.encrypt.bit128('1111111111111111', JSON.stringify(keyArr), 'hex');
-
-// var dec = _aes.decrypt.bit128('1111111111111111', r, 'hex', 'utf8');
-
-// console.log(dec);
-
-function test(t, s) {
-    console.log(t, s);
-}
-(0, test)(5, 9);
 
 const storageSign = ((name, data) => {
     if (name === 'undefined') return;
@@ -150,8 +138,8 @@ export default class local {
 
     /**
      * 返回加密秘钥
-     * @param  { any } name
-     * @param  { any } data
+     * @param  { String } name
+     * @param  { Object } data
      * @returns { String } privateKey
      */
     static setStatic(name, data) {
@@ -166,6 +154,11 @@ export default class local {
 
     }
 
+    /**
+     *
+     * @param { String } name
+     * @param { String } privateKey
+     */
     static getStatic(name, privateKey) {
         const value = this.getItem(name, privateKey);
         if (storageSign(name, value).checkSign()) {

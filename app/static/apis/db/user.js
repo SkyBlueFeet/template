@@ -1,4 +1,20 @@
-import { userApi } from '../apis';
+import { params } from '..';
+import $axios from '../axios';
+import application from '../../application';
+
+function mod(type, users) {
+    return $axios({
+        url: '/app/modUser',
+        method: 'post',
+        data: params(type, users)
+    }).then(res => {
+        application.setRes('user', res.data);
+        application.$user = {
+            ...application.$user,
+            ...res.user
+        };
+    });
+}
 
 export default class users {
     /**
@@ -21,31 +37,16 @@ export default class users {
         this.createDate = createDate;
         this.createUserName = createUserName;
     }
-    get property() {
-        return this;
+
+    static edit(...users) {
+        mod('user', 'edit', users);
     }
 
-    list() {
-        return userApi.queryUser(this);
+    static delete(...users) {
+        mod('user', 'delete', users);
     }
 
-    create() {
-        return userApi.createUser(this);
-    }
-
-    edit() {
-        return userApi.editUser(this);
-    }
-
-    delete() {
-        return userApi.deleteUser(this);
-    }
-
-    login() {
-        return userApi.login(this);
-    }
-
-    token() {
-        return userApi.token(this);
+    static add(...users) {
+        mod('user', 'add', users);
     }
 }

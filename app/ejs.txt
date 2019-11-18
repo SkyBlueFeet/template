@@ -1,7 +1,0 @@
-module.exports = function (data) {
-  var __t,
-      __p = '';
-
-  __p += '<!DOCTYPE html>\r\n<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->\r\n<!--[if IE 7]>  <html class="no-js lt-ie9 lt-ie8"> <![endif]-->\r\n<!--[if IE 8]>  <html class="no-js lt-ie9"> <![endif]-->\r\n<!--[if gt IE 8]><!-->\r\n<html class="borderbox" lang="zh-cn">\r\n<!--<![endif]-->\r\n\r\n<head>\r\n    <meta charset="utf-8">\r\n    <meta http-equiv="X-UA-Compatible" content="IE=edge">\r\n    <title>' + ((__t = data.title) == null ? '' : __t) + '</title>\r\n    <link rel="shortcut icon" type="image/x-icon" href="' + ((__t = data.ico) == null ? '' : __t) + '" />\r\n    <meta name="description" content="">\r\n    <meta name="viewport" content="width=device-width, initial-scale=1">\r\n    <link rel="stylesheet" href="">\r\n</head>\r\n\r\n<body>\r\n    <!--[if lt IE 7]>\r\n      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>\r\n    <![endif]-->\r\n    <div class="container">\r\n <div class="header">' + ((__t = data.header) == null ? '' : __t) + '</div>\r\n <div class="bread">' + ((__t = data.bread) == null ? '' : __t) + '</div>\r\n <div class="content">' + ((__t = data.content) == null ? '' : __t) + '</div>\r\n    </div>\r\n\r\n    ' + ((__t = data.footer) == null ? '' : __t) + '\r\n</body>\r\n\r\n</html>';
-  return __p;
-};

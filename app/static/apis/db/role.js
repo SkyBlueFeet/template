@@ -1,5 +1,4 @@
-import { roleApi } from '../apis';
-
+import { mod } from '..';
 export default class roles {
 
     /**
@@ -18,23 +17,16 @@ export default class roles {
         this.createUserId = createUserId;
         this.createUserName = createUserName;
     }
-    get property() {
-        return this;
+
+    static edit(...roles) {
+        mod('role', 'edit', roles);
     }
 
-    list() {
-        return roleApi.queryRole(this);
+    static delete(...roles) {
+        mod('role', 'delete', roles);
     }
 
-    create() {
-        return roleApi.createRole(this);
-    }
-
-    edit() {
-        return roleApi.editRole(this);
-    }
-
-    delete() {
-        return roleApi.deleteRole(this);
+    static add(...roles) {
+        mod('role', 'add', roles);
     }
 }

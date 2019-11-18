@@ -1,30 +1,11 @@
-import { module, element, auth, role, user } from 'static/db';
 import cookie from 'js-cookie';
 import { keyword, code as str, rsaKey } from './variable';
 import local from './cryptStorage';
 import { moduleUpdata, elementUpdate, roleUpdate, authUpdate, userUpdate, otherComponents } from './dom';
+import { preLoad } from '../apis';
+import { ucfirst } from '../utils';
 
-export { assignRes } from './dom';
-// import { * as dest } from 'app/config/router';
-/**
- *
- * @param { String } key
- */
-async function getData(key) {
-    let data = [];
-    if (key === 'module') {
-        data = await (new module()).list();
-    } else if (key === 'element') {
-        data = await (new element()).list();
-    } else if (key === 'auth') {
-        data = await (new auth).list();
-    } else if (key === 'role') {
-        data = await (new role).list();
-    } else if (key === 'user') {
-        data = await (new user).list();
-    }
-    return data;
-}
+export { assignRes, roleRes } from './dom';
 
 export default class application {
     /**
@@ -63,16 +44,10 @@ export default class application {
     };
 
     /**
-     * 是否初始化
-     * @type { boolean }
-     */
-    static isInit = false;
-
-    /**
      * 是否开启App缓存
      * @type {boolean}
      */
-    static appStorage = true;
+    static proLoad = true;
 
 
     static initObject = {
@@ -104,11 +79,42 @@ export default class application {
 
     }
 
+    /**
+     * 当前用户
+     * @type {}
+     *
+     */
+    static $user = (() => {
+        const user = {
+            id: '',
+            userName: '',
+            account: '',
+            password: '',
+            createUserId: '',
+            createDate: '',
+            createUserName: ''
+        };
+        const that = this;
 
+        for (let [name, value] of Object.entries(user)) {
+            Object.defineProperty(user, name, {
+                enumerable: true,
+                configurable: true,
+                get: function() {
+                    if (value) {
+                        return local.getStatic(name, value);
+                    } else {
+                        return value;
+                    }
+                },
+                set: function(newValue) {
+                    value = local.setStatic(name, newValue);
+                }
+            });
+        }
 
-    static extend = () => {
-        console.log('extend');
-    }
+        return user;
+    })()
 
 
     /**
@@ -116,7 +122,7 @@ export default class application {
      * @type { ProxyConstructor }
      */
     static resource = (() => {
-        const o = {
+        const oData = {
             module: [],
             element: [],
             auth: [],
@@ -125,27 +131,23 @@ export default class application {
         };
         const that = this;
 
-        ((data) => {
-            Object.keys(data).forEach(key => {
-                ((data, key) => {
-                    let val = data[key];
-                    Object.defineProperty(data, key, {
-                        enumerable: true,
-                        configurable: true,
-                        get: function() {
-                            return val;
-                        },
-                        set: function(newValue) {
-                            val = newValue;
-                            that.domInit(key, val);
-                            that.resourceStatus[key] = local.setStatic(key, val);
-                        }
-                    });
-                })(data, key);
-            });
-        })(o);
 
-        return o;
+        for (let [name, value] of Object.entries(oData)) {
+            Object.defineProperty(oData, name, {
+                enumerable: true,
+                configurable: true,
+                get: function() {
+                    return value;
+                },
+                set: function(newValue) {
+                    value = newValue;
+                    that.domInit(name, value);
+                    that.resourceStatus[name] = local.setStatic(name, value);
+                }
+            });
+        }
+
+        return oData;
     })();
 
     /**
@@ -153,7 +155,7 @@ export default class application {
      * @type { ProxyConstructor }
      */
     static resourceStatus = (() => {
-        const o = {
+        const oData = {
             module: '',
             element: '',
             auth: '',
@@ -161,33 +163,28 @@ export default class application {
             user: ''
         };
 
-        ((data) => {
-            Object.keys(data).forEach(key => {
-                ((data, key) => {
-                    let val = data[key];
-                    Object.defineProperty(data, key, {
-                        enumerable: true,
-                        configurable: true,
-                        get: function() {
-                            return val;
-                        },
-                        set: function(newValue) {
-                            val = newValue;
-                            sessionStorage.setItem('resourceStatus', JSON.stringify(o));
-                        }
-                    });
-                })(data, key);
-            });
-        })(o);
-
-        if (sessionStorage.getItem('resourceStatus') !== null) {
-            const localStatus = JSON.parse(sessionStorage.getItem('resourceStatus'));
-            Object.keys(localStatus).forEach(key => {
-                o[key] = localStatus[key];
+        for (let [name, value] of Object.entries(oData)) {
+            Object.defineProperty(oData, name, {
+                enumerable: true,
+                configurable: true,
+                get: function() {
+                    return value;
+                },
+                set: function(newValue) {
+                    value = newValue;
+                    sessionStorage.setItem('resourceStatus', JSON.stringify(oData));
+                }
             });
         }
 
-        return o;
+        if (sessionStorage.getItem('resourceStatus') !== null) {
+            const localStatus = JSON.parse(sessionStorage.getItem('resourceStatus'));
+            for (let [name, value] of Object.entries(localStatus)) {
+                oData[name] = value;
+            }
+        }
+
+        return oData;
     })();
 
     static async init(page) {
@@ -195,29 +192,42 @@ export default class application {
         if (!isPreEnv) {
             cookie.set(keyword['body'], JSON.stringify(rsaKey));
         }
+        try {
 
-        Object.keys(this.resourceStatus).forEach(name => {
-            try {
-                if (this.resourceStatus[name].length > 0 && this.appStorage) {
-                    console.log(name, '初始化完毕');
+            for (let name in this.resourceStatus) {
+                if (this.proLoad && this.resourceStatus[name].length > 0) {
                     this.resource[name] = local.getStatic(name, this.resourceStatus[name]);
                 } else {
                     throw new Error();
                 }
-            } catch (error) {
-                if (error.message) console.error('the Storage is Error!');
-                getData(name).then(res => {
-                    this.resource[name] = res.data;
-                });
             }
-        });
+
+        } catch (error) {
+
+            if (error.message) console.error('the Storage is Error!');
+
+            let res = await preLoad();
+            if (res.statusKey == 666) {
+                for (let [name, value] of Object.entries(res.userData)) {
+                    this.resource[name] = value;
+                }
+            }
+
+        }
     }
 
     static async preFetch() {
-        Object.keys(this.resourceStatus).forEach(name => {
-            getData(name).then(res => {
-                this.resourceStatus[name] = local.setStatic(name, res.data);
-            });
+        preLoad().then(res => {
+            if (res.statusKey == 666) {
+                for (let [name, value] of Object.entries(res.userData)) {
+                    this.resourceStatus[name] = local.setStatic(name, value);
+                }
+
+                this.$user = {
+                    ...this.$user,
+                    ...res.user
+                };
+            }
         });
     }
 
@@ -226,7 +236,9 @@ export default class application {
         await this.init();
         pageEvent(this);
         window.sessionStorage.clear();
-        this.preFetch();
+        if (this.proLoad) {
+            this.preFetch();
+        }
     }
 
     static getRes(name) {
@@ -252,24 +264,19 @@ export default class application {
         let i = 0;
         switch (key) {
             case 'module':
-                i++;
                 moduleUpdata(data, this);
-                otherComponents(this);
+                otherComponents(data, this);
                 break;
             case 'element':
-                i++;
                 elementUpdate(data, this);
                 break;
             case 'role':
-                i++;
                 roleUpdate(data, this);
                 break;
             case 'auth':
-                i++;
                 authUpdate(data, this);
                 break;
             case 'user':
-                i++;
                 userUpdate(data, this);
                 break;
             default:

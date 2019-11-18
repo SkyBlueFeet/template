@@ -25,7 +25,7 @@ const axiosConfig = {
     // 设置超时时间
     timeout: 10000,
     // 携带凭证
-    withCredentials: false,
+    withCredentials: true,
     // 返回数据类型
     responseType: 'json'
 };
@@ -37,6 +37,7 @@ export default function $axios(options) {
         const instance = axios.create({
             baseURL: axiosConfig.baseURL,
             headers: {},
+            withCredentials: axiosConfig.withCredentials,
             transformResponse: [function(data) {}]
         });
 
@@ -174,7 +175,18 @@ export default function $axios(options) {
         instance(options)
             .then(res => {
                 // 数据Json解析
-                resolve(JSON.parse(res));
+                try {
+                    res = JSON.parse(res);
+                } catch (error) {
+                    res;
+                }
+
+                if (res.statusKey === 343) {
+                    window.location = '/';
+                }
+
+                resolve(res);
+
                 return false;
             })
             .catch(error => {

@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 import 'static/style/app.scss';
-import users from 'static/db/user';
+import users from 'app/static/apis/db/user';
 import application from 'app/static/application';
+import { loginValidate } from 'app/static/apis';
 
 $(() => {
     import(
@@ -10,6 +11,7 @@ $(() => {
         /* webpackChunkName: 'state' */
         'static/script'
     );
+    window.sessionStorage.clear();
     $('#signIn').click(() => {
         const user = new users();
         let input = $('.form-control');
@@ -22,10 +24,16 @@ $(() => {
                 user[thisInput.prop('id')] = thisInput.val();
             }
         }
-        user.login().then(res => {
+        loginValidate(user).then(res => {
             if (res.statusKey === 666) {
-                application.preFetch();
-                window.location = '/admin/test/module';
+                for (let [key, value] of Object.entries(res.userData)) {
+                    application.setRes(key, value);
+                }
+                application.$user = {
+                    ...application.$user,
+                    ...res.user
+                };
+                window.location = '/admin/module';
             }
         });
     });

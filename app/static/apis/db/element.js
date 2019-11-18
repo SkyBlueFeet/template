@@ -1,4 +1,4 @@
-import { elementApi } from '../apis';
+import { mod } from '..';
 
 export default class element {
 
@@ -27,23 +27,16 @@ export default class element {
         this.remark = remark;
         this.template = template;
     }
-    get property() {
-        return this;
+
+    static edit(...elements) {
+        mod('element', 'edit', elements);
     }
 
-    list() {
-        return elementApi.queryElement(this);
+    static delete(...elements) {
+        mod('element', 'delete', elements);
     }
 
-    create() {
-        return elementApi.createElement(this);
-    }
-
-    edit() {
-        return elementApi.editElement(this);
-    }
-
-    delete() {
-        return elementApi.deleteElement(this);
+    static add(...elements) {
+        mod('element', 'add', elements);
     }
 }

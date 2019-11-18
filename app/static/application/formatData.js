@@ -34,10 +34,10 @@ export const packageModuleData = (data) => {
             if (sub.parentModuleId === nav.id) {
                 if (!active) console.error('page.link is no config');
                 if (sub.link == active) {
-                    application.page.id=sub.id;
-                    application.page.parentModuleId = sub.parentModuleId;
-                    application.page.title = sub.title;
-                    application.page.parentModuleTitle = sub.parentModuleTitle;
+                    // application.page.id = sub.id;
+                    // application.page.parentModuleId = sub.parentModuleId;
+                    // application.page.title = sub.title;
+                    // // application.page.parentModuleTitle = sub.parentModuleTitle;
                     _arr[j].active = true;
                     $arr[i].active = true;
                 }
@@ -45,7 +45,6 @@ export const packageModuleData = (data) => {
             }
         });
     });
-    console.log(application.page);
     return nAuth;
 };
 
@@ -63,9 +62,9 @@ export const formatRes = (data, type, callback) => {
         console.error('data和type参数应该是数组');
         return data;
     } else if (typeof callback == 'function') {
-        data.forEach(ele => {
+        for (let ele of data) {
             tableData.push(callback(type, ele));
-        });
+        }
     } else {
         data.forEach(ele => {
             let item1 = [];

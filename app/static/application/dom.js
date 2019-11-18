@@ -8,6 +8,9 @@ import crumbs from 'layout/snippets/_crumbs.ejs';
 
 export const assignRes = {};
 export let authRes = {};
+export let roleRes = {};
+export let moduleRes = {};
+export let elementRes = {};
 
 const handleModuleData = (config, ele) => {
     let item1 = [];
@@ -30,10 +33,13 @@ const handleModuleData = (config, ele) => {
  */
 const initTable = (data, config) => {
     let newData = formatRes(data, config, handleModuleData);
-    $('#admin-mount-table').html(tableEjs({
-        config: config,
-        data: newData
-    }));
+    $(() => {
+        $('#admin-mount-table').html(tableEjs({
+            config: config,
+            data: newData
+        }));
+    });
+
     return newData;
 };
 
@@ -44,17 +50,42 @@ const initTable = (data, config) => {
  */
 export function moduleUpdata(data, app) {
 
-    $(() => {
-        if ($('#admin-mount-navigation').length > 0) $('#admin-mount-navigation').html(_navigation(packageModuleData(data)));
-        if (app.page.name == 'module') initTable(data, moduleTableConfig);
-    });
+    let page = app.page;
+    if (page.name) {
 
-    data.forEach(item => {
-        assignRes[`${item['title']}#${item['id']}`] = {};
-    });
+        data.every(item => {
+            assignRes[`${item['title']}#${item['id']}`] = {};
 
+
+            moduleRes[item.id] = item;
+
+            if (page.link && item.link == page.link) {
+                for (let [name, value] of Object.entries(item)) {
+                    page[name] = value;
+                }
+            }
+            return item;
+        });
+
+        data.every(item => {
+            if (moduleRes[item.parentModuleId]) {
+                item['parentModuleTitle'] = moduleRes[item.parentModuleId].title;
+            } else {
+                item['parentModuleTitle'] = 'root';
+            }
+            return item;
+        });
+
+        page.parentModuleTitle = moduleRes[page.parentModuleId].title;
+        $(() => {
+            if ($('#admin-mount-navigation').length > 0) $('#admin-mount-navigation').html(_navigation(packageModuleData(data)));
+            if (page.name == 'module') initTable(data, moduleTableConfig);
+        });
+    }
     return;
 }
+
+let tempTableData = [];
 /**
  *
  * @param { Array } data
@@ -62,40 +93,57 @@ export function moduleUpdata(data, app) {
  */
 export function elementUpdate(data, app) {
     let page = app.page;
-    $(() => {
-        if (page.name == 'element') initTable(data, elementTableConfig);
-        let eleCollection = {};
 
-        data.forEach(item => {
-            for (let [key, value] of Object.entries(item)) {
+    let eleCollection = {};
+
+    for (let item of data) {
+        if (moduleRes[item.moduleId]) {
+            item['moduleTitle'] = moduleRes[item.moduleId].title;
+            elementRes[item.id] = item;
+        }
+        tempTableData.push(item);
+
+        for (let [key, value] of Object.entries(item)) {
+
+            /**
+             * 元素模板类型
+             * @type { String }
+             */
+            let type = item.template;
+            if (key == 'moduleId') {
 
                 /**
-                 * 元素模板类型
-                 * @type { String }
+                 * 第一步按页面分成若干个键值对
+                 * moduleId => Object(containerId => htmlString)
                  */
-                let type = item.template;
-                if (key == 'moduleId') {
 
-                    /**
-                     * 第一步按页面分成若干个键值对
-                     * moduleId => Object(containerId => htmlString)
-                     */
+                if (moduleRes[value]) {
 
-                    if (eleCollection[value] && eleCollection[value][item.containerId] && assignRes[`${item['moduleTitle']}#${value}`][item.containerId]) {
-                        if (template[type]) {
-                            eleCollection[value][item.containerId] += template[type](item);
-                        } else {
-                            eleCollection[value][item.containerId] += template['defaultBtn'](item);
+                    let assignKey = `${moduleRes[value].title}#${value}`;
+
+                    try {
+                        let eleColVal = eleCollection[value];
+                        let eleColValCont = eleColVal[item.containerId];
+                        let assignVal = assignRes[`${moduleRes[value].title}#${value}`];
+                        if (eleColVal && eleColValCont && assignVal[item.containerId]) {
+                            if (template[type]) {
+                                eleColVal[item.containerId] += template[type](item);
+                            } else {
+                                eleColVal[item.containerId] += template['defaultBtn'](item);
+                            }
+
+                            assignVal[item.containerId].push(item);
+
+
+                        } else if (eleColVal && moduleRes[value] && assignVal) {
+                            if (template[type]) {
+                                eleColVal[item.containerId] = template[type](item);
+                            } else {
+                                eleColVal[item.containerId] = template['defaultBtn'](item);
+                            }
+                            assignVal[item.containerId] = [item];
                         }
-                        assignRes[`${item['moduleTitle']}#${value}`][item.containerId].push(item);
-                    } else if (eleCollection[value] && assignRes[`${item['moduleTitle']}#${value}`]) {
-                        if (template[type]) {
-                            eleCollection[value][item.containerId] = template[type](item);
-                        } else {
-                            eleCollection[value][item.containerId] = template['defaultBtn'](item);
-                        }
-                        assignRes[`${item['moduleTitle']}#${value}`][item.containerId] = [item];
-                    } else {
+                    } catch {
                         /**
                          * @type { Object } string => string
                          */
@@ -108,62 +156,77 @@ export function elementUpdate(data, app) {
                         } else {
                             t[item.containerId] = template['defaultBtn'](item);
                         }
+
                         s[item.containerId] = [item];
-                        assignRes[`${item['moduleTitle']}#${value}`] = s;
+                        assignRes[assignKey] = s;
                         eleCollection[value] = t;
                     }
-                }
-            }
-        });
-
-        for (let [moduleId, object] of Object.entries(eleCollection)) {
-
-            /**
-             * 如果模块ID(moduleId)与元素所属模块ID相同则将html添加到DOM中
-             */
-
-            if (page.id == moduleId) {
-                for (let [id, html] of Object.entries(object)) {
-                    $(`#${id}`).html(html);
                 }
 
             }
         }
-    });
+        if (page.name == 'element') initTable(tempTableData, elementTableConfig);
+    }
+
+    for (let [moduleId, object] of Object.entries(eleCollection)) {
+
+        /**
+         * 如果模块ID(moduleId)与元素所属模块ID相同则将html添加到DOM中
+         */
+
+        if (page.id == moduleId) {
+            $(() => {
+                for (let [id, html] of Object.entries(object)) {
+                    $(`#${id}`).html(html);
+                }
+            });
+        }
+    }
     return;
 }
 
 export function roleUpdate(data, app) {
     $(() => {
-        if (app.page.name == 'role') initTable(data, roleTableConfig);
+        let name = app.page.name;
+        if (name == 'role') {
+            initTable(data, roleTableConfig);
+            for (let item of data) {
+                roleRes[item.id] = item;
+            }
+        } else if (name == 'user') {
+            console.log(data);
+            return;
+        }
+
     });
     return;
 }
 
 export function authUpdate(data, app) {
-    $(() => {
-        let pageName = app.page.name;
-        if (pageName == 'auth') {
-            initTable(data, authTableConfig);
-        } else if (pageName == 'role') {
-            authRes = {};
-            data.forEach(item => {
-                if (item.key == 'module' || item.key == 'element') {
-                    authRes[item.ownerId] ? authRes[item.ownerId].push(item) : authRes[item.ownerId] = [item];
-                }
-            });
-
-        }
-    });
-
+    let pageName = app.page.name;
+    if (pageName == 'auth') {
+        initTable(data, authTableConfig);
+    } else if (pageName == 'role') {
+        authRes = {};
+        data.forEach(item => {
+            if (item.key == 'module' || item.key == 'element') {
+                authRes[item.ownerId] ? authRes[item.ownerId].push(item) : authRes[item.ownerId] = [item];
+            }
+        });
+    } else if (pageName == 'user') {
+        roleRes = {};
+        data.forEach(item => {
+            if (item.key == 'role') {
+                roleRes[item.ownerId] ? roleRes[item.ownerId].push(item) : roleRes[item.ownerId] = [item];
+            }
+        });
+    }
 
     return;
 }
 
 export function userUpdate(data, app) {
-    $(() => {
-        if (app.page.name == 'user') initTable(data, userTableconfig);
-    });
+    if (app.page.name == 'user') initTable(data, userTableconfig);
     return;
 }
 
@@ -171,13 +234,10 @@ export function userUpdate(data, app) {
  *
  * @param { application } app
  */
-export function otherComponents(app) {
+export function otherComponents(data, app) {
     let page = app.page;
+
     $(() => {
         $('#admin-mount-crumbs').html(crumbs([page.parentModuleTitle, page.title]));
     });
 }
-
-
-
-// export default { moduleUpdata, elementUpdate, roleUpdate, authUpdate, userUpdate, otherComponents };

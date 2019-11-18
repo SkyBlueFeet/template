@@ -9,7 +9,6 @@ export const CheckControl = (function(params) {
 
     $('#admin-mount-table').on('click', 'input[type="checkbox"]', () => {
         const check = $('tbody input[type="checkbox"]:checked');
-        console.log(check.length);
         if (check.length === 1) {
             $('#getmodal-Edit').prop('disabled', false);
             $('#getmodal-Assign-Resource').prop('disabled', false);

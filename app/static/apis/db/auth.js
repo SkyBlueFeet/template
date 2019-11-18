@@ -1,4 +1,4 @@
-import { authApi } from '../apis';
+import { mod } from '..';
 
 export default class auths {
 
@@ -15,9 +15,8 @@ export default class auths {
      * @param { String } resourcesId
      * @returns { Promise Object }
      */
-    constructor(id, roleName, operateUserId, operateDate, description, key, ownerId, resourcesId) {
+    constructor(id, operateUserId, operateDate, description, key, ownerId, resourcesId) {
         this.id = id;
-        this.roleName = roleName;
         this.operateUserId = operateUserId;
         this.operateDate = operateDate;
         this.description = description;
@@ -25,27 +24,16 @@ export default class auths {
         this.ownerId = ownerId;
         this.resourcesId = resourcesId;
     }
-    get property() {
-        return this;
+
+    static edit(...auths) {
+        mod('auth', 'edit', auths);
     }
 
-    list() {
-        return authApi.queryAuth(this);
+    static delete(...auths) {
+        mod('auth', 'delete', auths);
     }
 
-    create() {
-        return authApi.createAuth(this);
-    }
-
-    edit() {
-        return authApi.editAuth(this);
-    }
-
-    delete() {
-        return authApi.deleteAuth(this);
-    }
-
-    assign() {
-        return authApi.assignAuth(this);
+    static add(...auths) {
+        mod('auth', 'add', auths);
     }
 }

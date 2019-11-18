@@ -1,4 +1,4 @@
-import { moduleApi } from 'static/apis';
+import { mod } from '..';
 
 class module {
 
@@ -14,7 +14,7 @@ class module {
      * @param { String } remark
      * @returns { Promise }
      */
-    constructor(id, title, parentModuleId, parentModuleTitle, link, order, key, remark) {
+    constructor(id, title, parentModuleId, link, order, key, remark) {
         if (typeof id === 'object' && typeof id.length !== 'number') {
             let obj = id;
             Object.keys(obj).forEach(key => {
@@ -24,15 +24,11 @@ class module {
             this.id = id;
             this.title = title;
             this.parentModuleId = parentModuleId;
-            this.parentModuleTitle = parentModuleTitle;
             this.link = link;
             this.order = order;
             this.key = key;
             this.remark = remark;
         }
-    }
-    get property() {
-        return this;
     }
 
     static fromArray(array) {
@@ -47,20 +43,16 @@ class module {
         return arr;
     }
 
-    list() {
-        return moduleApi.queryModule(this);
+    static edit(...modules) {
+        mod('module', 'edit', modules);
     }
 
-    create() {
-        return moduleApi.createModule(this);
+    static delete(...modules) {
+        mod('module', 'delete', modules);
     }
 
-    edit() {
-        return moduleApi.editModule(this);
-    }
-
-    delete() {
-        return moduleApi.deleteModule(this);
+    static add(...modules) {
+        mod('module', 'add', modules);
     }
 }
 export default module;
