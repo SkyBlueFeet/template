@@ -52,3 +52,11 @@
         }
     }
 }
+
+.test {
+    color: red;
+}
+
+.test1 {
+    @extend .test;
+}

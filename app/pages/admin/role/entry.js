@@ -7,56 +7,40 @@ import tModal from 'layout/snippets/_modal.ejs';
 import _assign from 'layout/snippets/_assign.ejs';
 
 import { roleFormConfig } from 'app/config';
-import { authRes, roleRes } from 'app/static/application/dom';
+import { authRes, roleRes, moduleRes } from 'app/static/application/dom';
 
 import { updateResource, role, auth } from 'app/static/apis';
 
 
-let editTitle = '编辑模块';
-let addTitle = '添加模块';
-
-let tempChange = {
-    addData: {},
-    removeData: {}
-};
-
-
-
-
-const title = {
-    name: 'role',
-    link: '/admin/role'
-};
+let editTitle = '编辑模块',
+    addTitle = '添加模块',
+    tempChange = {
+        addData: {},
+        removeData: {}
+    },
+    tempParentReserves = {
+        addData: {},
+        removeData: {}
+    };
 
 
-application.run(title, function(that) {
+function getParentId(rO) {
+    if (moduleRes[rO]['parentModuleId'] != 'root') {
+        return '#module' + moduleRes[moduleRes[rO]['parentModuleId']].id;
+    } else {
+        return undefined;
+    }
+}
 
+
+
+application.run(function(that) {
         import(
             /* webpackPrefetch:true */
             /* webpackPreload: true */
-            /* webpackChunkName: 'boot' */
-            'bootstrap/js/dist/util');
-        import(
-            /* webpackPrefetch:true */
-            /* webpackPreload: true */
-            /* webpackChunkName: 'boot' */
-            'bootstrap/js/dist/modal');
-        import(
-            /* webpackPrefetch:true */
-            /* webpackPreload: true */
-            /* webpackChunkName: 'boot' */
-            'bootstrap/js/dist/collapse');
-        import(
-            /* webpackPrefetch:true */
-            /* webpackPreload: true */
-            /* webpackChunkName: 'boot' */
-            'bootstrap/js/dist/dropdown');
-        import(
-            /* webpackPrefetch:true */
-            /* webpackPreload: true */
-            /* webpackChunkName: 'boot' */
-            'bootstrap/js/dist/tooltip');
-        import('static/script/page/state.js');
+            /*webpackChunkName: 'reference'*/
+            'static/script/page/state.js'
+        );
         $(function() {
 
                 $('#adminModal').on('show.bs.modal', function(event) {
@@ -118,7 +102,6 @@ application.run(title, function(that) {
                 );
 
                 $('#adminModal').on('hidden.bs.modal', function() {
-
                     $('.modal-backdrop').remove();
                 });
 
@@ -137,38 +120,73 @@ application.run(title, function(that) {
 
                 $('#assignModal').on('click', 'input[type="checkbox"]', function(params) {
                     const resAuth = new auth(),
+                        parentAuth = new auth(),
                         $this = $(this),
                         arr = $this.val().split('#'),
                         id = $('tbody input[type="checkbox"]:checked').prop('id'),
-                        checkStatus = $(this).prop('checked');
+                        checkStatus = $(this).prop('checked'),
+                        moduleHasParent = arr[0] == 'module' && getParentId(arr[1]);
                     resAuth.ownerId = id;
                     resAuth.key = arr[0];
                     resAuth.resourcesId = arr[1];
                     resAuth.id = $this.data('data-id');
+                    if (moduleHasParent) {
+                        parentAuth.ownerId = id;
+                        parentAuth.key = arr[0];
+                        parentAuth.resourcesId = getParentId(arr[1]);
+                        parentAuth.id = $(getParentId(arr[1])).data('data-id');
+                    }
                     if (checkStatus && $this.data('data-id')) {
                         delete tempChange['removeData'][arr[1]];
+                        if (moduleHasParent)
+                            delete tempParentReserves['removeData'][getParentId(arr[1])];
                     } else if (!checkStatus && $this.data('data-id')) {
                         tempChange['removeData'][arr[1]] = resAuth;
+                        if (moduleHasParent)
+                            tempParentReserves['removeData'][getParentId(arr[1])] = parentAuth;
                     } else if (checkStatus && !$this.data('data-id')) {
                         tempChange['addData'][arr[1]] = resAuth;
+                        if (moduleHasParent)
+                            tempParentReserves['addData'][getParentId(arr[1])] = parentAuth;
                     } else if (!checkStatus && !$this.data('data-id')) {
                         delete tempChange['addData'][arr[1]];
+                        if (moduleHasParent)
+                            delete tempParentReserves['addData'][getParentId(arr[1])];
                     }
                 });
 
                 $('#modal-Assign-Save').click(function(params) {
-                    let addData = [],
-                        removeData = [];
-                    for (let [key, item] of Object.entries(tempChange.addData)) {
-                        addData.push(item);
-                    }
 
-                    for (let [key, item] of Object.entries(tempChange.removeData)) {
-                        removeData.push(item);
-                    }
+                    let addData = [],
+                        removeData = [],
+                        a = tempChange.addData,
+                        r = tempChange.removeData,
+                        aP = tempParentReserves.addData,
+                        rP = tempParentReserves.removeData,
+                        addParentData = [],
+                        removeParentData = [];
+                    console.log(tempParentReserves);
+                    // const getParent = mR => (rO, k) => mR[mR[rO[k]['resourcesId']]['parentModuleId']];
+
+                    Object.keys(rP).forEach(k => {
+                        console.log(Object.keys(aP).includes(k));
+                    });
+
+
+                    Object.keys(a).forEach(k => {
+                        addData.push(a[k]);
+                    });
+
+                    Object.keys(r).forEach(k => {
+                        removeData.push(r[k]);
+                    });
+
+
+
                     if (removeData.length > 0 || addData.length > 0) {
                         updateResource(addData, removeData);
                     }
+
                     tempChange.addData = {};
                     tempChange.removeData = {};
                     $('#assignModal').modal('toggle');

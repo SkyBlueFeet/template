@@ -28,8 +28,8 @@ const handleModuleData = (config, ele) => {
 
 /**
  * table初始化
- * @param { ObjectConstructor } data 是否请求远程数据
- * @param { ObjectConstructor } config 是否请求远程数据
+ * @param { ObjectConstructor } data 数据
+ * @param { ObjectConstructor } config 配置
  */
 const initTable = (data, config) => {
     let newData = formatRes(data, config, handleModuleData);
@@ -38,8 +38,8 @@ const initTable = (data, config) => {
             config: config,
             data: newData
         }));
-    });
 
+    });
     return newData;
 };
 
@@ -51,41 +51,39 @@ const initTable = (data, config) => {
 export function moduleUpdata(data, app) {
 
     let page = app.page;
-    if (page.name) {
 
-        data.every(item => {
-            assignRes[`${item['title']}#${item['id']}`] = {};
+    data.every(item => {
+        assignRes[`${item['title']}#${item['id']}`] = {};
+        moduleRes[item.id] = item;
 
-
-            moduleRes[item.id] = item;
-
-            if (page.link && item.link == page.link) {
-                for (let [name, value] of Object.entries(item)) {
-                    page[name] = value;
-                }
+        if (page.link && item.link == page.link) {
+            for (let [name, value] of Object.entries(item)) {
+                page[name] = value;
             }
-            return item;
-        });
+        }
+        return item;
+    });
 
-        data.every(item => {
-            if (moduleRes[item.parentModuleId]) {
-                item['parentModuleTitle'] = moduleRes[item.parentModuleId].title;
-            } else {
-                item['parentModuleTitle'] = 'root';
-            }
-            return item;
-        });
+    data.every(item => {
+        if (moduleRes[item.parentModuleId]) {
+            item['parentModuleTitle'] = moduleRes[item.parentModuleId].title;
+        } else {
+            item['parentModuleTitle'] = 'root';
+        }
+        return item;
+    });
 
-        page.parentModuleTitle = moduleRes[page.parentModuleId].title;
-        $(() => {
-            if ($('#admin-mount-navigation').length > 0) $('#admin-mount-navigation').html(_navigation(packageModuleData(data)));
-            if (page.name == 'module') initTable(data, moduleTableConfig);
-        });
-    }
+    page.parentModuleTitle = moduleRes[page.parentModuleId].title;
+
+    $(() => {
+        if ($('#admin-mount-navigation').length > 0) $('#admin-mount-navigation').html(_navigation(packageModuleData(data)));
+    });
+
+    if (page.name == 'module') initTable(data, moduleTableConfig);
     return;
 }
 
-let tempTableData = [];
+
 /**
  *
  * @param { Array } data
@@ -95,6 +93,8 @@ export function elementUpdate(data, app) {
     let page = app.page;
 
     let eleCollection = {};
+
+    let tempTableData = [];
 
     for (let item of data) {
         if (moduleRes[item.moduleId]) {
@@ -165,9 +165,9 @@ export function elementUpdate(data, app) {
 
             }
         }
-        if (page.name == 'element') initTable(tempTableData, elementTableConfig);
     }
 
+    if (page.name == 'element') initTable(tempTableData, elementTableConfig);
     for (let [moduleId, object] of Object.entries(eleCollection)) {
 
         /**

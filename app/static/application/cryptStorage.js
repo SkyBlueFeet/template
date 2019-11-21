@@ -3,7 +3,7 @@ import SHA1 from 'crypto-js/sha1';
 import MD5 from 'crypto-js/md5';
 import AES from 'crypto-js/aes';
 import utf8 from 'crypto-js/enc-utf8';
-import { keyArr, keyword, code as str, rsaKey, TemporaryKey } from './variable';
+import { code as str, TemporaryKey } from './variable';
 import { randomString } from 'app/static/utils';
 
 const storageSign = ((name, data) => {

@@ -1,6 +1,7 @@
 import $axios from './axios';
 import application from '../application';
 import { ucfirst } from '../utils';
+import { Router } from 'app/config';
 
 export { default as module } from './db/module';
 export { default as element } from './db/element';
@@ -21,9 +22,15 @@ export const params = (type, data) => {
 };
 
 export const preLoad = () => {
-    return $axios({
-        url: '/app/preLoad',
-        method: 'post'
+    return new Promise((resolve, reject) => {
+        $axios({
+            url: '/app/preLoad',
+            method: 'post'
+        }).then(res => {
+
+            resolve(res);
+        });
+
     });
 };
 
@@ -47,12 +54,28 @@ export const updateResource = (add, remove) => {
     });
 };
 
-export const loginValidate = data => {
-    return $axios({
-        url: '/app/loginValidate',
-        method: 'post',
-        data
+export const loginValidate = async data => {
+    return new Promise((resolve, reject) => {
+        $axios({
+            url: '/app/loginValidate',
+            method: 'post',
+            data
+        }).then(res => {
+            if (res.statusKey === 666) {
+                application.preRequest('prefetch', res);
+                for (let [name, value] of Object.entries(application.$user)) {
+                    value = res.user[name];
+                }
+                application.$user = {
+                    ...application.$user,
+                    ...res.user
+                };
+                window.location = Router.defaultPage;
+                resolve(res);
+            }
+        });
     });
+
 };
 
 export function mod(name, type, auths) {

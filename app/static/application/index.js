@@ -3,7 +3,8 @@ import { keyword, code as str, rsaKey } from './variable';
 import local from './cryptStorage';
 import { moduleUpdata, elementUpdate, roleUpdate, authUpdate, userUpdate, otherComponents } from './dom';
 import { preLoad } from '../apis';
-import { ucfirst } from '../utils';
+import { Router } from 'app/config';
+import { getPathName } from '../utils';
 
 export { assignRes, roleRes } from './dom';
 
@@ -94,27 +95,34 @@ export default class application {
             createDate: '',
             createUserName: ''
         };
-        const that = this;
-
         for (let [name, value] of Object.entries(user)) {
             Object.defineProperty(user, name, {
                 enumerable: true,
                 configurable: true,
                 get: function() {
-                    if (value) {
-                        return local.getStatic(name, value);
-                    } else {
-                        return value;
-                    }
+                    return value;
                 },
                 set: function(newValue) {
-                    value = local.setStatic(name, newValue);
+                    if (newValue) {
+                        value = local.setStatic(name, newValue);
+                    } else {
+                        value = '';
+                    }
+                    if (name == Object.keys(user)[Object.keys(user).length - 1]) {
+                        sessionStorage.setItem('userStatus', JSON.stringify(user));
+                    }
                 }
             });
         }
 
+        if (sessionStorage.getItem('userStatus') !== null) {
+            const localStatus = JSON.parse(sessionStorage.getItem('userStatus'));
+            for (let [name, value] of Object.entries(localStatus)) {
+                user[name] = value;
+            }
+        }
         return user;
-    })()
+    })();
 
 
     /**
@@ -187,7 +195,7 @@ export default class application {
         return oData;
     })();
 
-    static async init(page) {
+    static async init() {
         const isPreEnv = typeof cookie.get(keyword['body']) === 'string';
         if (!isPreEnv) {
             cookie.set(keyword['body'], JSON.stringify(rsaKey));
@@ -206,38 +214,45 @@ export default class application {
 
             if (error.message) console.error('the Storage is Error!');
 
-            let res = await preLoad();
-            if (res.statusKey == 666) {
-                for (let [name, value] of Object.entries(res.userData)) {
-                    this.resource[name] = value;
-                }
-            }
-
+            this.preRequest('render');
         }
     }
 
-    static async preFetch() {
-        preLoad().then(res => {
-            if (res.statusKey == 666) {
-                for (let [name, value] of Object.entries(res.userData)) {
-                    this.resourceStatus[name] = local.setStatic(name, value);
-                }
-
-                this.$user = {
-                    ...this.$user,
-                    ...res.user
-                };
+    static async preRequest(mode = 'prefetch', data) {
+        let res = {};
+        if (data) {
+            res = data;
+        } else {
+            res = await preLoad();
+        }
+        if (mode == 'prefetch') {
+            for (let [name, value] of Object.entries(res.userData)) {
+                this.resourceStatus[name] = local.setStatic(name, value);
             }
-        });
+            for (let [name, value] of Object.entries(res.user)) {
+                this.$user[name] = value;
+            }
+            console.log(this.$user.userName);
+        } else if (mode == 'render') {
+            for (let [name, value] of Object.entries(res.userData)) {
+                this.resource[name] = value;
+            }
+        }
     }
 
-    static async run(page, pageEvent) {
-        this.page = page;
-        await this.init();
+    static run(pageEvent) {
+
+        this.page = {
+            ...this.page,
+            link: getPathName()
+        };
+
+        this.init();
+
         pageEvent(this);
         window.sessionStorage.clear();
         if (this.proLoad) {
-            this.preFetch();
+            this.preRequest();
         }
     }
 
@@ -261,26 +276,27 @@ export default class application {
     }
 
     static domInit(key, data) {
-        let i = 0;
-        switch (key) {
-            case 'module':
-                moduleUpdata(data, this);
-                otherComponents(data, this);
-                break;
-            case 'element':
-                elementUpdate(data, this);
-                break;
-            case 'role':
-                roleUpdate(data, this);
-                break;
-            case 'auth':
-                authUpdate(data, this);
-                break;
-            case 'user':
-                userUpdate(data, this);
-                break;
-            default:
-                break;
+        if (!Router.ignoreExecute.includes(this.page.link)) {
+            switch (key) {
+                case 'module':
+                    moduleUpdata(data, this);
+                    otherComponents(data, this);
+                    break;
+                case 'element':
+                    elementUpdate(data, this);
+                    break;
+                case 'role':
+                    roleUpdate(data, this);
+                    break;
+                case 'auth':
+                    authUpdate(data, this);
+                    break;
+                case 'user':
+                    userUpdate(data, this);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

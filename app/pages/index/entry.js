@@ -25,16 +25,7 @@ $(() => {
             }
         }
         loginValidate(user).then(res => {
-            if (res.statusKey === 666) {
-                for (let [key, value] of Object.entries(res.userData)) {
-                    application.setRes(key, value);
-                }
-                application.$user = {
-                    ...application.$user,
-                    ...res.user
-                };
-                window.location = '/admin/module';
-            }
+            console.log(res);
         });
     });
 });

@@ -42,3 +42,31 @@ export const FormControl = (function() {
     }
 
 })();
+
+export const testFetch = (function(params) {
+    import(
+        /* webpackPrefetch:true */
+        /* webpackPreload: true */
+        /*webpackChunkName: 'bootstrap'*/
+        'bootstrap/js/dist/util');
+    import(
+        /* webpackPrefetch:true */
+        /* webpackPreload: true */
+        /*webpackChunkName: 'bootstrap'*/
+        'bootstrap/js/dist/modal');
+    import(
+        /* webpackPrefetch:true */
+        /* webpackPreload: true */
+        /*webpackChunkName: 'bootstrap'*/
+        'bootstrap/js/dist/collapse');
+    import(
+        /* webpackPrefetch:true */
+        /* webpackPreload: true */
+        /*webpackChunkName: 'bootstrap'*/
+        'bootstrap/js/dist/dropdown');
+    import(
+        /* webpackPrefetch:true */
+        /* webpackPreload: true */
+        /*webpackChunkName: 'bootstrap'*/
+        'bootstrap/js/dist/tooltip');
+})();

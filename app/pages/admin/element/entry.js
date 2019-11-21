@@ -8,42 +8,9 @@ import { element } from 'app/static/apis';
 import { elementFormConfig } from 'app/config';
 import { elementRes } from 'app/static/application/dom';
 
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/util');
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/modal');
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/collapse');
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/dropdown');
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/tooltip');
-
-
-
 let editTitle = '编辑';
 let addTitle = '添加';
 
-
-const page = {
-    name: 'element',
-    link: '/admin/element'
-};
 
 
 function initSelectOption(data, activeId) {
@@ -61,14 +28,16 @@ function initSelectOption(data, activeId) {
     return selectOption;
 }
 
-application.run(page, function(that) {
+application.run(function(that) {
     $(() => {
         import(
             /* webpackPrefetch:true */
             /* webpackPreload: true */
-            /*webpackChunkName: 'state'*/
+            /*webpackChunkName: 'reference'*/
             'static/script/page/state.js'
         );
+
+        console.log(that.$user);
 
         $(document).on('show.bs.modal', '#adminModal', function(event) {
             const button = $(event.relatedTarget);

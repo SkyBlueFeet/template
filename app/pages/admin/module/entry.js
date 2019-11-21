@@ -7,32 +7,6 @@ import _modal from 'layout/snippets/_modal.ejs';
 
 import { moduleFormConfig } from 'app/config';
 
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/util');
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/modal');
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/collapse');
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/dropdown');
-import(
-    /* webpackPrefetch:true */
-    /* webpackPreload: true */
-    /*webpackChunkName: 'boot'*/
-    'bootstrap/js/dist/tooltip');
-
 let editTitle = '编辑模块';
 let addTitle = '添加模块';
 
@@ -49,19 +23,13 @@ function initSelectOption(data) {
     return selectOption;
 }
 
-const title = {
-    name: 'module',
-    link: '/admin/module'
-};
 
-
-
-application.run(title, function(that) {
+application.run(function(that) {
     $(function() {
         import(
             /* webpackPrefetch:true */
             /* webpackPreload: true */
-            /*webpackChunkName: 'state'*/
+            /*webpackChunkName: 'reference'*/
             'static/script/page/state.js'
         );
         $(document).on('show.bs.modal', '#adminModal', function(event) {

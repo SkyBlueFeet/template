@@ -16,42 +16,17 @@ let tempChange = {
     remove: {}
 };
 
-const page = {
-    name: 'user',
-    link: '/admin/user'
-};
 
 
-
-application.run(page, function(that) {
-    import(
-        /* webpackPrefetch:true */
-        /* webpackPreload: true */
-        /*webpackChunkName: 'boot'*/
-        'bootstrap/js/dist/util');
-    import(
-        /* webpackPrefetch:true */
-        /* webpackPreload: true */
-        /*webpackChunkName: 'boot'*/
-        'bootstrap/js/dist/modal');
-    import(
-        /* webpackPrefetch:true */
-        /* webpackPreload: true */
-        /*webpackChunkName: 'boot'*/
-        'bootstrap/js/dist/collapse');
-    import(
-        /* webpackPrefetch:true */
-        /* webpackPreload: true */
-        /*webpackChunkName: 'boot'*/
-        'bootstrap/js/dist/dropdown');
-    import(
-        /* webpackPrefetch:true */
-        /* webpackPreload: true */
-        /*webpackChunkName: 'boot'*/
-        'bootstrap/js/dist/tooltip');
+application.run(function(that) {
     $(function() {
 
-        import('static/script');
+        import(
+            /* webpackPrefetch:true */
+            /* webpackPreload: true */
+            /*webpackChunkName: 'reference'*/
+            'static/script/page/state.js'
+        );
 
         console.log(that.$user);
         $(document).on('show.bs.modal', '#adminModal', function(event) {

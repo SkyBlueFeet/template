@@ -4,16 +4,16 @@ export const moduleTableConfig = [
     value: '<div class="custom-control custom-control-alternative custom-checkbox"><input id="checkall" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="checkall"><span class="text-muted">&nbsp;</span></label></div>'
 },
 {
-    key: 'title',
-    value: '模块名'
+    key: 'name',
+    value: '名称'
 },
 {
     key: 'parentModuleTitle',
     value: '父模块'
 },
 {
-    key: 'key',
-    value: '标识'
+    key: 'title',
+    value: '文本'
 },
 {
     key: 'order',
@@ -22,10 +22,6 @@ export const moduleTableConfig = [
 {
     key: 'link',
     value: '链接'
-},
-{
-    key: 'remark',
-    value: '备注'
 }];
 
 export const elementTableConfig = [
@@ -34,29 +30,14 @@ export const elementTableConfig = [
     value: '<div class="custom-control custom-control-alternative custom-checkbox"><input id="checkall" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="checkall"><span class="text-muted">&nbsp;</span></label></div>'
 }, {
     key: 'elementName',
-    value: '元素名'
-}, {
-    key: 'key',
-    value: '标识'
+    value: '文本'
 }, {
     key: 'moduleTitle',
     value: '所属模块'
 }, {
-    key: 'remark',
-    value: '备注'
-}];
-/**
- * , {
-    key: 'elementId',
-    value: '元素ID'
-}, {
     key: 'containerId',
     value: '容器ID'
-}, {
-    key: 'order',
-    value: '序列'
-}
- */
+}];
 
 
 export const roleTableConfig = [

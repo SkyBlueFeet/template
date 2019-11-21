@@ -2,12 +2,12 @@
   "version": "1.0.0",
   "description": "记录学习的点滴",
   "scripts": {
-    "start": "webpack-dev-server --config ./config/webpack.prod",
+    "start": "webpack-dev-server --config ./build/webpack.prod",
     "compiler": "npm run prod-compiler",
-    "prod-compiler": "webpack --config ./config/webpack.prod",
-    "dev": "webpack-dev-server --config ./config/webpack.dev",
-    "dev-compiler": "webpack --config ./config/webpack.dev",
-    "analyzer": "webpack --config ./config/webpack.prod --profile --json > stats.json"
+    "prod-compiler": "webpack --config ./build/webpack.prod",
+    "dev": "webpack-dev-server --config ./build/webpack.dev",
+    "dev-compiler": "webpack --config ./build/webpack.dev",
+    "analyzer": "webpack --config ./build/webpack.prod --profile --json > stats.json"
   },
   "author": "skyblue",
   "homepage": "https://skybluefeet.cn",

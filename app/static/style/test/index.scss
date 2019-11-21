@@ -1,0 +1,20 @@
+.test {
+    color: red;
+}
+
+.ts {
+    color: black;
+}
+
+.test1 {
+    @extend .ts;
+}
+
+@mixin testMinix($color:#0055ff10) {
+    background-color: $color;
+    font-size: 25px;
+}
+
+.bg {
+    @include testMinix();
+}

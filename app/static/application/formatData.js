@@ -13,7 +13,7 @@ export const packageModuleData = (data) => {
         console.error('data参数应该是数组');
         return data;
     }
-    data.forEach((nav, index, data) => {
+    data.forEach((nav) => {
         if (nav.parentModuleId == 'root') {
             let a = {};
             for (let [key, value] of Object.entries(nav)) {
@@ -29,22 +29,18 @@ export const packageModuleData = (data) => {
             stageArr.push(a);
         }
     });
-    stageArr.forEach((sub, j, _arr) => {
-        nAuth.forEach((nav, i, $arr) => {
+    for (let sub of stageArr) {
+        for (let [name, nav] of Object.entries(nAuth)) {
             if (sub.parentModuleId === nav.id) {
                 if (!active) console.error('page.link is no config');
                 if (sub.link == active) {
-                    // application.page.id = sub.id;
-                    // application.page.parentModuleId = sub.parentModuleId;
-                    // application.page.title = sub.title;
-                    // // application.page.parentModuleTitle = sub.parentModuleTitle;
-                    _arr[j].active = true;
-                    $arr[i].active = true;
+                    sub.active = true;
+                    nav.active = true;
                 }
                 nav.submenu.push(sub);
             }
-        });
-    });
+        }
+    }
     return nAuth;
 };
 

@@ -43,4 +43,14 @@ export function ucfirst(str) {
     return str;
 }
 
-export default { getHashCode, randomString, ucfirst };
+export function getPathName() {
+    let path = window.location.pathname;
+    if (path.endsWith('/index.html')) {
+        path = path.substring(0, path.length - 11);
+    } else if (path.endsWith('/')) {
+        path = path.substring(0, path.length - 1);
+    }
+    return path;
+}
+
+export default { getHashCode, randomString, ucfirst, getPathName };

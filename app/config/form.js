@@ -61,8 +61,14 @@ export function elementFormConfig(params = {}, selectOptions = {}) {
             type: 'hidden',
             readonly: false
         }, {
+            id: 'name',
+            label: '名称',
+            value: params.name,
+            type: 'text',
+            readonly: false
+        }, {
             id: 'elementName',
-            label: '元素名',
+            label: '文本',
             value: params.elementName,
             type: 'text',
             readonly: false
@@ -123,6 +129,12 @@ export function moduleFormConfig(params = {}, selectOptions = {}) {
             id: 'title',
             label: '模块名',
             value: params.title,
+            type: 'text',
+            readonly: false
+        }, {
+            id: 'name',
+            label: '名称',
+            value: params.name,
             type: 'text',
             readonly: false
         }, {
