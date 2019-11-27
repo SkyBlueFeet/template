@@ -4,7 +4,7 @@ temp/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-app/directory.json*
+*/directory.json*
 # Editor directories and files
 *.suo
 *.ntvs*

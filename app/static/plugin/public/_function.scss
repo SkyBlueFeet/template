@@ -1,3 +1,0 @@
-@function convertRem($px:14px, $root:14px) {
-    @return $px/$root*1rem;
-}

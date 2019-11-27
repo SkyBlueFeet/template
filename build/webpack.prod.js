@@ -5,26 +5,29 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 
 const PurifyCSSPlugin = require('@wafflepie/purify-css-webpack');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const path = require('path');
 const glob = require('glob');
 
 const utils = require('./utils');
-const config = require('../config');
 const env = require('./global');
+
+const config = require('../config/framework.config');
 
 env.IS_PRODUCTION = true;
 
-const pageDir = path.resolve(__dirname, '..', 'app');
-
 const ejsPath = () => {
-    const paths = glob.sync('**/*.ejs', {
-        cwd: pageDir, // 搜寻目录
-        sync: true // 同步操作
-    });
-    paths.forEach((key, index, arr) => {
-        arr[index] = path.resolve(__dirname, '../app/' + key);
-    });
-    return paths;
+    let allPath = [];
+    for (let [name, dir] of Object.entries(config.resourceRoot)) {
+        let paths = glob.sync('**/*.ejs', {
+            cwd: dir, // 搜寻目录
+            sync: true // 同步操作
+        });
+        paths.forEach(key => {
+            allPath.push(path.resolve(__dirname, '../' + name + '/' + key));
+        });
+    }
+    return allPath;
 };
 
 const ProdWebpackConf = merge(require('./webpack.config'), {
@@ -44,7 +47,6 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
             IS_PRODUCTION: JSON.stringify(true)
         }),
 
-
         new MiniCssExtractPlugin({
             filename: 'css/[name].css',
             chunkFilename: 'css/[name].css',
@@ -60,27 +62,34 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
         splitChunks: {
             chunks: 'all', //同时分割同步和异步代码,推荐。
             cacheGroups: {
-                commons: {
-                    name: 'commons', // 提取出来的文件命名
-                    // name： ‘common/common’ //  即先生成common文件夹
-                    chunks: 'all', // initial表示提取入口文件的公共css及js部分
-                    // chunks: 'all' // 提取所有文件的公共部分
-                    test: /[\\/]app[\\/]/,
-                    minChunks: 2, // 表示提取公共部分最少的文件数
-                    minSize: 10, // 表示提取公共部分最小的大小
+                core: {
+                    name: 'core', // 提取出来的文件命名
+                    chunks: 'all',
+                    test: /[\\/]core[\\/]/,
+                    minSize: 10000, // 表示提取公共部分最小的大小
+                    priority: 0, //设置匹配优先级，数字越大，优先级越高
                     // 如果发现页面中未引用公共文件，加上enforce: true
-                    enforce: false
+                    enforce: true
                 },
-                vendor: {
-                    name: 'vendor',
-                    test: /[\\/]node_modules[\\/]/, //匹配node模块中匹配的的模块
-                    priority: 10, //设置匹配优先级，数字越大，优先级越高
-                    chunks: 'all'
+                jquery: {
+                    name: 'jquery',
+                    chunks: 'all',
+                    test: /[\\/]jquery[\\/]/,
+                    priority: 50,
+                    enforce: true
+                },
+                vendors: {
+                    name: 'vendors',
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: 10,
                 }
             },
             minChunks: 2,
             minSize: 0,
             name: true
+        },
+        runtimeChunk: {
+            name: 'runtime'
         },
         minimizer: utils.compress
     }

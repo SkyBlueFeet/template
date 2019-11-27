@@ -1,0 +1,91 @@
+/*!
+
+=========================================================
+* Argon Dashboard - v1.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+* Copyright 2018 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
+// Core
+
+@import "app/custom/functions";
+@import "app/custom/variables";
+@import "app/custom/mixins";
+
+// bootstrap (4.3.1) components
+
+@import "app/bootstrap/root";
+@import "app/bootstrap/reboot";
+@import "app/bootstrap/type";
+@import "app/bootstrap/images";
+@import "app/bootstrap/code";
+@import "app/bootstrap/grid";
+@import "app/bootstrap/tables";
+@import "app/bootstrap/forms";
+@import "app/bootstrap/buttons";
+@import "app/bootstrap/transitions";
+@import "app/bootstrap/dropdown";
+@import "app/bootstrap/button-group";
+@import "app/bootstrap/input-group";
+@import "app/bootstrap/custom-forms";
+@import "app/bootstrap/nav";
+@import "app/bootstrap/navbar";
+@import "app/bootstrap/card";
+@import "app/bootstrap/breadcrumb";
+@import "app/bootstrap/pagination";
+@import "app/bootstrap/badge";
+@import "app/bootstrap/jumbotron";
+@import "app/bootstrap/alert";
+@import "app/bootstrap/progress";
+@import "app/bootstrap/media";
+@import "app/bootstrap/list-group";
+@import "app/bootstrap/close";
+@import "app/bootstrap/modal";
+@import "app/bootstrap/tooltip";
+@import "app/bootstrap/popover";
+@import "app/bootstrap/carousel";
+@import "app/bootstrap/utilities";
+@import "app/bootstrap/print";
+
+// Argon utilities and components
+
+@import "app/custom/reboot";
+@import "app/custom/utilities";
+@import "app/custom/components";
+
+// Vendor (Plugins)
+
+// @import "app/custom/vendors";
+
+// Docs components
+@import "app/docs/variables";
+@import "app/docs/nav";
+@import "app/docs/clipboard-js";
+@import "app/docs/component-examples";
+@import "app/docs/prism";
+@import "app/docs/content";
+@import "app/docs/sidebar";
+@import "app/docs/footer";
+
+// Expand
+
+@import "expand/animate";
+@import "expand/icon";
+@import "expand/button";
+@import "expand/components";
+
+// Correction
+
+@import "correction/navbar-vertical";
+
+@import "page/role";

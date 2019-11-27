@@ -36,11 +36,5 @@ function replaceString(string) {
 module.exports = function(source) {
     let template = _.template(source, { variable: 'data' });
     template = babel.transform('module.exports = ' + template, option).code;
-    let test = template.replace(/[\r\n]+/g, '\n').replace(/^\s+|\s+$/gm, '');
-    func.WriteFile(
-        path.resolve('app'),
-        'ejs.txt',
-        replaceString(template)
-    );
     return replaceString(template);
 };

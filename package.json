@@ -5,7 +5,7 @@
     "start": "webpack-dev-server --config ./build/webpack.prod",
     "compiler": "npm run prod-compiler",
     "prod-compiler": "webpack --config ./build/webpack.prod",
-    "dev": "webpack-dev-server --config ./build/webpack.dev",
+    "dev": "webpack-dev-server --config ./build/webpack.dev --display-error-details",
     "dev-compiler": "webpack --config ./build/webpack.dev",
     "analyzer": "webpack --config ./build/webpack.prod --profile --json > stats.json"
   },
@@ -67,6 +67,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
+    "preload-webpack-plugin": "^3.0.0-beta.4",
     "sass": "^1.23.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",

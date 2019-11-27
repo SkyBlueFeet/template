@@ -6,8 +6,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const resolve = dir => path.resolve(__dirname, '..', dir);
 const Global = require('./global');
-const router = require('../app/config/router');
-const browserslist = require('../package.json').browserslist;
 
 const IS_PRODUCTION = Global.IS_PRODUCTION;
 exports.loader = [

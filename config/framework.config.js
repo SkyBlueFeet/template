@@ -5,30 +5,45 @@ const path = require('path');
 module.exports = {
     name: 'App',
     /**
-     * 首页，与入口名字符串相同，默认为index，即 pages文件夹下 index/index.html，
+     * 首页，与入口名字符串相同，默认为src/pages文件夹下 index/index.html，
      * 其对应的入口名为index
+     * @type { String }
      */
-    index: 'index',
+    index: 'login',
 
     /**
-     * 文档根目录
+     * 需要扫描的页面根目录
+     * @type { String }
      */
-    docRoot: path.resolve(__dirname, '..', 'doc'),
+    pageRoot: {
+        page: path.resolve(__dirname, '..', 'src/pages')
+    },
 
     /**
-     * app基本框架
+     * 首页所在根目录,对应pageRoot键名(多个页面根目录时有效)
+     * @type { String }
      */
-    basicRoot: path.resolve(__dirname, '..', 'app'),
+    defaultPageRoot: 'page',
 
     /**
-     *
+     * 应用主要页面存放目录,所有ejs、js、css都应该放在下列目录下
+     * @type { Array<String> }
      */
-    expandRoot: [path.resolve(__dirname, '..', 'src')],
+    resourceRoot: {
+        core: path.resolve(__dirname, '..', 'core'),
+        src: path.resolve(__dirname, '..', 'src')
+    },
+
 
     /**
-     * 项目根目录
+     * 此项目的是为了抽取重用的css和JS
+     * 所有css和js文件应该放到以数组子项为名的文件夹中
      */
-    // projectRoot: path.resolve(__dirname, '..', 'project'),
+    splitFolderList: {
+        style: ['style', 'css'],
+        script: ['script'],
+    },
+
     dev: {
         host: 'localhost',
         port: 8080,
@@ -57,6 +72,7 @@ module.exports = {
         useEslint: true,
         showEslintErrorsInOverlay: false,
         devtool: 'eval-source-map',
+
         outputDir: path.resolve(__dirname, '..', 'dist'),
 
 
@@ -65,12 +81,14 @@ module.exports = {
          * Vue单页面使用'./'或'/'均可,但多页面只能使用'/'或者不配置(使用'./'时每个页面的所有资源路径均为 ./path/go/to,
          * 页面不在根目录时路径错误),不配置时所有资源均使用相对各页面的相对路径
          */
-        assetsPublicPath: './'
+        assetsPublicPath: '/',
+
     },
     build: {
         outputDir: path.resolve(__dirname, '..', 'dist'),
         devtool: 'hidden-source-map',
-        assetsPublicPath: './',
+        assetsPublicPath: '/',
+
         buildAnalyzerReport: true,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
@@ -84,5 +102,5 @@ module.exports = {
          * 打包时是否去除console
          */
         removeConsole: false,
-    }
+    },
 };

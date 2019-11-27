@@ -30,10 +30,10 @@ const DevWebpackConf = merge(require('./webpack.config'),
             IS_PRODUCTION: JSON.stringify(false),
             'process.env': JSON.stringify('development')
         }),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
-        new webpack.HotModuleReplacementPlugin(),
-        new FriendlyErrorsWebpackPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
+        // new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
+        // new webpack.HotModuleReplacementPlugin(),
+        // new FriendlyErrorsWebpackPlugin(),
     ]
 });
 module.exports = new Promise((resolve, reject) => {

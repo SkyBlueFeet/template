@@ -1,15 +1,15 @@
 {
   "exclude": ["node_modules"],
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "tpl/*": ["/*"],
-      "app/*": ["app/*"],
-      "layout/*": ["app/layout/*"],
-      "components/*": ["app/components/*"],
-      "pages/*": ["app/pages/*"],
-      "static/*": ["app/static/*"],
-      "utils/*": ["utils/*"]
+      "@tpl/*": ["./"],
+      "@core/*": ["core/*"],
+      "@layout/*": ["core/layout/*"],
+      "@utils/*": ["utils/*"],
+      "@src/*": ["src/*"],
+      "@script/*": ["src/script/*"],
+      "@style/*": ["src/style/*"]
     }
   }
 }
