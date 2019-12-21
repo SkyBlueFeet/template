@@ -1,20 +1,8 @@
-import { params } from '..';
-import $axios from '../axios';
-import application from '../../application';
+import { mod } from '..';
+import appConfig from '@config/app.config';
+import MD5 from 'crypto-js/md5';
 
-function mod(type, users) {
-    return $axios({
-        url: '/app/modUser',
-        method: 'post',
-        data: params(type, users)
-    }).then(res => {
-        application.setRes('user', res.data);
-        application.$user = {
-            ...application.$user,
-            ...res.user
-        };
-    });
-}
+let encryption = appConfig.encryption;
 
 export default class users {
     /**
@@ -28,14 +16,15 @@ export default class users {
      * @param { String } createDate
      * @param { String } createUserName
      */
-    constructor(id, userName, account, password, createUserId, createDate, createUserName) {
+    constructor(id, userName, account, password, createUserId, createDate, type, license) {
         this.id = id;
         this.userName = userName;
         this.account = account;
-        this.password = password;
         this.createUserId = createUserId;
         this.createDate = createDate;
-        this.createUserName = createUserName;
+        this.type = type;
+        this.license = license;
+        this.password = password;
     }
 
     static edit(...users) {

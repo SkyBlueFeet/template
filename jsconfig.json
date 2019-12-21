@@ -5,11 +5,8 @@
     "paths": {
       "@tpl/*": ["./"],
       "@core/*": ["core/*"],
-      "@layout/*": ["core/layout/*"],
-      "@utils/*": ["utils/*"],
       "@src/*": ["src/*"],
-      "@script/*": ["src/script/*"],
-      "@style/*": ["src/style/*"]
+      "@config/*": ["config/*"]
     }
   }
 }

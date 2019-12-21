@@ -1,52 +1,52 @@
 <div class="container-fluid">
-    <% if(data){ %>
-    <div id="accordion">
-        <% for(let [modules,pageObject] of Object.entries(data)){ %>
-        <% let a=modules.split('#') %>
-        <% let moduleId=a[1] %>
-        <% let name=a[0] %>
-        <div class="card">
-            <div class="card-header" id="headingOne">
-                <h5 class="mb-0 d-flex flex-row justify-content-between align-items-center">
-                    <label class="checkblock">
-                        <input id="module<%= moduleId %>" type="checkbox" value="module#<%= moduleId %>" /><i class="s-icon__checkbox"></i>
-                        <span><%= name %></span>
-                    </label>
-                    <% if(Object.keys(pageObject).length>0) {%>
-                    <span data-toggle="collapse" data-target="#_<%= moduleId %>" aria-expanded="false" aria-controls="#_<%= moduleId %>" class="role-assign-expand"> <i class="icon-zhankai"></i></span>
-                    <% } %>
-                </h5>
-            </div>
-
-            <div id="_<%= moduleId %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                <div id="_atim<%= moduleId %>" data-children=".assign_item">
-                    <% for(let [id,ele] of Object.entries(pageObject)){ %>
-                    <div class="role-assign-container">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-4 d-flex flex-column justify-content-center">
-                                <span class="badge badge-info">#<%= id %></span>
-                            </div>
-                            <div class="col-sm-12 col-md-8">
-                                <% if(Array.isArray(ele)){ %>
-                                <% ele.forEach(item=>{ %>
-                                <button class="btn btn-outline-info">
-                                    <div class="custom-control custom-control-alternative custom-checkbox">
-                                        <input id="element<%= item.id %>" value="element#<%= item.id %>" class="custom-control-input" type="checkbox" />
-                                        <label class="custom-control-label" for="element<%= item.id %>">
-                                            <span><%= item.elementName %></span>
-                                        </label>
-                                    </div>
-                                </button>
-                                <% }) %>
-                                <% }  %>
-                            </div>
-                        </div>
-                    </div>
-                    <% } %>
-                </div>
-            </div>
-        </div>
+    <% for(let [pId,pMd] of Object.entries(data.module)){ %>
+    <% if(pMd.parentModuleId==='root') {%>
+    <div class="assignItem">
+        <label class="checkblock">
+            <input id="module<%= pId %>" type="checkbox" value="module#<%= pId %>" /><i class="s-icon__checkbox"></i>
+            <span><%= pMd.title %></span>
+        </label>
+        <% try { %>
+        <% for(let [sId,sMd] of Object.entries(data.module)){ %>
+        <% if(sMd.parentModuleId===pId) throw new Error() %>
+        <% } %>
+        <% } catch { %>
+        <span data-toggle="collapse" data-target="#p<%= pId %>" aria-expanded="false" aria-controls="#p<%= pId %>" class="role-assign-expand"> <i class="icon-zhankai"></i></span>
         <% } %>
     </div>
+    <div>
+        <div class="collapse multi-collapse" id="p<%= pId %>">
+            <div class="card card-body">
+                <% for(let [sId,sMd] of Object.entries(data.module)) { %>
+                <% if(sMd.parentModuleId===pId){ %>
+                <div class="assignItem">
+                    <label class="checkblock">
+                        <input id="module<%= sId %>" type="checkbox" value="module#<%= sId %>" /><i class="s-icon__checkbox"></i>
+                        <span><%= sMd.title %></span>
+                    </label>
+                    <% try { %>
+                    <% for(let [eId,e] of Object.entries(data.element)){ %>
+                    <% if(e.moduleId===sId) throw new Error() %>
+                    <% } %>
+                    <% } catch { %>
+                    <span data-toggle="collapse" data-target="#s<%= sId %>" aria-expanded="false" aria-controls="#s<%= sId %>" class="role-assign-expand"> <i class="icon-zhankai"></i></span>
+                    <% } %>
+                </div>
+                <div class="collapse multi-collapse" id="s<%= sId %>">
+                    <% for(let [eId,e] of Object.entries(data.element)){ %>
+                    <% if(e.moduleId===sId) {%>
+                    <label class="checkblock">
+                        <input id="element<%= eId %>" type="checkbox" value="element#<%= eId %>" /><i class="s-icon__checkbox"></i>
+                        <span><%= e.name %></span>
+                    </label>
+                    <% } %>
+                    <% } %>
+                </div>
+                <% } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <% } %>
     <% } %>
 </div>

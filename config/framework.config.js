@@ -30,7 +30,6 @@ module.exports = {
      * @type { Array<String> }
      */
     resourceRoot: {
-        core: path.resolve(__dirname, '..', 'core'),
         src: path.resolve(__dirname, '..', 'src')
     },
 

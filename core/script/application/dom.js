@@ -1,4 +1,4 @@
-import { eleTableData, eleCollection, moduleData, roleData, userData } from './data';
+import { $EleHtmlMap, elementTableFormat, moduleTableFormat, moduleRes, elementRes, userTableFormat, authTableFormat, authRes, roleTableFormat } from './data';
 import { formatRes, packageModuleData, handleModuleData } from './format';
 import { moduleTableConfig, elementTableConfig, roleTableConfig, userTableconfig } from '@core/config';
 
@@ -20,51 +20,64 @@ const initTable = (data, config) => {
     return newData;
 };
 
-
 /**
  * 通过JQuery更新DOM
- * 为了防止修改一项数据而把页面所有节点全部更新,加入@param { String } type
+ * 为了防止修改一项数据而把页面所有节点全部更新,加入@param { String } type,表示更新信息类型
  * @param { Object } page 当前页面信息
  * @param { String } type module || element || role || auth || user
  */
-export default function updateDom(page, type) {
+export default function updateDom(that, type) {
+
+    let $page = that.$page,
+        $user = that.$user;
 
     $(() => {
 
         if (type == 'element') {
 
-            for (let [moduleId, object] of Object.entries(eleCollection)) {
-
-                // 如果模块ID(moduleId)与元素所属模块ID相同则将html添加到DOM中
-
-                if (page.id == moduleId) {
-                    $(() => {
-                        for (let [id, html] of Object.entries(object)) {
-                            $(`#${id}`).html(html);
-                        }
-                    });
-                }
+            for (let [moduleId, str] of $EleHtmlMap) {
+                $(() => {
+                    if ($(`#${moduleId}`).length > 0) {
+                        $(`#${moduleId}`).html(str);
+                    }
+                });
             }
-
-            if (page.name == 'element') initTable(eleTableData, elementTableConfig);
+            // if ($page.name == 'element') initTable(that.getRes('element'), elementTableConfig);
 
         } else if (type == 'module') {
 
-            $('#admin-mount-crumbs').html(crumbs([page.parentModuleTitle, page.title]));
+            $('#admin-mount-crumbs').html(crumbs([$page.parentModuleTitle, $page.title]));
 
-            $('#admin-mount-navigation').html(_navigation(packageModuleData(moduleData)));
-
-            if (page.name == 'module') initTable(moduleData, moduleTableConfig);
-
-        } else if (type == 'role') {
-
-            if (page.name == 'role') initTable(roleData, roleTableConfig);
+            $('#admin-mount-navigation').html(_navigation(packageModuleData(that.getRes('module'))));
 
         } else if (type == 'user') {
 
-            if (page.name == 'user') initTable(userData, userTableconfig);
-
+            $('#admin-mount-userName').text($user.userName);
         }
     });
+
+}
+
+export function updataTable(that, type, data) {
+    let $page = that.$page;
+    if ($page.name == type) {
+        $(() => {
+            if (type == 'element') {
+                moduleTableFormat(that.management.module);
+                initTable(elementTableFormat(data), elementTableConfig);
+            } else if (type == 'module') {
+                initTable(moduleTableFormat(data), moduleTableConfig);
+            } else if (type == 'role') {
+                moduleTableFormat(that.management.module);
+                elementTableFormat(that.management.element);
+                initTable(roleTableFormat(data, that), roleTableConfig);
+            } else if (type == 'user') {
+                initTable(userTableFormat(data, that), userTableconfig);
+            }
+        });
+    } else if (type == 'auth') {
+        authTableFormat(that.management.auth);
+    }
+
 
 }

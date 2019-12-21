@@ -1,4 +1,4 @@
-import { roleRes } from '@core/script/application/data';
+import { roleRes, userRes } from '@core/script/application/data';
 
 import { user, auth } from '@core/script/apis';
 import _modal from '@core/layout/snippets/_modal.ejs';
@@ -20,31 +20,30 @@ let tempChange = {
 
 $(function() {
 
-    console.log(application.$user);
     $(document).on('show.bs.modal', '#adminModal', function(event) {
         const button = $(event.relatedTarget);
         const modal = $(this);
         const recipient = button.data('whatever');
-        let tableQuery = {};
-        const moduleData = application.getRes('user');
 
-        moduleData.forEach(ele => {
-            tableQuery[ele.id] = ele;
-        });
+        let pwdTip = '<div class="alert alert-info" role="alert">用户默认密码为123456</div>';
 
         if (recipient == '@edit') {
 
             let id = $('tbody input[type="checkbox"]:checked').prop('id');
             modal.find('h5').text(editTitle);
             modal.find('.modal-body').html(_modal({
-                config: userFormConfig(tableQuery[id])
-            }));
+                config: userFormConfig(userRes[id])
+            }) + pwdTip);
+
+            // $('select#type').val(userRes[id].type);
+            for (let index = 0, select = $('#adminModal').find('select'); index < select.length; index++) {
+                select.eq(index).val(userRes[id][select.eq(index).prop('id')]);
+            }
 
         } else if (recipient == '@add') {
 
             modal.find('h5').text(addTitle);
-            modal.find('.modal-body').html(_modal({ config: userFormConfig({}) }));
-
+            modal.find('.modal-body').html(_modal({ config: userFormConfig({}) }) + pwdTip);
         }
         return;
     });
@@ -55,12 +54,24 @@ $(function() {
         for (let index = 0; index < $('#adminModal input').length; index++) {
             newUser[$('#adminModal input').eq(index).prop('id')] = $('#adminModal input').eq(index).val();
         }
+        for (let index = 0, select = $('#adminModal select'); index < select.length; index++) {
+            newUser[select.eq(index).prop('id')] = select.eq(index).val();
+        }
+        // console.log(new user(123, 456, 789, 7889));
 
         if ($('#adminModal h5').text().trim() == editTitle) {
+
             user.edit(newUser);
+
         } else if ($('#adminModal h5').text().trim() == addTitle) {
+            // let nAuth=new auth();
+            // nAuth.createUserId=application.$user.id;
+            newUser.createUserId = application.$user.id;
+
             user.add(newUser);
+
         }
+
         $('#adminModal').modal('toggle');
         $('#getmodal-Edit').prop('disabled', true);
     });
@@ -69,7 +80,7 @@ $(function() {
         $('.modal-backdrop').remove();
     });
 
-    $('#delete').click(() => {
+    $('#admin-mount-operator').on('click', '#delete', function() {
         if ($('tbody input[type="checkbox"]:checked').length > 0 && confirm('请问是否确认删除')) {
             for (let index = 0; index < $('tbody input[type="checkbox"]:checked').length; index++) {
                 let deleteMod = new user();

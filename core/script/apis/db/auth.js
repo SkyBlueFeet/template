@@ -15,14 +15,13 @@ export default class auths {
      * @param { String } resourcesId
      * @returns { Promise Object }
      */
-    constructor(id, operateUserId, operateDate, description, key, ownerId, resourcesId) {
+    constructor(id, key, ownerId, resourcesId, createUserId, createDate) {
         this.id = id;
-        this.operateUserId = operateUserId;
-        this.operateDate = operateDate;
-        this.description = description;
         this.key = key;
         this.ownerId = ownerId;
         this.resourcesId = resourcesId;
+        this.createUserId = createUserId;
+        this.createDate = createDate;
     }
 
     static edit(...auths) {

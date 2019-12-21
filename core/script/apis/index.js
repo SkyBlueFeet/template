@@ -27,7 +27,6 @@ export const resLoad = () => {
             url: '/app/preLoad',
             method: 'post'
         }).then(res => {
-
             resolve(res);
         });
 
@@ -49,7 +48,7 @@ export const updateResource = (add, remove) => {
         }
     }).then(res => {
         if (res.statusKey === 666) {
-            application.setRes('auth', res.data);
+            application.management['auth'] = res.data;
         }
     });
 };
@@ -73,19 +72,20 @@ export const loginValidate = async data => {
                 window.location = Router.defaultPage;
                 resolve(res);
             }
+        }).catch(error => {
+            reject(error);
         });
     });
-
 };
 
-export function mod(name, type, auths) {
+export function mod(name, type, Res) {
     $axios({
         url: `/app/mod${ ucfirst(name) }`,
         method: 'post',
-        data: params(type, auths)
+        data: params(type, Res)
     }).then(res => {
         if (res.statusKey === 666) {
-            application.setRes(name, res.data);
+            application.management[name] = res.data;
         }
     });
 }

@@ -33,14 +33,14 @@ $(() => {
         if (recipient == '@edit') {
 
             let id = $('tbody input[type="checkbox"]:checked').prop('id');
-            options.moduleId = initSelectOption(application.getRes('module'), elementRes[id]['moduleId']);
+            options.moduleId = initSelectOption(application.management.module, elementRes[id]['moduleId']);
             modal.find('h5').text(editTitle);
 
             modal.find('.modal-body').html(_modal({ config: elementFormConfig(elementRes[id], options) }));
 
         } else if (recipient == '@add') {
 
-            options.moduleId = initSelectOption(application.getRes('module'));
+            options.moduleId = initSelectOption(application.management.module);
 
             modal.find('h5').text(addTitle);
             modal.find('.modal-body').html(_modal({ config: elementFormConfig({}, options) }));

@@ -4,11 +4,12 @@ import _assign from '@core/layout/snippets/_assign.ejs';
 
 import { roleFormConfig } from '@core/config';
 
-import { authRes, roleRes, moduleRes, treeStructure, assignRes } from '@core/script/application/data';
+import { authRes, roleRes, moduleRes, elementRes } from '@core/script/application/data';
 
 import { updateResource, role, auth } from '@core/script/apis';
 
 import { bootstrap } from '@core/script/utils';
+import application from '@core/script/application';
 
 
 let editTitle = '编辑模块',
@@ -38,7 +39,6 @@ function getParentId(rO) {
 
 
 $(function() {
-
         $('#adminModal').on('show.bs.modal', function(event) {
                 const button = $(event.relatedTarget),
                     modal = $(this),
@@ -52,6 +52,7 @@ $(function() {
                     modal.find('.modal-body').html(tModal({
                         config: roleFormConfig(roleRes[id])
                     }));
+                    $('#license').val(roleRes[id].license);
                 } else if (recipient == '@add') {
 
                     modal.find('h5').text(addTitle);
@@ -68,32 +69,36 @@ $(function() {
         );
 
         $('#assignModal').on('show.bs.modal', function(event) {
-                const modal = $(this);
-                modal.find('.modal-body').html(_assign(assignRes));
+            const modal = $(this);
+            modal.find('.modal-body').html(_assign({
+                module: moduleRes,
+                element: elementRes
+            }));
 
-                if (Array.isArray(authRes[$('tbody input[type="checkbox"]:checked').prop('id')])) {
-                    authRes[$('tbody input[type="checkbox"]:checked').prop('id')].forEach(item => {
-                        let $this = $('#' + item.key + item.resourcesId);
-                        $this.prop('checked', true);
-                        $this.data('data-id', item.id);
-                    });
-                }
+            if (Array.isArray(authRes[$('tbody input[type="checkbox"]:checked').prop('id')])) {
+                authRes[$('tbody input[type="checkbox"]:checked').prop('id')].forEach(item => {
+                    let $this = $('#' + item.key + item.resourcesId);
+                    $this.prop('checked', true);
+                    $this.data('data-id', item.id);
+                });
             }
-
-        );
+        });
 
         $('#adminModal').on('click', '#modal-save', function() {
                 const newRole = new role();
 
-                for (let index = 0; index < $('#adminModal input').length; index++) {
-                    newRole[$('#adminModal input').eq(index).prop('id')] = $('#adminModal input').eq(index).val();
+                for (let index = 0, input = $('#adminModal input'); index < input.length; index++) {
+                    newRole[input.eq(index).prop('id')] = input.eq(index).val();
                 }
+                for (let index = 0, select = $('#adminModal select'); index < select.length; index++) {
+                    newRole[select.eq(index).prop('id')] = select.eq(index).val();
+                }
+
 
                 if ($('#adminModal h5').text().trim() == editTitle) {
                     role.edit(newRole);
-                }
-
-                else if ($('#adminModal h5').text().trim() == addTitle) {
+                } else if ($('#adminModal h5').text().trim() == addTitle) {
+                    newRole['createUserId'] = application.$user.id;
                     role.add(newRole);
                 }
 
@@ -107,61 +112,41 @@ $(function() {
             $('.modal-backdrop').remove();
         });
 
-        $('#delete').click(() => {
-                if ($('tbody input[type="checkbox"]:checked').length > 0 && confirm('请问是否确认删除')) {
-                    for (let index = 0; index < $('tbody input[type="checkbox"]:checked').length; index++) {
-                        let deleteMod = new role();
-                        deleteMod.id = $('tbody input[type="checkbox"]:checked').eq(index).prop('id');
+        $('#admin-mount-operator').on('click', '#delete', () => {
+            if ($('tbody input[type="checkbox"]:checked').length > 0 && confirm('请问是否确认删除')) {
+                for (let index = 0; index < $('tbody input[type="checkbox"]:checked').length; index++) {
+                    let deleteMod = new role();
+                    deleteMod.id = $('tbody input[type="checkbox"]:checked').eq(index).prop('id');
 
-                        role.delete(deleteMod);
-                    }
-                }
-
-                else if ($('tbody input[type="checkbox"]:checked').length === 0) {
-                    alert('请选中一个');
+                    role.delete(deleteMod);
                 }
             }
 
-        );
+            else if ($('tbody input[type="checkbox"]:checked').length === 0) {
+                alert('请选中一个');
+            }
+        });
 
         $('#assignModal').on('click', 'input[type="checkbox"]', function(params) {
                 const resAuth = new auth(),
-                    parentAuth = new auth(),
                     $this = $(this),
                     arr = $this.val().split('#'),
                     id = $('tbody input[type="checkbox"]:checked').prop('id'),
-                    checkStatus = $(this).prop('checked'),
-                    moduleHasParent = arr[0] == 'module' && getParentId(arr[1]);
+                    checkStatus = $(this).prop('checked');
                 resAuth.ownerId = id;
                 resAuth.key = arr[0];
                 resAuth.resourcesId = arr[1];
+                resAuth.createUserId = application.$user.id;
                 resAuth.id = $this.data('data-id');
-
-                if (moduleHasParent) {
-                    parentAuth.ownerId = id;
-                    parentAuth.key = arr[0];
-                    parentAuth.resourcesId = getParentId(arr[1]);
-                    parentAuth.id = $(getParentId(arr[1])).data('data-id');
-                }
 
                 if (checkStatus && $this.data('data-id')) {
                     delete tempChange['removeData'][arr[1]];
-                    if (moduleHasParent) delete tempParentReserves['removeData'][getParentId(arr[1])];
-                }
-
-                else if (!checkStatus && $this.data('data-id')) {
+                } else if (!checkStatus && $this.data('data-id')) {
                     tempChange['removeData'][arr[1]] = resAuth;
-                    if (moduleHasParent) tempParentReserves['removeData'][getParentId(arr[1])] = parentAuth;
-                }
-
-                else if (checkStatus && !$this.data('data-id')) {
+                } else if (checkStatus && !$this.data('data-id')) {
                     tempChange['addData'][arr[1]] = resAuth;
-                    if (moduleHasParent) tempParentReserves['addData'][getParentId(arr[1])] = parentAuth;
-                }
-
-                else if (!checkStatus && !$this.data('data-id')) {
+                } else if (!checkStatus && !$this.data('data-id')) {
                     delete tempChange['addData'][arr[1]];
-                    if (moduleHasParent) delete tempParentReserves['addData'][getParentId(arr[1])];
                 }
             }
 
@@ -172,17 +157,7 @@ $(function() {
                 let addData = [],
                     removeData = [],
                     a = tempChange.addData,
-                    r = tempChange.removeData,
-                    aP = tempParentReserves.addData,
-                    rP = tempParentReserves.removeData,
-                    addParentData = [],
-                    removeParentData = [];
-                console.log(tempParentReserves);
-                // const getParent = mR => (rO, k) => mR[mR[rO[k]['resourcesId']]['parentModuleId']];
-
-                Object.keys(rP).forEach(k => {
-                    console.log(Object.keys(aP).includes(k));
-                });
+                    r = tempChange.removeData;
 
 
                 Object.keys(a).forEach(k => {

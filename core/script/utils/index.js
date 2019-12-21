@@ -63,5 +63,11 @@ export function getParentItem(rO) {
     }
 }
 
+export const deepClone = (Obj) => {
+    return JSON.parse(JSON.stringify(Obj));
+};
 
-export default { getHashCode, randomString, ucfirst, getPathName, getState: bootstrap, getParentItem };
+export const geteleId = (title, id) => `${title}#${id}`;
+
+
+export default { getHashCode, randomString, ucfirst, getPathName, getState: bootstrap, getParentItem, geteleId };

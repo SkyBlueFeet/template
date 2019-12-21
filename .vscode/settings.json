@@ -2,12 +2,8 @@
   "aliasFork.webpeckConfigPath": "./config/webpack.config.js",
   "jumpToAliasFile.alias": {
     "@tpl": "e:/Sky/desktop/webpack-tpl",
-    "@layout": "e:/Sky/desktop/webpack-tpl/app/layout",
-    "@components": "e:/Sky/desktop/webpack-tpl/app/components",
-    "@utils": "e:/Sky/desktop/webpack-tpl/utils",
     "@src": "e:/Sky/desktop/webpack-tpl/src",
     "@core": "e:/Sky/desktop/webpack-tpl/core",
-    "@script": "e:/Sky/desktop/webpack-tpl/src/script",
-    "@style": "e:/Sky/desktop/webpack-tpl/src/style"
-  }
+  },
+
 }

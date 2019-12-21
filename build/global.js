@@ -16,12 +16,8 @@ module.exports = {
     IS_PRODUCTION: false,
     alias: {
         '@tpl': resolve(),
-        '@layout': resolve('core/layout'),
-        '@components': resolve('core/components'),
-        '@utils': resolve('utils'),
         '@core': resolve('core'),
         '@src': resolve('src'),
-        '@script': resolve('src/script'),
-        '@style': resolve('src/style'),
+        '@config': resolve('config')
     }
 };

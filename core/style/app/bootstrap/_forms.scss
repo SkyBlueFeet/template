@@ -20,7 +20,9 @@
   @if $enable-rounded {
     // Manually use the if/else instead of the mixin to account for iOS override
     border-radius: $input-border-radius;
-  } @else {
+  }
+
+  @else {
     // Otherwise undo the iOS default
     border-radius: 0;
   }
@@ -42,6 +44,10 @@
     color: $input-placeholder-color;
     // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
     opacity: 1;
+  }
+
+  &:focus {
+    box-shadow: $input-focus-box-shadow;
   }
 
   // Disabled and read-only inputs
@@ -128,6 +134,10 @@ select.form-control {
     padding-right: 0;
     padding-left: 0;
   }
+
+  &:read-only {
+    outline: none;
+  }
 }
 
 
@@ -156,6 +166,7 @@ select.form-control {
 
 // stylelint-disable no-duplicate-selectors
 select.form-control {
+
   &[size],
   &[multiple] {
     height: auto;
@@ -165,6 +176,7 @@ select.form-control {
 textarea.form-control {
   height: auto;
 }
+
 // stylelint-enable no-duplicate-selectors
 
 // Form groups
@@ -192,8 +204,8 @@ textarea.form-control {
   margin-right: -5px;
   margin-left: -5px;
 
-  > .col,
-  > [class*="col-"] {
+  >.col,
+  >[class*="col-"] {
     padding-right: 5px;
     padding-left: 5px;
   }
@@ -215,7 +227,7 @@ textarea.form-control {
   margin-top: $form-check-input-margin-y;
   margin-left: -$form-check-input-gutter;
 
-  &:disabled ~ .form-check-label {
+  &:disabled~.form-check-label {
     color: $text-muted;
   }
 }
@@ -315,6 +327,7 @@ textarea.form-control {
       width: auto;
       padding-left: 0;
     }
+
     .form-check-input {
       position: relative;
       margin-top: 0;
@@ -326,6 +339,7 @@ textarea.form-control {
       align-items: center;
       justify-content: center;
     }
+
     .custom-control-label {
       margin-bottom: 0;
     }

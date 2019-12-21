@@ -14,8 +14,8 @@ class module {
      * @param { String } remark
      * @returns { Promise }
      */
-    constructor(id, title, parentModuleId, link, order, key, remark) {
-        if (typeof id === 'object' && typeof id.length !== 'number') {
+    constructor(id, title, parentModuleId, link, order, key, remark, createUserId, createDate) {
+        if ((typeof id).toLowerCase === 'object' && typeof id.length !== 'number') {
             let obj = id;
             Object.keys(obj).forEach(key => {
                 this[key] = obj[key] || undefined;
@@ -28,6 +28,8 @@ class module {
             this.order = order;
             this.key = key;
             this.remark = remark;
+            this.createUserId = createUserId;
+            this.createDate = createDate;
         }
     }
 

@@ -18,9 +18,17 @@
 
 // Core
 
+$input-btn-line-height:1;
+$input-focus-border-color:#5e72e4;
+$form-group-margin-bottom:1.2rem;
+
+$theme-colors: ("info": #1089ff);
+
 @import "app/custom/functions";
 @import "app/custom/variables";
 @import "app/custom/mixins";
+
+
 
 // bootstrap (4.3.1) components
 
@@ -78,11 +86,12 @@
 @import "app/docs/footer";
 
 // Expand
-
+@import "expand/minix";
 @import "expand/animate";
 @import "expand/icon";
 @import "expand/button";
 @import "expand/components";
+
 
 // Correction
 

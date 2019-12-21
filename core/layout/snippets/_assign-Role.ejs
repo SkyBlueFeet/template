@@ -1,10 +1,8 @@
-<% data.forEach(item=>{ %>
-<button class="btn btn-outline-info">
-    <div class="custom-control custom-control-alternative custom-checkbox">
-        <input id="role<%= item.id %>" value="role#<%= item.id %>" class="custom-control-input" type="checkbox" />
-        <label class="custom-control-label" for="role<%= item.id %>">
-            <span> <%= item.roleName %> </span>
-        </label>
-    </div>
-</button>
-<% }) %>
+<div class="container">
+    <% data.forEach(item=>{ %>
+    <label class="checkblock">
+        <input id="role<%= item.id %>" type="checkbox" value="role#<%= item.id %>" /><i class="s-icon__checkbox"></i>
+        <span><%= item.roleName %></span>
+    </label>
+    <% }) %>
+</div>

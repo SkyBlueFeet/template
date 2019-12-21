@@ -1,42 +1,43 @@
-// :checked图标变化
-label.checkblock {
-    position: relative;
-}
-
-.s-icon__checkbox {
-    font-size: 1.5rem;
-    color: #666666;
-}
-
-label.checkblock input {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-}
-
 label {
+    // :checked图标变化
     margin: 0;
-}
 
-label.checkblock .s-icon__checkbox::after {
-    content: '\e63e';
-}
+    &.checkblock {
+        position: relative;
+        line-height: 36.8px;
+    }
 
-label.checkblock:hover .s-icon__checkbox::after {
-    color: theme-color('primary');
-}
+    .s-icon__checkbox {
+        font-size: 1.5rem;
+        color: #666666;
+    }
 
-label.checkblock input:checked+.s-icon__checkbox::after {
-    content: '\e63c';
-    color: theme-color('primary');
-}
+    &.checkblock input {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
 
-label.checkblock>span {
-    display: inline-block;
-    font-size: 1rem;
-    /* margin-top: 1rem; */
-    vertical-align: 0.15em;
+    &.checkblock .s-icon__checkbox::after {
+        content: '\e63e';
+    }
+
+    &.checkblock:hover .s-icon__checkbox::after {
+        color: theme-color('primary');
+    }
+
+    &.checkblock input:checked+.s-icon__checkbox::after {
+        content: '\e63c';
+        color: theme-color('primary');
+    }
+
+    &.checkblock>span {
+        display: inline-block;
+        font-size: 1rem;
+        /* margin-top: 1rem; */
+        vertical-align: 0.3em;
+    }
 }

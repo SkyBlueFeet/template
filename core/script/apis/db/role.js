@@ -8,14 +8,14 @@ export default class roles {
      * @param { String } roleName
      * @param { String } createDate
      * @param { String } createUserId
-     * @param { String } createUserName
+     * @param { String } license
      */
-    constructor(id, roleName, createDate, createUserId, createUserName) {
+    constructor(id, roleName, createDate, createUserId, license) {
         this.id = id;
         this.roleName = roleName;
+        this.license = license;
         this.createDate = createDate;
         this.createUserId = createUserId;
-        this.createUserName = createUserName;
     }
 
     static edit(...roles) {

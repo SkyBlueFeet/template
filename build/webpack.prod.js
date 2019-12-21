@@ -62,15 +62,6 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
         splitChunks: {
             chunks: 'all', //同时分割同步和异步代码,推荐。
             cacheGroups: {
-                core: {
-                    name: 'core', // 提取出来的文件命名
-                    chunks: 'all',
-                    test: /[\\/]core[\\/]/,
-                    minSize: 10000, // 表示提取公共部分最小的大小
-                    priority: 0, //设置匹配优先级，数字越大，优先级越高
-                    // 如果发现页面中未引用公共文件，加上enforce: true
-                    enforce: true
-                },
                 jquery: {
                     name: 'jquery',
                     chunks: 'all',
@@ -81,7 +72,7 @@ const ProdWebpackConf = merge(require('./webpack.config'), {
                 vendors: {
                     name: 'vendors',
                     test: /[\\/]node_modules[\\/]/,
-                    priority: 10,
+                    priority: -10,
                 }
             },
             minChunks: 2,

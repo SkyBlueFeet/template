@@ -5,7 +5,7 @@ import * as format from './data';
 import { resLoad, user } from '../apis';
 import { Router } from '@core/config';
 import { getPathName } from '../utils';
-import updateDom from './dom';
+import updateDom, { updataTable } from './dom';
 
 export default class application {
     /**
@@ -43,14 +43,25 @@ export default class application {
         $userId: ''
     };
 
-    /**
-     * 是否开启预请求
-     * @type {boolean}
-     */
-    static proLoad = true;
 
+    static resFields = [
+        'module',
+        'element',
+        'auth',
+        'role',
+        'user'
+    ]
 
-    static fields = ['module', 'element', 'auth', 'role', 'user'];
+    static userFeilds = [
+        'id',
+        'userName',
+        'account',
+        'password',
+        'createUserId',
+        'createDate',
+        'type',
+        'license'
+    ]
 
     /**
      * [getInstance 获取单例]
@@ -74,12 +85,46 @@ export default class application {
     }
 
     /**
-     * 当前用户
-     * @type {}
-     *
+     * 放置内存中的用户信息
+     * @type { ProxyConstructor }
      */
     static $user = (() => {
+        const tData = {};
+
+        for (let name of this.userFeilds) {
+            tData[name] = '';
+        }
+
+        const that = this;
+
+        for (let [name, value] of Object.entries(tData)) {
+            Object.defineProperty(tData, name, {
+                enumerable: true,
+                configurable: true,
+                get: function() {
+                    return value;
+                },
+                set: function(newValue) {
+                    value = newValue;
+                    that.userStatus[name] = local.setStatic(name, newValue);
+                }
+            });
+        }
+
+        return tData;
+    })();
+
+    /**
+     * 放置用户信息存储标志
+     * @type { ProxyConstructor }
+     */
+    static userStatus = (() => {
+
         const oData = {};
+
+        for (let name of this.userFeilds) {
+            oData[name] = '';
+        }
 
         for (let [name, value] of Object.entries(oData)) {
             Object.defineProperty(oData, name, {
@@ -89,11 +134,7 @@ export default class application {
                     return value;
                 },
                 set: function(newValue) {
-                    if (newValue) {
-                        value = local.setStatic(name, newValue);
-                    } else {
-                        value = '';
-                    }
+                    value = newValue;
                     sessionStorage.setItem('userStatus', JSON.stringify(oData));
                 }
             });
@@ -110,6 +151,33 @@ export default class application {
     })();
 
 
+    static management = (() => {
+        const manageData = {};
+
+        this.resFields.forEach(value => {
+            manageData[value] = [];
+        });
+
+        const that = this;
+
+
+        for (let [name, value] of Object.entries(manageData)) {
+            Object.defineProperty(manageData, name, {
+                enumerable: true,
+                configurable: true,
+                get: function() {
+                    return value;
+                },
+                set: function(newValue) {
+                    value = newValue;
+                    updataTable(that, name, value);
+                }
+            });
+        }
+
+        return manageData;
+    })();
+
     /**
      * 放置内存中的数据,用来拦截数据的更改以及方便页面读取
      * @type { ProxyConstructor }
@@ -117,7 +185,7 @@ export default class application {
     static resource = (() => {
         const oData = {};
 
-        this.fields.forEach(value => {
+        this.resFields.forEach(value => {
             oData[value] = [];
         });
 
@@ -135,7 +203,7 @@ export default class application {
                     value = newValue;
                     that.appFormat(name, value);
 
-                    updateDom(that.$page, name);
+                    updateDom(that, name);
                     that.resourceStatus[name] = local.setStatic(name, value);
                 }
             });
@@ -145,14 +213,14 @@ export default class application {
     })();
 
     /**
-     * 放置存储标志
+     * 资源存储标志
      * @type { ProxyConstructor }
      */
     static resourceStatus = (() => {
 
         const oData = {};
 
-        this.fields.forEach(value => {
+        this.resFields.forEach(value => {
             oData[value] = '';
         });
 
@@ -186,19 +254,24 @@ export default class application {
             cookie.set(keyword['body'], JSON.stringify(rsaKey));
         }
         try {
+            if (this.resourceStatus[Object.keys(this.resourceStatus)[0]].length > 0 &&
+                this.userStatus[Object.keys(this.userStatus)[0]].length > 0) {
 
-            for (let name in this.resourceStatus) {
-                if (this.proLoad && this.resourceStatus[name].length > 0) {
+                for (let name in this.resourceStatus) {
                     this.resource[name] = local.getStatic(name, this.resourceStatus[name]);
-                } else {
-                    throw new Error();
                 }
+
+                for (let name in this.userStatus) {
+                    this.$user[name] = local.getStatic(name, this.userStatus[name]);
+                }
+
+            } else {
+                throw new Error();
             }
 
         } catch (error) {
 
-            if (error.message) console.error('the Storage is Error!');
-
+            if (error.message) console.error(error.message);
             this.preRequest('render');
         }
     }
@@ -215,31 +288,51 @@ export default class application {
                 this.resourceStatus[name] = local.setStatic(name, value);
             }
             for (let [name, value] of Object.entries(res.user)) {
-                this.$user[name] = value;
+                this.userStatus[name] = local.setStatic(name, value);
             }
         } else if (mode == 'render') {
             for (let [name, value] of Object.entries(res.userData)) {
                 this.resource[name] = value;
             }
+            for (let [name, value] of Object.entries(res.user)) {
+                this.$user[name] = value;
+            }
+        }
+        for (let [name, value] of Object.entries(res.management)) {
+            this.management[name] = value;
         }
     }
 
     static run(pageEvent) {
+        let $link = getPathName();
 
-        this.$page = {
-            ...this.$page,
-            link: getPathName()
-        };
+        if (!Router.ignoreExecute.includes($link)) {
+            this.$page = {
+                ...this.$page,
+                link: $link
+            };
 
-        this.init();
+            this.init();
 
-        if (typeof pageEvent === 'function') pageEvent(this);
 
-        window.sessionStorage.clear();
+            let HasThisPage = this.getRes('module').some(i => {
+                return i.link === $link;
+            });
 
-        if (this.proLoad) this.preRequest();
+            if (!HasThisPage) {
+                alert('无法访问该页面');
+                location = Router.loginPage;
+                return;
+            }
 
-        return this;
+            if (typeof pageEvent === 'function') pageEvent(this);
+
+            window.sessionStorage.clear();
+
+            this.preRequest();
+
+            return this;
+        }
 
     }
 
@@ -263,12 +356,10 @@ export default class application {
     }
 
     static appFormat(key, data) {
-        if (!Router.ignoreExecute.includes(this.$page.link)) {
-            if (typeof format[`${key}Format`] === 'function') {
-                format[`${key}Format`](data, this);
-            } else {
-                console.error(`function ${key}Format is undefined!`);
-            }
+        if (typeof format[`${key}Format`] === 'function') {
+            format[`${key}Format`](data, this);
+        } else {
+            console.error(`function ${key}Format is undefined!`);
         }
     }
 }

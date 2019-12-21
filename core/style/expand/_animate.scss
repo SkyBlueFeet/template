@@ -34,29 +34,19 @@
 }
 
 
-@media (min-width: 768px) {
-    .animated {
-        animation-duration: 1s;
-        animation-fill-mode: both;
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
 
-        &.duration-0_3 {
-            animation-duration: 0.3s;
-        }
-
-        &.fadeInUp {
-            animation-name: fadeInUp;
-        }
-
-        &.zoomIn {
-            animation-name: zoomIn;
-        }
+    &.duration-0_3 {
+        animation-duration: 0.3s;
     }
-}
 
-.test {
-    color: red;
-}
+    &.fadeInUp {
+        animation-name: fadeInUp;
+    }
 
-.test1 {
-    @extend .test;
+    &.zoomIn {
+        animation-name: zoomIn;
+    }
 }

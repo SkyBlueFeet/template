@@ -15,7 +15,7 @@ export default class element {
      * @param { String } remark
      * @param { String } template
      */
-    constructor(id, elementName, moduleId, moduleTitle, elementId, containerId, order, key, remark, template) {
+    constructor(id, elementName, moduleId, moduleTitle, elementId, containerId, order, key, remark, template, createUserId, createDate) {
         this.id = id;
         this.elementName = elementName;
         this.moduleId = moduleId;
@@ -26,6 +26,8 @@ export default class element {
         this.key = key;
         this.remark = remark;
         this.template = template;
+        this.createUserId = createUserId;
+        this.createDate = createDate;
     }
 
     static edit(...elements) {

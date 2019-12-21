@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "description": "记录学习的点滴",
+  "version": "2.0.0",
+  "description": "模块权限设计",
   "scripts": {
     "start": "webpack-dev-server --config ./build/webpack.prod",
     "compiler": "npm run prod-compiler",

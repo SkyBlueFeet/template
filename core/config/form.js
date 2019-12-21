@@ -1,57 +1,3 @@
-export function authFormConfig(params = {}) {
-    return {
-        input: [{
-            id: 'id',
-            value: params.id,
-            type: 'hidden',
-            readonly: false
-        }, {
-            id: 'roleName',
-            label: '角色名',
-            value: params.roleName,
-            type: 'text',
-            readonly: false
-        }, {
-            id: 'operateUserId',
-            label: '操作员',
-            value: params.operateUserId,
-            type: 'text',
-            readonly: false
-        }, {
-            id: 'operateDate',
-            label: '操作日期',
-            value: params.operateDate || '当前时间',
-            type: 'text',
-            readonly: true
-        }, {
-            id: 'description',
-            label: '描述',
-            value: params.description,
-            type: 'text',
-            readonly: false
-        }, {
-            id: 'key',
-            label: '标识',
-            value: params.key,
-            type: 'text',
-            readonly: false
-        }, {
-            id: 'ownerId',
-            label: '所有者',
-            value: params.ownerId,
-            type: 'text',
-            readonly: false
-        }, {
-            id: 'resourcesId',
-            label: '资源ID',
-            value: params.resourcesId,
-            type: 'text',
-            readonly: false
-        }],
-        select: []
-    };
-}
-
 export function elementFormConfig(params = {}, selectOptions = {}) {
 
     return {
@@ -191,18 +137,18 @@ export function roleFormConfig(params = {}, selectOptions = {}) {
             type: 'text',
             readonly: true
         }, {
-            id: 'createUserName',
-            label: '创建者',
-            value: params.createUserName,
-            type: 'text',
-            readonly: false
-        }, {
             id: 'createUserId',
+            label: '创建者',
             value: params.createUserId,
-            type: 'hidden',
-            readonly: false
+            type: 'text',
+            readonly: true
         }],
-        select: []
+        select: [{
+            id: 'license',
+            label: '状态',
+            option: '<option value="public">public</option><option selected value="private">private</option>',
+            readonly: false,
+        }]
     };
 }
 
@@ -226,17 +172,11 @@ export function userFormConfig(params = {}, selectOptions = {}) {
             type: 'text',
             readonly: false
         }, {
-            id: 'createUserName',
-            label: '创建者',
-            value: params.createUserName,
-            type: 'text',
-            readonly: false
-        }, {
             id: 'createUserId',
             label: '创建者ID',
             value: params.createUserId,
             type: 'text',
-            readonly: false
+            readonly: true
         }, {
             id: 'createDate',
             label: '创建日期',
@@ -244,6 +184,16 @@ export function userFormConfig(params = {}, selectOptions = {}) {
             type: 'text',
             readonly: true
         }],
-        select: []
+        select: [{
+            id: 'type',
+            label: '类型',
+            option: '<option value="admin">admin</option><option selected value="normal">normal</option>',
+            readonly: false,
+        }, {
+            id: 'license',
+            label: '状态',
+            option: '<option value="public">public</option><option selected value="private">private</option>',
+            readonly: false,
+        }]
     };
 }

@@ -4,6 +4,7 @@ import _modal from '@core/layout/snippets/_modal.ejs';
 import { moduleFormConfig } from '@core/config';
 import { bootstrap } from '@core/script/utils';
 import app from '@core/script/application';
+import { moduleRes } from '@core/script/application/data';
 
 let editTitle = '编辑模块';
 let addTitle = '添加模块';
@@ -25,13 +26,9 @@ $(function() {
         const button = $(event.relatedTarget);
         const modal = $(this);
         const recipient = button.data('whatever');
-        let tableQuery = {};
-        const moduleData = app.getRes('module');
-        moduleData.forEach(ele => {
-            tableQuery[ele.id] = ele;
-        });
+
         const options = {
-            parentModuleId: initSelectOption(moduleData)
+            parentModuleId: initSelectOption(app.management['module'])
         };
 
         if (recipient == '@edit') {
@@ -41,8 +38,8 @@ $(function() {
             }
             let id = $('tbody input[type="checkbox"]:checked').prop('id');
             modal.find('h5').text(editTitle);
-            modal.find('.modal-body').html(_modal({ config: moduleFormConfig(tableQuery[id], options) }));
-            $('#parentModuleId').val(tableQuery[id]['parentModuleId']);
+            modal.find('.modal-body').html(_modal({ config: moduleFormConfig(moduleRes[id], options) }));
+            $('#parentModuleId').val(moduleRes[id]['parentModuleId']);
 
         } else if (recipient == '@add') {
 
