@@ -1,23 +1,16 @@
 {
-    "exclude": ["node_modules", ".vscode", ".git"],
-    "compilerOptions": {
-        "baseUrl": ".",
-        "outDir": "./dist/",
-        "paths": {
-            "root/**": ["./**"],
-            "app/**": ["./app/**"],
-            "config/**": ["./config/**"],
-            "vendor/**": ["./vendor/**"],
-            "layout/**": ["./app/layout/**"],
-            "pages/**": ["./app/pages/**"],
-            "static/**": ["./app/static/**"],
-            "components/**": ["./app/components/**"]
-        },
-        "checkJs": true
-    },
-    "typeAcquisition": {
-        "include": [
-            "sequelize", "jQuery", "loadsh", "webpack", "node", "es6"
-        ]
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@root/*": [
+        "/*"
+      ]
     }
+  }
 }

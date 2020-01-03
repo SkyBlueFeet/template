@@ -1,23 +1,7 @@
 {
     "aliasFork.alias": {
-        "root": "",
-        "app": "app",
-        "vendor": "vendor",
-        "layout": "app/layout",
-        "static": "app/static",
-        "pages": "app/pages"
-    },
-    "path-autocomplete.pathMappings": {
-        "root": "${folder}",
-        "app": "${folder}/app",
-        "config": "${folder}/config",
-        "vendor": "${folder}/vendor",
-        "layout": "${folder}/app/layout",
-        "pages": "${folder}/app/pages",
-        "static": "${folder}/app/static",
-        "components": "${folder}/app/components",
-        "/": "${folder}/src", // the absolute root folder is now /src,
-        // or multiple folders for one mapping
-        "$root": ["${folder}/p1/src", "${folder}/p2/src"] // the root is now relative to both p1/src and p2/src
+        "vue$": "vue/dist/vue.esm.js",
+        "@": "src",
+        "@root": ""
     }
 }
