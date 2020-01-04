@@ -1,4 +1,4 @@
 /dist/
 /**/*.min.js
-/**/*.vue
 /**/*.json
+/node_modules/*

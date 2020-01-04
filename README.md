@@ -2,7 +2,7 @@
 
 #### Description
 
-基于 Vue-webpack@4.4 的 template,包含完整的 Vue 开发环境
+基于Vue的webpack脚手架修改升级，webpack的typescript实现
 
 #### 软件架构
 
