@@ -1,7 +1,0 @@
-{
-    "aliasFork.alias": {
-        "vue$": "vue/dist/vue.esm.js",
-        "@": "src",
-        "@root": ""
-    }
-}

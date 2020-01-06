@@ -1,37 +1,57 @@
-# webpack4-template
+# vue-typescript-starter
 
-#### Description
+> 这个项目起始于在vue加入强类型的念头，目的是提供一个手脚架快速上手和开始, 主要是基于vue + typescript 使用 .vue 单文件开发脚手架，支持jsx
 
-基于Vue的webpack脚手架修改升级，webpack的typescript实现
+## 此repo是基于[Vue + TypeScript 新项目起手式](https://juejin.im/post/59f29d28518825549f7260b6)逐步实现的
 
-#### 软件架构
+如果你按照文章没有配出来的话，可以参考这个项目的代码，进行比较
 
-软件架构说明
+## 特性
+- webpack4
+- vue
+- vue-router
+- vuex
+- typescript
+- jsx
+- tslint
+- 单vue文件开发
+- vue-cli
+- ~~eslint~~
 
-#### 安装教程
+## 开始
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+``` bash
 
-# build for production and view the bundle analyzer report
+#  To create a new vue + typescript project, run:
+vue init ws456999/vue-typescript-starter#template `your project name`
 
-npm run build --report
+# then
+cd `your project name`
+
+# Install project dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
 
 ```
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+## change log
 
+*2018-07-12*
+- support vue-cli
 
-#### 码云特技
+> vue init ws456999/vue-typescript-starter#template `your project name`
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
-```
+*2018-06-30*
+
+- upgrade dependencies
+- remove eslint
+- add script lint
+
+*2018-04-12*
+
+- upgrade webpack4

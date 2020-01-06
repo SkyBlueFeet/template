@@ -1,4 +1,4 @@
-/dist/
-/**/*.min.js
+build/*.js
+config/*.js
+dist/*
 /**/*.json
-/node_modules/*

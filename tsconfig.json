@@ -1,28 +1,36 @@
 {
-    "compilerOptions": {
-        "moduleResolution": "node",
-        "noEmitOnError": true,
-        "declaration": true,
-        "removeComments": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "resolveJsonModule": true,
-        "downlevelIteration": true,
-        "esModuleInterop": true,
-        "module": "CommonJS",
-        "target": "es5",
-        "alwaysStrict": true,
-        "importHelpers": true,
-        "incremental": true,
-        "sourceMap": true,
-        "outDir": "./dist/lib",
-        "baseUrl": "./",
-        "noEmit": false,
-        "lib": [
-            "ES2015", "DOM", "ES2016", "ES2017"
-        ],
-        "types": ["node", "webpack"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "types/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["*", "src/*"]
     },
-    "include": ["src"],
-    "exclude": ["node_modules", "dist", ".*"]
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "module": "esnext",
+    "target": "es5",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "lib": [
+      "dom",
+      "es5",
+      "es6",
+      "es7",
+      "es2015.promise"
+    ],
+    "sourceMap": true,
+    "pretty": true
+  }
 }
