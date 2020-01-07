@@ -1,5 +1,5 @@
 "use strict";
-require("./check-versions")();
+// require("./check-versions")();
 
 const config = require("../config");
 if (!process.env.NODE_ENV) {
@@ -12,11 +12,12 @@ const express = require("express");
 const webpack = require("webpack");
 const proxyMiddleware = require("http-proxy-middleware");
 const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
-const webpackConfig =
-  process.env.NODE_ENV === "testing" || process.env.NODE_ENV === "production"
-    ? require("./webpack.prod.conf")
-    : require("./webpack.dev.conf");
-const utils = require("./utils");
+let webpackConfig = require("../build/webpack.dev.conf");
+
+const publicPath =
+  process.env.NODE_ENV === "production"
+    ? config.build.assetsPublicPath
+    : config.dev.assetsPublicPath;
 
 // default port where dev server listens for incoming traffic
 const port = process.env.PORT || config.dev.port;
@@ -30,7 +31,7 @@ const app = express();
 const compiler = webpack(webpackConfig);
 
 const devMiddleware = require("webpack-dev-middleware")(compiler, {
-  publicPath: webpackConfig.output.publicPath,
+  publicPath: publicPath,
   quiet: true
 });
 
@@ -87,9 +88,9 @@ var server;
 var portfinder = require("portfinder");
 portfinder.basePort = port;
 
-module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = port || config.dev.port;
-});
+// module.exports = new Promise((resolve, reject) => {
+//   portfinder.basePort = port || config.dev.port;
+// });
 
 console.log("> Starting dev server...");
 devMiddleware.waitUntilValid(() => {

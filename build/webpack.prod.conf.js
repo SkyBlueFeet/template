@@ -7,9 +7,9 @@ const merge = require("webpack-merge");
 const baseWebpackConfig = require("./webpack.base.conf");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const env =
   process.env.NODE_ENV === "testing"
@@ -45,7 +45,39 @@ const webpackConfig = merge(baseWebpackConfig, {
           chunks: "all"
         }
       }
-    }
+    },
+    minimizer: [
+      new UglifyJsPlugin({
+        parallel: true, // 启用多线程并行运行提高编译速度
+        cache: true, // Boolean/String,字符串即是缓存文件存放的路径
+        sourceMap: true,
+        uglifyOptions: {
+          warnings: false,
+          compress: {
+            // 移除 console
+            drop_console: config.build.removeConsole,
+            drop_debugger: true
+          }
+        }
+      }),
+      new OptimizeCSSPlugin({
+        // 默认是全部的CSS都压缩，该字段可以指定某些要处理的文件
+        // assetNameRegExp: /\.(sa|sc|c)ss$/g,
+        // 指定一个优化css的处理器，默认cssnano
+        cssProcessor: require("cssnano"),
+
+        cssProcessorPluginOptions: {
+          preset: [
+            "default",
+            {
+              discardComments: { removeAll: true }, // 对注释的处理
+              normalizeUnicode: false // 建议false,否则在使用unicode-range的时候会产生乱码
+            }
+          ]
+        },
+        canPrint: false // 是否打印编译过程中的日志
+      })
+    ]
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -53,30 +85,9 @@ const webpackConfig = merge(baseWebpackConfig, {
       "process.env": env
     }),
     // UglifyJs do not support ES6+, you can also use babel-minify for better treeshaking: https://github.com/babel/minify
-    new UglifyJsPlugin({
-      parallel: true,
-      cache: true,
-      sourceMap: true,
-      uglifyOptions: {
-        compress: {
-          warnings: true,
-          /* eslint-disable */
-          drop_debugger: true,
-          drop_console: true
-        },
-        mangle: true
-      }
-    }),
-    // extract css into its own file
-    new ExtractTextPlugin({
-      filename: utils.assetsPath("css/[name].[hash].css")
-    }),
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: {
-        safe: true
-      }
+    new MiniCssExtractPlugin({
+      filename: utils.assetsPath("css/[name].min.css"),
+      chunkFilename: utils.assetsPath("css/[name].min.css")
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
@@ -90,35 +101,11 @@ const webpackConfig = merge(baseWebpackConfig, {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: "dependency"
     }),
-    // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
-    // split vendor js into its own file
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendor',
-    //   minChunks: function (module) {
-    //     // any required modules inside node_modules are extracted to vendor
-    //     return (
-    //       module.resource &&
-    //       /\.js$/.test(module.resource) &&
-    //       module.resource.indexOf(
-    //         path.join(__dirname, '../node_modules')
-    //       ) === 0
-    //     )
-    //   }
-    // }),
-    // // extract webpack runtime and module manifest to its own file in order to
-    // // prevent vendor hash from being updated whenever app bundle is updated
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'manifest',
-    //   chunks: ['vendor']
-    // }),
-    // copy custom static assets
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, "../static"),

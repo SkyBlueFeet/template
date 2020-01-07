@@ -6,15 +6,13 @@ const merge = require("webpack-merge");
 const baseWebpackConfig = require("./webpack.base.conf");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
+const ServerConfig = require("./server-config");
+const portfinder = require("portfinder");
 
-// add hot-reload related code to entry chunks
-Object.keys(baseWebpackConfig.entry).forEach(function(name) {
-  baseWebpackConfig.entry[name] = ["./build/dev-client"].concat(
-    baseWebpackConfig.entry[name]
-  );
-});
+const HOST = process.env.HOST;
+const PORT = process.env.PORT ? Number(process.env.PORT) : undefined;
 
-module.exports = merge(baseWebpackConfig, {
+const devConfig = merge(baseWebpackConfig, {
   mode: "development",
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
@@ -28,7 +26,6 @@ module.exports = merge(baseWebpackConfig, {
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new FriendlyErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: "index.html",
@@ -37,3 +34,48 @@ module.exports = merge(baseWebpackConfig, {
     })
   ]
 });
+
+// add hot-reload related code to entry chunks
+
+function devExport(useWebpackDevServer = true) {
+  const portfind = port => {
+    return {
+      compilationSuccessInfo: {
+        messages: [`正在运行: http://${devConfig.devServer.host}:${port}`]
+      },
+      onErrors: config.dev.notifyOnErrors
+        ? utils.createNotifierCallback()
+        : undefined
+    };
+  };
+  if (!useWebpackDevServer) {
+    Object.keys(devConfig.entry).forEach(function(name) {
+      devConfig.entry[name] = ["./compiler/dev-client"].concat(
+        devConfig.entry[name]
+      );
+    });
+    return devConfig;
+  } else {
+    devConfig.devServer = ServerConfig;
+    return new Promise((resolve, reject) => {
+      portfinder.basePort = PORT || config.dev.port;
+      portfinder.getPort((err, port) => {
+        if (err) {
+          reject(err);
+        } else {
+          // publish the new Port, necessary for e2e tests
+          process.env.PORT = port.toString();
+          // add port to devServer config
+          devConfig.devServer.port = port;
+
+          // Add FriendlyErrorsPlugin
+          devConfig.plugins.push(new FriendlyErrorsPlugin(portfind(port)));
+
+          resolve(devConfig);
+        }
+      });
+    });
+  }
+}
+
+module.exports = devExport(config.dev.useWebpackDevServer);

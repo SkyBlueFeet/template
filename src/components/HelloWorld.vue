@@ -1,5 +1,5 @@
 <script lang="tsx">
-import Vue, { CreateElement } from "vue";
+import Vue, { CreateElement, VNode } from "vue";
 import Component from "vue-class-component";
 import RC from "@/components/renderComponent.vue";
 import TestMixin from "../mixins/test-mixin";
@@ -14,13 +14,13 @@ import { Getter } from "vuex-class";
 export default class HelloWorld extends Vue<TestMixin> {
   @Getter info;
 
-  msg: string = "Welcome to Your Vue-Typescript App";
+  msg = "Welcome to Your Vue-Typescript App";
 
-  mounted() {
+  mounted(): void {
     console.log(this.testMixinArg);
     console.log("这是 _.assign({})", _.assign({}));
   }
-  render(h: CreateElement) {
+  render(h: CreateElement): VNode {
     return (
       <div class="hello">
         <h1>{this.msg}</h1>
