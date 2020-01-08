@@ -1,9 +1,9 @@
-<script lang="tsx">
 import Vue, { CreateElement, VNode } from "vue";
 import Component from "vue-class-component";
 import RC from "@/components/renderComponent.vue";
 import TestMixin from "../mixins/test-mixin";
 import { Getter } from "vuex-class";
+import "./test.css";
 
 @Component({
   components: {
@@ -12,9 +12,9 @@ import { Getter } from "vuex-class";
   mixins: [TestMixin]
 })
 export default class HelloWorld extends Vue<TestMixin> {
-  @Getter info;
+  @Getter info: { data: any };
 
-  msg = "Welcome to Your Vue-Typescript App";
+  msg = "Welcome to Vue-TSX App";
 
   mounted(): void {
     console.log(this.testMixinArg);
@@ -32,25 +32,3 @@ export default class HelloWorld extends Vue<TestMixin> {
     );
   }
 }
-</script>
-
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>

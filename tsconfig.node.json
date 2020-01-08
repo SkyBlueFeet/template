@@ -3,30 +3,24 @@
     "moduleResolution": "node",
     "noEmitOnError": true,
     "declaration": false,
-    "jsx": "preserve",
-    "jsxFactory": "h",
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
-    "module": "ESNext",
-    "target": "es5",
+    "module": "CommonJS",
+    "target": "ES5",
     "alwaysStrict": true,
     "importHelpers": true,
     "incremental": true,
     "sourceMap": true,
-    "outDir": "./dist/@types",
+    "outDir": "./dist/lib",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-      "@root/*": ["/*"]
-    },
     "noEmit": false,
     "lib": ["ES2015", "DOM", "ES2016", "ES2017"],
-    "types": ["node", "webpack", "webpack-env", "vue"]
+    "types": ["node", "webpack"]
   },
-  "include": ["src", "types"],
-  "exclude": ["node_modules", "dist", ".*", "build", "config"]
+  "include": ["build", "config"],
+  "exclude": ["node_modules", "dist", ".*"]
 }

@@ -5,11 +5,7 @@
       {
         "modules": false,
         "targets": {
-          "browsers": [
-            "> 1%",
-            "last 2 versions",
-            "not ie <= 8"
-          ]
+          "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
         },
         "corejs": "3", // 声明corejs版本
         "useBuiltIns": "usage"
@@ -42,46 +38,3 @@
     ]
   ]
 }
-// {
-//   "presets": [
-//     [
-//       "@babel/env",
-//       {
-//         "modules": false,
-//         "targets": {
-//           "browsers": [
-//             "ie >= 9",
-//             ">0.5%"
-//           ]
-//         },
-//         "corejs": "3", // 声明corejs版本
-//         "useBuiltIns": "usage"
-//       }
-//     ]
-//   ],
-//   "plugins": [
-//     "@vue/babel-plugin-transform-vue-jsx",
-//     "@babel/plugin-transform-runtime",
-//     "syntax-dynamic-import",
-//     "transform-vue-jsx",
-//     [
-//       "@babel/plugin-proposal-decorators",
-//       {
-//         "legacy": true
-//       }
-//     ],
-//     [
-//       "@babel/plugin-proposal-class-properties",
-//       {
-//         "loose": true
-//       }
-//     ],
-//     [
-//       "component",
-//       {
-//         "libraryName": "element-ui",
-//         "styleLibraryName": "theme-chalk"
-//       }
-//     ]
-//   ]
-// }

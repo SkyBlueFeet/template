@@ -1,57 +1,38 @@
-# vue-typescript-starter
+# webpack4-typescript-template
 
-> 这个项目起始于在vue加入强类型的念头，目的是提供一个手脚架快速上手和开始, 主要是基于vue + typescript 使用 .vue 单文件开发脚手架，支持jsx
+#### Description
 
-## 此repo是基于[Vue + TypeScript 新项目起手式](https://juejin.im/post/59f29d28518825549f7260b6)逐步实现的
+基于 Vue-cli@2 脚手架升级改造的全 typescript 实现
 
-如果你按照文章没有配出来的话，可以参考这个项目的代码，进行比较
+#### 技术栈
 
-## 特性
-- webpack4
-- vue
-- vue-router
-- vuex
-- typescript
-- jsx
-- tslint
-- 单vue文件开发
-- vue-cli
-- ~~eslint~~
+JS、TS、TSX、Vue 全家桶
 
-## 开始
+#### 开发支持
 
-``` bash
+Eslint、Babel、PostCss
 
-#  To create a new vue + typescript project, run:
-vue init ws456999/vue-typescript-starter#template `your project name`
+#### 关键第三方依赖版本
 
-# then
-cd `your project name`
-
-# Install project dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
+```json
+"typescript": "^3.7.4",
+"ts-node": "^8.5.4",
+"vue": "^2.6.11",
+"webpack": "^4.41.2",
+"@babel/core": "^7.7.5",
+"eslint": "^6.7.2",
 ```
 
-## change log
+#### 额外支持
 
-*2018-07-12*
-- support vue-cli
+markdown、json5
 
-> vue init ws456999/vue-typescript-starter#template `your project name`
+#### 安装教程
 
-*2018-06-30*
+1.  npm install
+2.  npm run dev
+3.  npm run build
 
-- upgrade dependencies
-- remove eslint
-- add script lint
+# build for production and view the bundle analyzer report
 
-*2018-04-12*
-
-- upgrade webpack4
+npm run analyzer

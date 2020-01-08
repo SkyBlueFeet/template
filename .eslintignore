@@ -1,8 +1,4 @@
-build/**/*.js
-config/*.js
-dist/*
+/dist/
+/**/*.min.js
 /**/*.json
-node_modules/**/*
-/**/*.d.ts
-compiler/**/*.js
-script/**
+/node_modules/*
