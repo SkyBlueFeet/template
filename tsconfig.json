@@ -20,13 +20,14 @@
     "outDir": "./dist/@types",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "@root/*": ["/*"]
+      "@src/*": ["src/*"],
+      "@root/*": ["/*"],
+      "@types/*": ["types/*"]
     },
     "noEmit": false,
     "lib": ["ES2015", "DOM", "ES2016", "ES2017"],
     "types": ["node", "webpack", "webpack-env", "vue"]
   },
   "include": ["src", "types"],
-  "exclude": ["node_modules", "dist", ".*", "build", "config"]
+  "exclude": ["node_modules", "dist", ".*", "config", "config"]
 }

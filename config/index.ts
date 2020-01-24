@@ -1,6 +1,21 @@
 import path from "path";
 
 export default {
+  global: {
+    // 第三方全局对象，可以不需要再引入直接使用
+    variables: {
+      _: "lodash"
+    },
+    // 可以不写后缀的文件类型,但是Vue等文件需要声明才能被识别
+    extensions: [".js", ".json", ".ts", ".tsx"],
+    // 在工程内可以直接使用该变量指代路径
+    alias: {
+      vue$: "vue/dist/vue.esm.js",
+      "@src": path.resolve(__dirname, "../src"),
+      "@types": path.resolve(__dirname, "../types"),
+      "@root": path.resolve(__dirname, "..")
+    }
+  },
   dev: {
     // Paths
     assetsSubDirectory: "static",
@@ -25,10 +40,12 @@ export default {
     // Use Eslint Loader?
     // If true, your code will be linted during bundling and
     // linting errors and warnings will be shown in the console.
-    useEslint: false,
+    useEslint: true,
+    // Eslint需要检查的文件类型
+    eslintFeilds: ["js", "vue", "ts", "tsx", "jsx"],
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
-    showEslintErrorsInOverlay: false,
+    showEslintErrorsInOverlay: true,
 
     /**
      * Source Maps
@@ -59,9 +76,9 @@ export default {
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
-    devtool: "#source-map",
+    devtool: false,
 
     removeConsole: true,
     removeComments: true,

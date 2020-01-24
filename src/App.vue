@@ -1,14 +1,25 @@
-<template>
-  <div id="app">
-    <img src="./assets/logo.png" />
-    <router-view />
-  </div>
-</template>
 <script lang="tsx">
-import { Vue, Component } from "vue-property-decorator";
+import Vue, { CreateElement, VNode } from "vue";
+import { Component, Prop } from "vue-property-decorator";
+import README from "@root//README.md";
+import logo from "@root/logo.png";
 
 @Component
-export default class App extends Vue {}
+export default class App extends Vue {
+  created(): void {
+    this.$$store.state.user.info.data = "sky blue";
+    console.log(_.cloneDeep(this.$$store.state.user.info));
+    console.log(README);
+  }
+  render(h: CreateElement): VNode {
+    return (
+      <div id="app">
+        <img src={logo} />
+        <router-view />
+      </div>
+    );
+  }
+}
 </script>
 <style lang="postcss" scoped>
 #app {

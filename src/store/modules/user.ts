@@ -7,13 +7,17 @@ const state = {
 
 const mutations = {};
 
+type UserState = typeof state;
+
 const getters = {
-  info: (state: { info: string }): string => state.info
+  info: (state: UserState): UserState["info"] => state.info
 };
 
-export default {
+const user = {
   state,
   mutations,
   actions: {},
   getters
 };
+
+export default user;

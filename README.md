@@ -33,6 +33,6 @@ markdown、json5
 2.  npm run dev
 3.  npm run build
 
-# build for production and view the bundle analyzer report
+#### build for production and view the bundle analyzer report
 
 npm run analyzer

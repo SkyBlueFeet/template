@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import HelloWorld from "@/components/HelloWorld.tsx";
+import HelloWorld from "@src/components/HelloWorld.tsx";
 
 Vue.use(Router);
 

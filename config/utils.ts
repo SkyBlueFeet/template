@@ -1,13 +1,11 @@
 import path from "path";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-import config from "../config";
+import config from ".";
 
 const isProduction = process.env.NODE_ENV === "production";
 
 import { RuleSetUse, RuleSetUseItem, Rule } from "webpack";
-import Notifier = require("node-notifier");
-import { VueLoaderOptions } from "vue-loader";
 
 export interface LoaderOption {
   sourceMap?: boolean;
@@ -104,31 +102,4 @@ export function styleLoaders(options: LoaderOption): Rule[] {
   }
 
   return output;
-}
-
-export function createNotifierCallback(): Function {
-  return (severity: string, errors: Array<Record<string, string>>): void => {
-    if (severity !== "error") return;
-
-    const error = errors[0];
-    const filename = error.file && error.file.split("!").pop();
-
-    Notifier.notify({
-      title: "Webpack",
-      message: severity + ": " + error.name,
-      subtitle: filename || "",
-      icon: path.join(__dirname, "logo.png")
-    });
-  };
-}
-
-export function vueLoaderOption(): VueLoaderOptions {
-  return {
-    transformAssetUrls: {
-      video: ["src", "poster"],
-      source: "src",
-      img: "src",
-      image: "xlink:href"
-    }
-  };
 }

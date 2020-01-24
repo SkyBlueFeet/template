@@ -17,3 +17,16 @@ declare module "*.md" {
   const content: string;
   export default content;
 }
+
+declare module "*.png" {
+  const content: string;
+  export default content;
+}
+
+declare module "*.ejs" {
+  type ejs = (
+    data?: Record<string, unknown> | Array<unknown> | unknown
+  ) => string;
+  const Ejs: ejs;
+  export default Ejs;
+}
