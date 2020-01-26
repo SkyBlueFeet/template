@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.vue,.ts,.tsx src",
     "build": "ts-node --project tsconfig.node.json script/build.ts",
     "analyzer": "npm run build --report",
-    "format": "prettier --write \"*/**/*.ts\" \"*/**/*.vue\" \"*/**/*.tsx\""
+    "format": "prettier --write \"*/**/*.ts\" \"*/**/*.vue\" \"*/**/*.tsx\" \"*/**/*.js\" \"*/**/*.jsx\""
   },
   "dependencies": {
     "vue": "^2.6.11",
@@ -72,9 +72,9 @@
     "css-loader": "^0.28.0",
     "cssnano": "^4.1.10",
     "eslint": "^6.7.2",
+    "eslint-config-airbnb": "^18.0.1",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^6.9.0",
-    "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-html": "^6.0.0",
@@ -82,7 +82,6 @@
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.0.1",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",

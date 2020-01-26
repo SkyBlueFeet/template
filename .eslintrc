@@ -13,6 +13,10 @@
     "node": true
   },
   // https://github.com/standard/standard/blob/master/docs/RULES-en.md
+
+  "globals": {
+    "_": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -20,12 +24,31 @@
     "plugin:vue/essential",
     "plugin:prettier/recommended"
   ],
-  "globals": {
-    "_": true
-  },
   "overrides": [
     {
-      "files": ["src/**/*.vue", "src/**/*.tsx", "src/**/*.jsx", "**/*.d.ts"],
+      "files": ["src/**/*.tsx", "src/**/*.jsx", "**/*.d.ts"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": [0, "always"]
+      }
+    },
+    {
+      "files": ["src/**/*.js"],
+      "extends": [
+        "eslint:recommended",
+        "google",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+        "require-jsdoc": [0, "always"],
+        "@typescript-eslint/explicit-function-return-type": 0
+      }
+    },
+    {
+      "files": ["src/**/*.vue"],
+      "parser": "vue-eslint-parser",
+      "parserOptions": {
+        "parser": "babel-eslint"
+      },
       "rules": {
         "@typescript-eslint/no-unused-vars": [0, "always"]
       }

@@ -32,11 +32,11 @@ Eslint、Babel、PostCss、Prettier
 
 #### 特色
 
-在vue-cli@2基础上升级为webpack4的基础上，webpack配置文件全部使用ts重构，模块化、参数化配置结构，为构建多页面应用留下配置空间。在理论上完全支持js、jsx、ts、tsx作为开发语言（目前只测试了ts、tsx）。
+在vue-cli@2基础上升级为webpack4的基础上，webpack配置文件全部使用ts重构，模块化、参数化配置结构，为构建多页面应用留下配置空间。完全支持js、jsx、ts、tsx作为开发语言。
 
 #### 目前的缺陷
 
-由于在eslint配置项中找不到分文件定制配置选项（ts的语法检查无法适用于js），因此为了适应整个项目，目前项目中使用js,jsx时无法使用eslint检查代码。
+由于在eslint配置项中找不到分文件定制配置选项（ts的语法检查无法适用于js），因此为了适应整个项目，目前项目中使用js,jsx时不使用eslint检查,如果使用js、jsx作为主开发语言，请自定义`.eslintrc`文件以适应项目。
 
 #### 命令
 
