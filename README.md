@@ -10,7 +10,7 @@ JS、TS、TSX、Vue 全家桶
 
 #### 开发支持
 
-Eslint、Babel、PostCss
+Eslint、Babel、PostCss、Prettier
 
 #### 关键第三方依赖版本
 
@@ -21,6 +21,7 @@ Eslint、Babel、PostCss
 "webpack": "^4.41.2",
 "@babel/core": "^7.7.5",
 "eslint": "^6.7.2",
+"prettier": "^1.19.1",
 ```
 
 #### 额外支持
