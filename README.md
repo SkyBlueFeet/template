@@ -59,4 +59,24 @@ $ npm run build
 
 #### build for production and view the bundle analyzer report
 
+```js 
 npm run analyzer
+```
+
+#### 开发日志
+
+2020-01-27 完成Vue SPA开发环境
+
+参考链接
+
+[使用不同语言配置webpack](https://webpack.docschina.org/configuration/configuration-languages)；
+
+[Vue + TypeScript 新项目起手式](https://juejin.im/post/59f29d28518825549f7260b6)；
+
+[vue + typescript 进阶篇](https://segmentfault.com/a/1190000011878086)；
+
+[使用webpack搭建基于TypeScript的node开发环境](https://www.jianshu.com/p/6aab86403dc1)；
+
+[【webpack4】用不同语言语法编写webpack配置文件](https://segmentfault.com/a/1190000018738802)；
+
+[如果我的项目混用 js 和 ts，如何正确设置配置Eslint？](https://github.com/AlloyTeam/eslint-config-alloy/issues/67)；
