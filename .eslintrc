@@ -2,6 +2,7 @@
   "root": true,
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
+    "ecmaVersion": 2015,
     "sourceType": "module",
     "ecmaFeatures": {
       "legacyDecorators": true,
@@ -17,45 +18,41 @@
   "globals": {
     "_": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:vue/essential",
-    "plugin:prettier/recommended"
-  ],
+  "ignorePatterns": ["//dist//", "//node_modules//*", "**//*.ejs"],
   "overrides": [
     {
-      "files": ["src/**/*.tsx", "src/**/*.jsx", "**/*.d.ts"],
-      "rules": {
-        "@typescript-eslint/no-unused-vars": [0, "always"]
-      }
+      "files": ["*.js", "*.jsx"],
+      "extends": ["eslint:recommended", "google", "plugin:prettier/recommended"]
     },
     {
-      "files": ["src/**/*.js"],
+      "files": ["*.ts", "*.tsx", "*.d.ts"],
       "extends": [
         "eslint:recommended",
-        "google",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:vue/essential",
         "plugin:prettier/recommended"
-      ],
-      "rules": {
-        "require-jsdoc": [0, "always"],
-        "@typescript-eslint/explicit-function-return-type": 0
-      }
+      ]
     },
     {
-      "files": ["src/**/*.vue"],
+      "files": ["*.vue"],
       "parser": "vue-eslint-parser",
       "parserOptions": {
         "parser": "babel-eslint"
       },
+      "extends": [
+        "eslint:recommended",
+        "plugin:vue/essential",
+        "plugin:prettier/recommended"
+      ]
+    },
+    {
+      "files": ["*.tsx", "*.jsx", "*.vue"],
       "rules": {
-        "@typescript-eslint/no-unused-vars": [0, "always"]
+        "@typescript-eslint/no-unused-vars": [0, "always"],
+        "no-unused-vars": 0
       }
     }
   ],
-  // required to lint *.vue files
-  "plugins": ["react", "vue", "html"],
-  // add your custom rules here
-  "rules": {}
+  "plugins": ["react", "vue", "html"]
 }

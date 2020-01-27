@@ -1,7 +1,0 @@
-/dist/
-/**/*.json
-/node_modules/*
-
-**/*.ejs
-
-*.js

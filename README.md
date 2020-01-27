@@ -36,7 +36,16 @@ Eslint、Babel、PostCss、Prettier
 
 #### 目前的缺陷
 
-由于在eslint配置项中找不到分文件定制配置选项（ts的语法检查无法适用于js），因此为了适应整个项目，目前项目中使用js,jsx时不使用eslint检查,如果使用js、jsx作为主开发语言，请自定义`.eslintrc`文件以适应项目。
+Vue文件中无法同时检查ts和js。
+
+内部配置文件没有jsdoc。
+
+#### 开发方向
+
+1. 支持Vue、React、Angular
+2. 支持ts、tsx、js、jsx
+3. 支持ejs、vue多页面
+4. 支持库文档书写和编译
 
 #### 命令
 
@@ -62,6 +71,8 @@ $ npm run build
 ```js 
 npm run analyzer
 ```
+
+`推荐使用VS Code开发本应用`
 
 #### 开发日志
 
