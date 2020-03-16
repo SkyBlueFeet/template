@@ -1,5 +1,5 @@
 import * as utils from "../utils";
-import config from "..";
+import config from "../config";
 
 import { mdLoader, ejsLoader, json5Loader } from "./loaders";
 import { RuleSetRule } from "webpack";
@@ -19,24 +19,6 @@ const happypackOptions: MixinRuleOptions[] = [
       ],
       exclude: (file: string): boolean =>
         /node_modules/.test(file) && !/\.vue\.js/.test(file)
-    }
-  },
-  {
-    id: "ejs",
-    setRule: true,
-    rule: {
-      test: /\.ejs?$/,
-      use: [
-        {
-          loader: ejsLoader
-        },
-        {
-          loader: "html-loader",
-          options: {
-            attrs: [":data-src", "img:src"]
-          }
-        }
-      ]
     }
   }
 ];

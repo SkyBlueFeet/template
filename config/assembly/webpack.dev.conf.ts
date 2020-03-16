@@ -7,7 +7,7 @@ import WebpackDevServer from "webpack-dev-server";
 import path from "path";
 
 import * as utils from "../utils";
-import config from "..";
+import config from "../config";
 
 const HOST = process.env.HOST;
 const PORT = process.env.PORT ? Number(process.env.PORT) : undefined;

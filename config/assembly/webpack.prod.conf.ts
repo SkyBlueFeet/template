@@ -3,7 +3,7 @@ import { Options } from "webpack";
 
 import * as utils from "../utils";
 import webpack from "webpack";
-import config from "..";
+import config from "../config";
 
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import OptimizeCSSPlugin from "optimize-css-assets-webpack-plugin";

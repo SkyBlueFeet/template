@@ -1,6 +1,13 @@
+/*
+ * @Date: 2020-03-16 12:46:50
+ * @LastEditors: skyblue
+ * @LastEditTime: 2020-03-16 13:02:38
+ * @repository: https://github.com/SkyBlueFeet
+ */
 import { Entry, Configuration, Plugin } from "webpack";
 import HtmlWebpackPlugin, { Options as HtmlOption } from "html-webpack-plugin";
 import vue from "./vue";
+import react from "./react";
 import { resolve } from "../utils";
 import { env } from "../assembly";
 
@@ -53,9 +60,9 @@ function CreatePage(Option: HtmlOption, env: env): Plugin {
 
 export default function(env: env): MixingPages {
   const entries = {
-    ...vue(env).entries
+    ...react(env).entries
   };
-  const options = [...vue(env).htmlOptions];
+  const options = [...react(env).htmlOptions];
   const html = options.map(item => CreatePage(item, env));
   return {
     entries,
