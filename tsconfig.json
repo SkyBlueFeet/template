@@ -22,12 +22,12 @@
     "paths": {
       "@src/*": ["src/*"],
       "@root/*": ["/*"],
-      "@types/*": ["types/*"]
+      "@declare/*": ["declare/*"]
     },
     "noEmit": false,
     "lib": ["ES2015", "DOM", "ES2016", "ES2017"],
     "types": ["node", "webpack", "webpack-env", "vue"]
   },
-  "include": ["src", "types"],
+  "include": ["src", "declare"],
   "exclude": ["node_modules", "dist", ".*", "config", "config"]
 }
