@@ -3,8 +3,8 @@
     "moduleResolution": "node",
     "noEmitOnError": true,
     "declaration": false,
-    "jsx": "preserve",
-    "jsxFactory": "h",
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -17,17 +17,16 @@
     "importHelpers": true,
     "incremental": true,
     "sourceMap": true,
-    "outDir": "./dist/@types",
+    "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
       "@src/*": ["src/*"],
-      "@root/*": ["/*"],
-      "@types/*": ["types/*"]
+      "@root/*": ["/*"]
     },
     "noEmit": false,
     "lib": ["ES2015", "DOM", "ES2016", "ES2017"],
-    "types": ["node", "webpack", "webpack-env", "vue"]
+    "types": ["node", "webpack", "webpack-env"]
   },
-  "include": ["src", "types"],
-  "exclude": ["node_modules", "dist", ".*", "config", "config"]
+  "include": ["src", "define"],
+  "exclude": ["node_modules", "dist", ".*", "config"]
 }

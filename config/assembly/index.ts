@@ -1,26 +1,26 @@
+/*
+ * @Date: 2020-03-16 12:46:50
+ * @LastEditors: skyblue
+ * @LastEditTime: 2020-03-16 14:40:48
+ * @repository: https://github.com/SkyBlueFeet
+ */
 import { Configuration } from "webpack";
 import webpack from "webpack";
 import { VueLoaderPlugin } from "vue-loader";
 
-import FriendlyErrorsPlugin from "friendly-errors-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
-import portfinder from "portfinder";
-import merge from "webpack-merge";
 
 import * as utils from "../utils";
-import config from "..";
+import config from "../config";
 import rules, { MixinRule } from "../rules";
 import pages from "../pages";
-import dev from "./webpack.dev.conf";
-import prod from "./webpack.prod.conf";
-// import PreloadWebpackPlugin = require("preload-webpack-plugin");
-import Notifier from "node-notifier";
-
-const PORT = process.env.PORT ? Number(process.env.PORT) : undefined;
+import development from "./webpack.dev.conf";
+import production from "./webpack.prod.conf";
+import webpackMerge from "webpack-merge";
 
 export type env = "development" | "production" | "testing";
 
-const WebpackBaseConfig: Configuration = {
+export const WebpackBaseConfig: Configuration = {
   context: utils.resolve(),
   entry: pages(process.env.NODE_ENV as env).entries,
   output: {
@@ -70,59 +70,7 @@ const WebpackBaseConfig: Configuration = {
     tls: "empty"
   }
 };
-
-export default function(env: env): Promise<Configuration> {
-  let webpackConfig: Promise<Configuration>;
-  if (env === "development") {
-    const devWebpackConfig = merge(WebpackBaseConfig, dev);
-
-    const portfind: Function = (
-      port: number | string
-    ): FriendlyErrorsPlugin.Options => {
-      return {
-        compilationSuccessInfo: {
-          messages: [`正在运行`],
-          notes: [`http://${devWebpackConfig.devServer?.host}:${port}`]
-        },
-        onErrors(
-          severity: FriendlyErrorsPlugin.Severity,
-          errors: string
-        ): void {
-          if (severity !== "error" || config.dev.notifyOnErrors) return;
-
-          Notifier.notify({
-            title: "Webpack",
-            message: `${severity}: ${errors}`,
-            icon: utils.resolve("logo.png")
-          });
-        }
-      };
-    };
-
-    webpackConfig = new Promise((resolve, reject) => {
-      portfinder.basePort = PORT || config.dev.port;
-      portfinder.getPort((err, port) => {
-        if (err) {
-          reject(err);
-        } else {
-          // publish the new Port, necessary for e2e tests
-          process.env.PORT = port.toString();
-          // add port to devServer config
-          devWebpackConfig.devServer.port = port;
-
-          // Add FriendlyErrorsPlugin
-          devWebpackConfig.plugins?.push(
-            new FriendlyErrorsPlugin(portfind(port))
-          );
-
-          resolve(devWebpackConfig);
-        }
-      });
-    });
-  } else {
-    webpackConfig = new Promise(resolve => {
-      resolve(merge(WebpackBaseConfig, prod));
-    });
-  }
-  return webpackConfig;
+export default function assembly(env: env): Configuration {
+  let $config = { production, development };
+  return webpackMerge(WebpackBaseConfig, $config[env]);
 }

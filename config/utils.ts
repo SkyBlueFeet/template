@@ -1,7 +1,7 @@
 import path from "path";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-import config from ".";
+import config from "./config";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -14,7 +14,7 @@ export interface LoaderOption {
 }
 
 export function resolve(...params: string[]): string {
-  return path.resolve(__dirname, "..", ...(params || ""));
+  return path.resolve(process.cwd(), ...(params || ""));
 }
 
 export function assetsPath(_path: string): string {
