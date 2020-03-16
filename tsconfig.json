@@ -3,8 +3,8 @@
     "moduleResolution": "node",
     "noEmitOnError": true,
     "declaration": false,
-    "jsx": "react",
-    "jsxFactory": "React.createElement",
+    "jsx": "preserve",
+    "jsxFactory": "h",
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -21,22 +21,13 @@
     "baseUrl": "./",
     "paths": {
       "@src/*": ["src/*"],
-<<<<<<< HEAD
       "@root/*": ["/*"],
       "@declare/*": ["declare/*"]
-=======
-      "@root/*": ["/*"]
->>>>>>> 2473df67a69aa93434345eb07348a4c1f8de0d59
     },
     "noEmit": false,
     "lib": ["ES2015", "DOM", "ES2016", "ES2017"],
     "types": ["node", "webpack", "webpack-env"]
   },
-<<<<<<< HEAD
   "include": ["src", "declare"],
   "exclude": ["node_modules", "dist", ".*", "config", "config"]
-=======
-  "include": ["src", "define"],
-  "exclude": ["node_modules", "dist", ".*", "config"]
->>>>>>> 2473df67a69aa93434345eb07348a4c1f8de0d59
 }

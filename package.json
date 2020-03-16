@@ -13,10 +13,6 @@
     "format": "prettier --write \"*/**/*.ts\" \"*/**/*.vue\" \"*/**/*.tsx\" \"*/**/*.js\" \"*/**/*.jsx\""
   },
   "dependencies": {
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-router": "^5.1.2",
-    "react-router-dom": "^5.1.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.1.0",
     "vue-property-decorator": "^8.3.0",
@@ -51,10 +47,6 @@
     "@types/node-notifier": "^5.4.0",
     "@types/optimize-css-assets-webpack-plugin": "^5.0.1",
     "@types/ora": "^3.2.0",
-    "@types/react": "^16.9.23",
-    "@types/react-dom": "^16.9.5",
-    "@types/react-router": "^5.1.4",
-    "@types/react-router-dom": "^5.1.3",
     "@types/rimraf": "^2.0.3",
     "@types/uglifyjs-webpack-plugin": "^1.1.0",
     "@types/webpack": "^4.41.1",
