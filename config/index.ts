@@ -1,99 +1,77 @@
-import path from "path";
+/*
+ * @Date: 2020-03-16 13:39:53
+ * @LastEditors: skyblue
+ * @LastEditTime: 2020-03-16 14:40:57
+ * @repository: https://github.com/SkyBlueFeet
+ */
 
-export default {
-  global: {
-    // 第三方全局对象，可以不需要再引入直接使用
-    variables: {
-      _: "lodash"
-    },
-    // 可以不写后缀的文件类型,但是Vue等文件需要声明才能被识别
-    extensions: [".js", ".json", ".ts", ".tsx"],
-    // 在工程内可以直接使用该变量指代路径
-    alias: {
-      vue$: "vue/dist/vue.esm.js",
-      "@src": path.resolve(__dirname, "../src"),
-      "@types": path.resolve(__dirname, "../types"),
-      "@root": path.resolve(__dirname, "..")
-    }
-  },
-  dev: {
-    // Paths
-    assetsSubDirectory: "static",
-    assetsPublicPath: "/",
-    proxyTable: {
-      "/api": {
-        target: "http://localhost:59255/",
-        pathRewrite: { "^/api": "" },
-        changeOrigin: true, // 如果接口跨域，需要进行这个参数配置为true，
-        secure: false // 如果是https接口，需要配置这个参数为true
-      }
-    },
+import { Configuration } from "webpack";
 
-    // Various Dev Server settings
-    host: "localhost", // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: false,
-    errorOverlay: true,
-    notifyOnErrors: true,
-    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
+import FriendlyErrorsPlugin from "friendly-errors-webpack-plugin";
+import portfinder from "portfinder";
+import merge from "webpack-merge";
 
-    // Use Eslint Loader?
-    // If true, your code will be linted during bundling and
-    // linting errors and warnings will be shown in the console.
-    useEslint: true,
-    // Eslint需要检查的文件类型
-    eslintFeilds: ["js", "vue", "ts", "tsx", "jsx"],
-    // If true, eslint errors and warnings will also be shown in the error overlay
-    // in the browser.
-    showEslintErrorsInOverlay: true,
+import * as utils from "./utils";
+import config from "./config";
+import Notifier from "node-notifier";
+import dev from "./assembly/webpack.dev.conf";
+import prod from "./assembly/webpack.prod.conf";
+import assembly, { env, WebpackBaseConfig } from "./assembly";
 
-    /**
-     * Source Maps
-     */
+const PORT = process.env.PORT ? Number(process.env.PORT) : undefined;
 
-    // https://webpack.js.org/configuration/devtool/#development
-    devtool: "cheap-module-eval-source-map",
+function index(env: "development"): Promise<Configuration>;
+function index(env: "production"): Configuration;
+function index(env: env): Configuration | Promise<Configuration> {
+  if (env === "development") {
+    const devWebpackConfig = assembly("development");
 
-    // If you have problems debugging vue-files in devtools,
-    // set this to false - it *may* help
-    // https://vue-loader.vuejs.org/en/options.html#cachebusting
-    cacheBusting: true,
+    const portfind: Function = (
+      port: number | string
+    ): FriendlyErrorsPlugin.Options => {
+      return {
+        compilationSuccessInfo: {
+          messages: [`正在运行`],
+          notes: [`http://${devWebpackConfig.devServer?.host}:${port}`]
+        },
+        onErrors(
+          severity: FriendlyErrorsPlugin.Severity,
+          errors: string
+        ): void {
+          if (severity !== "error" || !config.dev.notifyOnErrors) return;
+          console.log(severity, errors);
+          Notifier.notify({
+            title: "Webpack",
+            message: `${severity}: ${errors[0]}`,
+            icon: utils.resolve("logo.png")
+          });
+        }
+      };
+    };
 
-    cssSourceMap: true
-  },
+    return new Promise<Configuration>((resolve, reject) => {
+      portfinder.basePort = PORT || config.dev.port;
+      portfinder.getPort((err, port) => {
+        if (err) {
+          reject(err);
+        } else {
+          // publish the new Port, necessary for e2e tests
+          process.env.PORT = port.toString();
+          // add port to devServer config
+          devWebpackConfig.devServer.port = port;
 
-  build: {
-    // Template for index.html
-    // index: path.resolve(__dirname, '../dist/index.html'),
-    index: "index.html",
+          // Add FriendlyErrorsPlugin
+          devWebpackConfig.plugins?.push(
+            new FriendlyErrorsPlugin(portfind(port))
+          );
 
-    // Paths
-    assetsRoot: path.resolve(__dirname, "../dist"),
-    assetsSubDirectory: "static",
-    assetsPublicPath: "/",
-
-    /**
-     * Source Maps
-     */
-
-    productionSourceMap: false,
-    // https://webpack.js.org/configuration/devtool/#production
-    devtool: false,
-
-    removeConsole: true,
-    removeComments: true,
-
-    // Gzip off by default as many popular static hosts such as
-    // Surge or Netlify already gzip all static assets for you.
-    // Before setting to `true`, make sure to:
-    // npm install --save-dev compression-webpack-plugin
-    productionGzip: false,
-    productionGzipExtensions: ["js", "css"],
-
-    // Run the build command with an extra argument to
-    // View the bundle analyzer report after build finishes:
-    // `npm run build --report`
-    // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
+          resolve(devWebpackConfig);
+        }
+      });
+    });
+  } else if (env === "production") {
+    return assembly("production");
   }
-};
+}
+
+export default index;
