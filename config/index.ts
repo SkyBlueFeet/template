@@ -1,7 +1,11 @@
 /*
  * @Date: 2020-03-16 13:39:53
  * @LastEditors: skyblue
+<<<<<<< HEAD
  * @LastEditTime: 2020-03-16 23:29:07
+=======
+ * @LastEditTime: 2020-03-16 14:40:57
+>>>>>>> 2473df67a69aa93434345eb07348a4c1f8de0d59
  * @repository: https://github.com/SkyBlueFeet
  */
 
@@ -20,6 +24,7 @@ import assembly, { env, WebpackBaseConfig } from "./assembly";
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : undefined;
 
+<<<<<<< HEAD
 function typeConvert<T, K>(type: T): K {
   return type as any;
 }
@@ -72,6 +77,53 @@ function index(env: env): Configuration | Promise<Configuration> {
             new FriendlyErrorsPlugin(portfind(port))
           );
 
+=======
+function index(env: "development"): Promise<Configuration>;
+function index(env: "production"): Configuration;
+function index(env: env): Configuration | Promise<Configuration> {
+  if (env === "development") {
+    const devWebpackConfig = assembly("development");
+
+    const portfind: Function = (
+      port: number | string
+    ): FriendlyErrorsPlugin.Options => {
+      return {
+        compilationSuccessInfo: {
+          messages: [`正在运行`],
+          notes: [`http://${devWebpackConfig.devServer?.host}:${port}`]
+        },
+        onErrors(
+          severity: FriendlyErrorsPlugin.Severity,
+          errors: string
+        ): void {
+          if (severity !== "error" || !config.dev.notifyOnErrors) return;
+          console.log(severity, errors);
+          Notifier.notify({
+            title: "Webpack",
+            message: `${severity}: ${errors[0]}`,
+            icon: utils.resolve("logo.png")
+          });
+        }
+      };
+    };
+
+    return new Promise<Configuration>((resolve, reject) => {
+      portfinder.basePort = PORT || config.dev.port;
+      portfinder.getPort((err, port) => {
+        if (err) {
+          reject(err);
+        } else {
+          // publish the new Port, necessary for e2e tests
+          process.env.PORT = port.toString();
+          // add port to devServer config
+          devWebpackConfig.devServer.port = port;
+
+          // Add FriendlyErrorsPlugin
+          devWebpackConfig.plugins?.push(
+            new FriendlyErrorsPlugin(portfind(port))
+          );
+
+>>>>>>> 2473df67a69aa93434345eb07348a4c1f8de0d59
           resolve(devWebpackConfig);
         }
       });

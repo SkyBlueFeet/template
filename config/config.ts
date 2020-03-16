@@ -1,7 +1,11 @@
 /*
  * @Date: 2020-03-16 12:46:50
  * @LastEditors: skyblue
+<<<<<<< HEAD
  * @LastEditTime: 2020-03-16 23:41:36
+=======
+ * @LastEditTime: 2020-03-16 14:46:15
+>>>>>>> 2473df67a69aa93434345eb07348a4c1f8de0d59
  * @repository: https://github.com/SkyBlueFeet
  */
 import path from "path";
@@ -17,7 +21,11 @@ export default {
     // 在工程内可以直接使用该变量指代路径
     alias: {
       "@src": path.resolve(__dirname, "../src"),
+<<<<<<< HEAD
       "@declare": path.resolve(__dirname, "../declare"),
+=======
+      "@types": path.resolve(__dirname, "../types"),
+>>>>>>> 2473df67a69aa93434345eb07348a4c1f8de0d59
       "@root": path.resolve(__dirname, "..")
     }
   },
