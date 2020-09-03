@@ -1,34 +1,32 @@
 {
-    "presets": [
-        [
-            "@babel/env",
-            {
-                "modules": false,
-                "targets": {
-                    "browsers": [
-                        "Android 4.1",
-                        "iOS 7.1",
-                        "Chrome > 31",
-                        "ff > 31",
-                        "ie >= 9",
-                        ">0.5%"
-                    ]
-                },
-                "corejs": "3", // 声明corejs版本
-                "useBuiltIns": "usage"
-            }
-        ]
-    ],
-    "plugins": [
-        "@vue/babel-plugin-transform-vue-jsx",
-        "@babel/plugin-transform-runtime",
-        "syntax-dynamic-import",
-        ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        ["@babel/plugin-proposal-class-properties", { "loose": true }],
-        ["component",
-        {
-            "libraryName": "element-ui",
-            "styleLibraryName": "theme-chalk"
-        }]
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": ["> 1%","not ie <= 8"]
+        },
+        "corejs": "3", // 声明corejs版本
+        "useBuiltIns": "usage"
+      }
     ]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/preset-typeScript",
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ]
+  ]
 }
