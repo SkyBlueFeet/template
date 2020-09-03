@@ -1,32 +1,23 @@
 {
-  "presets": [
-    [
-      "@babel/env",
-      {
-        "modules": false,
-        "targets": {
-          "browsers": ["> 1%","not ie <= 8"]
-        },
-        "corejs": "3", // 声明corejs版本
-        "useBuiltIns": "usage"
-      }
-    ]
-  ],
-  "plugins": [
-    "@babel/plugin-transform-runtime",
-    "@babel/plugin-syntax-dynamic-import",
-    "@babel/preset-typeScript",
-    [
-      "@babel/plugin-proposal-decorators",
-      {
-        "legacy": true
-      }
+    "presets": [
+        [
+            "@babel/env",
+            {
+                "modules": false
+            }
+        ]
     ],
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": true
-      }
+    "plugins": [
+        "@babel/plugin-external-helpers",
+        "transform-vue-jsx",
+        "@vue/babel-plugin-transform-vue-jsx",
+        "@babel/plugin-transform-runtime",
+        "@babel/plugin-syntax-dynamic-import",
+        [
+            "@babel/plugin-proposal-class-properties",
+            {
+                "loose": true
+            }
+        ]
     ]
-  ]
 }
