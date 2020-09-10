@@ -1,5 +1,5 @@
 import Vue, { CreateElement, VNode } from "vue";
-import Component from "vue-class-component";
+import { Component } from "vue-property-decorator";
 import RC from "@src/components/renderComponent.vue";
 import TestMixin from "../mixins/test-mixin";
 import { Getter } from "vuex-class";
@@ -21,6 +21,7 @@ export default class HelloWorld extends Vue<TestMixin> {
     console.log("这是 _.assign({})", _.assign({}));
     console.log(this.info);
   }
+
   render(h: CreateElement): VNode {
     return (
       <div class="hello">

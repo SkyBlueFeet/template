@@ -5,10 +5,10 @@ import webpack from "webpack";
 // markdown-it 插件
 import MarkdwonIt from "markdown-it";
 import Token from "markdown-it/lib/token";
+import container from "markdown-it-container";
 import emoji = require("markdown-it-emoji");
 // const anchor = require("markdown-it-anchor");
 import toc = require("markdown-it-table-of-contents");
-import container from "markdown-it-container";
 
 // 自定义块
 

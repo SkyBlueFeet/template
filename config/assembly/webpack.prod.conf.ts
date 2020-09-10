@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { Options } from "webpack";
 
 import * as utils from "../utils";
-import webpack from "webpack";
+import webpack, { Options } from "webpack";
 import config from "../config";
 
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -88,7 +87,7 @@ const WebpackBuildConfig: webpack.Configuration = {
 };
 
 if (config.build.productionGzip) {
-  WebpackBuildConfig.plugins?.push(
+  WebpackBuildConfig.plugins.push(
     new CompressionWebpackPlugin({
       filename: "[path].gz[query]",
       algorithm: "gzip",
@@ -102,7 +101,7 @@ if (config.build.productionGzip) {
 }
 
 if (config.build.bundleAnalyzerReport) {
-  WebpackBuildConfig.plugins?.push(new BundleAnalyzerPlugin());
+  WebpackBuildConfig.plugins.push(new BundleAnalyzerPlugin());
 }
 
 export default WebpackBuildConfig;

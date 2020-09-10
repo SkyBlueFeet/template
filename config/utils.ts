@@ -3,9 +3,9 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 import config from "./config";
 
-const isProduction = process.env.NODE_ENV === "production";
-
 import { RuleSetUse, RuleSetUseItem, Rule } from "webpack";
+
+const isProduction = process.env.NODE_ENV === "production";
 
 export interface LoaderOption {
   sourceMap?: boolean;

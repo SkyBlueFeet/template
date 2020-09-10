@@ -5,18 +5,18 @@
  * @repository: https://github.com/SkyBlueFeet
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Configuration } from "webpack";
 
 import FriendlyErrorsPlugin from "friendly-errors-webpack-plugin";
 import portfinder from "portfinder";
-import merge from "webpack-merge";
 
 import * as utils from "./utils";
 import config from "./config";
 import Notifier from "node-notifier";
-import dev from "./assembly/webpack.dev.conf";
-import prod from "./assembly/webpack.prod.conf";
-import assembly, { env, WebpackBaseConfig } from "./assembly";
+import assembly, { env } from "./assembly";
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : undefined;
 
@@ -49,7 +49,7 @@ function index(env: env): Configuration | Promise<Configuration> {
 
           Notifier.notify({
             title: "Webpack",
-            message: `${severity}: ${errors[0]["webpackError"]}`,
+            message: `${severity}: ${(errors[0] as any).webpackError}`,
             icon: utils.resolve("logo.png")
           });
         }
@@ -68,7 +68,7 @@ function index(env: env): Configuration | Promise<Configuration> {
           devWebpackConfig.devServer.port = port;
 
           // Add FriendlyErrorsPlugin
-          devWebpackConfig.plugins?.push(
+          devWebpackConfig.plugins.push(
             new FriendlyErrorsPlugin(portfind(port))
           );
 

@@ -4,8 +4,7 @@
  * @LastEditTime: 2020-03-16 14:40:48
  * @repository: https://github.com/SkyBlueFeet
  */
-import { Configuration } from "webpack";
-import webpack from "webpack";
+import webpack, { Configuration } from "webpack";
 import { VueLoaderPlugin } from "vue-loader";
 
 import CopyWebpackPlugin from "copy-webpack-plugin";
@@ -71,6 +70,6 @@ export const WebpackBaseConfig: Configuration = {
   }
 };
 export default function assembly(env: env): Configuration {
-  let $config = { production, development };
+  const $config = { production, development };
   return webpackMerge(WebpackBaseConfig, $config[env]);
 }

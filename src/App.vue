@@ -11,6 +11,7 @@ export default class App extends Vue {
     console.log(_.cloneDeep(this.$$store.state.user.info));
     console.log(README);
   }
+
   render(h: CreateElement): VNode {
     return (
       <div id="app">

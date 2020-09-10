@@ -1,7 +1,7 @@
 import * as utils from "../utils";
 import config from "../config";
 
-import { mdLoader, ejsLoader, json5Loader } from "./loaders";
+import { mdLoader, json5Loader } from "./loaders";
 import { RuleSetRule } from "webpack";
 import handler, { MixinRuleOptions } from "./happypack";
 

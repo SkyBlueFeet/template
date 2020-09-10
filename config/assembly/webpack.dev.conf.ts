@@ -1,6 +1,4 @@
-import { Options } from "webpack";
-
-import webpack from "webpack";
+import webpack, { Options } from "webpack";
 
 import WebpackDevServer from "webpack-dev-server";
 

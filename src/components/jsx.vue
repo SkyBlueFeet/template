@@ -1,12 +1,12 @@
 <script lang="jsx">
 export default {
-  data() {
+  data () {
     return {
-      msg: "测试JSX"
-    };
+      msg: '测试JSX'
+    }
   },
-  render(h){
+  render (h) {
     return <h1>{this.msg}</h1>
   }
-};
+}
 </script>
